@@ -1,0 +1,8 @@
+开发技术采用：
+springmvc
+ibatis
+dwz
+jQuery
+js
+数据库：
+mysql

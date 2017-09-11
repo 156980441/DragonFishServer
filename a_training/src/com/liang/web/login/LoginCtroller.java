@@ -54,7 +54,7 @@ public class LoginCtroller {
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView loginHome(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws Exception {
-		// 视图逻辑名，数据
+		// ModelAndView(视图逻辑名，数据)
 		return new ModelAndView("/login/home", modelMap);
 	}
 
@@ -220,7 +220,7 @@ public class LoginCtroller {
 		int result = 1;
 		if(!"".equals(seq)) {
 			// 获取图片所在的路径
-			Map startPageMap = new LinkedHashMap();
+			Map<String, String> startPageMap = new LinkedHashMap<String, String>();
 			startPageMap.put("SEQ", seq);
 			List<StartPageBean> advertisList = infoStr.getInfoList(startPageMap, "sys.business.viewStartPageListBySEQ");  
 			String pic_url = null;

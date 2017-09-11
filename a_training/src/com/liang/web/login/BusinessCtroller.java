@@ -31,201 +31,217 @@ public class BusinessCtroller {
 
 	@Autowired
 	private InfoSer infoStr;
+
 	/**
 	 * get adverise list
 	 * 
 	 * http://localhost:8000/interface/getAdvertiseList?LAYOUT=1
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/getAdvertiseList/{layout}", method = RequestMethod.GET)  
-    public @ResponseBody Object getAdvertiseList(@PathVariable String layout) { 
-		Map<String,String> map = new LinkedHashMap<String, String>();
+	@RequestMapping(value = "/getAdvertiseList/{layout}", method = RequestMethod.GET)
+	public @ResponseBody Object getAdvertiseList(@PathVariable String layout) {
+		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("LAYOUT", layout);
-		return infoStr.getInfoList(map, "sys.business.viewAdvertiseList"); 
-    }  
-	
+		return infoStr.getInfoList(map, "sys.business.viewAdvertiseList");
+	}
+
 	/**
 	 * http://localhost:8000/interface/getAdvertiseListByCity?city=1
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/getAdvertiseListByCity/{city}", method = RequestMethod.GET)  
-    public @ResponseBody Object getAdvertiseListByCity(@PathVariable String city) { 
-		Map map = new LinkedHashMap();
+	@RequestMapping(value = "/getAdvertiseListByCity/{city}", method = RequestMethod.GET)
+	public @ResponseBody Object getAdvertiseListByCity(@PathVariable String city) {
+		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
 		map.put("city", city);
-		return infoStr.getInfoList(map, "sys.business.viewAdvertiseList"); 
-    }
-	
+		return infoStr.getInfoList(map, "sys.business.viewAdvertiseList");
+	}
+
 	/**
 	 * http://localhost:8000/interface/getStartPageListByCity?city=1
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/getStartPageListByCity/{city}", method = RequestMethod.GET)  
-    public @ResponseBody Object getStartPageListByCity(@PathVariable String city) { 
-		Map map = new LinkedHashMap();
+	@RequestMapping(value = "/getStartPageListByCity/{city}", method = RequestMethod.GET)
+	public @ResponseBody Object getStartPageListByCity(@PathVariable String city) {
+		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
 		map.put("city", city);
 		map.put("ACTIVITY", 1);
-		return infoStr.getInfoList(map, "sys.business.viewStartPageList"); 
-    }
-	
+		return infoStr.getInfoList(map, "sys.business.viewStartPageList");
+	}
+
 	/**
 	 * http://localhost:8000/interface/getMachineList?USER_NO=XXX
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/getMachineList/{userNo}", method = RequestMethod.GET)  
-    public @ResponseBody Object getMachineList(@PathVariable String userNo) {
-		Map map = new LinkedHashMap();
-		map.put("USER_NO", userNo); 
+	@RequestMapping(value = "/getMachineList/{userNo}", method = RequestMethod.GET)
+	public @ResponseBody Object getMachineList(@PathVariable String userNo) {
+		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
+		map.put("USER_NO", userNo);
 		return infoStr.getInfoList(map, "sys.business.viewMachineListForApp");
-    }  
+	}
 
 	/**
 	 * http://localhost:8000/interface/getMachineInfo?SEQ=XXX
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	
+
 	// @PathVariable是用来获得请求url中的动态参数的，这里是 seq。
 	// @ResponseBody转换为指定格式后，这里是 List，写入到Response对象的body数据区
-	@RequestMapping(value="/getMachineInfo/{seq}", method = RequestMethod.GET)
-    public @ResponseBody Object getMachineInfo(@PathVariable String seq) {
-		Map<String, String> map = new LinkedHashMap<String, String>();
+	@RequestMapping(value = "/getMachineInfo/{seq}", method = RequestMethod.GET)
+	public @ResponseBody Object getMachineInfo(@PathVariable String seq) {
+		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
 		map.put("SEQ", seq);
 		return infoStr.getInfoList(map, "sys.business.viewMachineList");
-    }
+	}
 
 	/**
 	 * http://localhost:8000/interface/addMachineInfo?jsonData=[{"USER_NO":"5","MACHINE_ID":"111","MACHINE_TITLE":"设备"}]
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/addMachineInfo",method=RequestMethod.POST)  
-    public @ResponseBody Object addMachineInfo(@RequestBody Map map,Model model) {  
+	@RequestMapping(value = "/addMachineInfo", method = RequestMethod.POST)
+	public @ResponseBody Object addMachineInfo(@RequestBody Map map, Model model) {
 		String msg = infoStr.addMachineInfo(map, "sys.business.addMachineInfoForApp");
-		if("OK".equals(msg)){
+		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
-		}else{
+		} else {
 			model.addAttribute("statusCode", "300");
 		}
 		model.addAttribute("message", msg);
-        return model;
-    }
+		return model;
+	}
 
 	/**
 	 * http://localhost:8000/interface/addUserInfo?jsonData=[{"USER_NAME":"admin5","PASSWORD":"123456"}]
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/addUserInfo",method=RequestMethod.POST)  
-    public @ResponseBody Object addUserInfo(@RequestBody Map map,Model model) { 
+	@RequestMapping(value = "/addUserInfo", method = RequestMethod.POST)
+	public @ResponseBody Object addUserInfo(@RequestBody Map map, Model model) {
 		String msg = infoStr.addUserInfo(map, "sys.login.addUserInfoForApp");
-		if("OK".equals(msg)){
+		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
-		}else{
+		} else {
 			model.addAttribute("statusCode", "300");
 		}
 		model.addAttribute("message", msg);
-        return model;
-    }
+		return model;
+	}
 
 	/**
 	 * http://localhost:8000/interface/login?jsonData=[{"USER_NAME":"admin5","PASSWORD":"123456"}]
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-    public @ResponseBody Object login(@RequestBody Map map,Model model) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public @ResponseBody Object login(@RequestBody Map map, Model model) {
 		AdminBean admin = infoStr.login(map, "sys.login.findUserForApp");
-		if(admin != null){
+		if (admin != null) {
 			model.addAttribute("statusCode", "200");
-		}else{
+		} else {
 			model.addAttribute("statusCode", "300");
 		}
 		model.addAttribute("admin", admin);
-        return model;
-    }
-	
+		return model;
+	}
+
 	/**
 	 * http://localhost:8000/interface/deleteMachineInfo/USER_NO/MACHINE_ID
+	 * 
 	 * @param request
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/deleteMachineInfo/{USER_NO}/{MACHINE_ID}",method=RequestMethod.GET)  
-    public @ResponseBody Object deleteMachineInfo(@PathVariable String USER_NO, @PathVariable String MACHINE_ID, Model model) {  
+	@RequestMapping(value = "/deleteMachineInfo/{USER_NO}/{MACHINE_ID}", method = RequestMethod.GET)
+	public @ResponseBody Object deleteMachineInfo(@PathVariable String USER_NO, @PathVariable String MACHINE_ID,
+			Model model) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("USER_NO", USER_NO);
 		map.put("MACHINE_ID", MACHINE_ID);
 		String msg = infoStr.deleteMachineInfo(map, "sys.login.deleteMachineInfoForApp");
-		if("OK".equals(msg)){
+		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
-		}else{
+		} else {
 			model.addAttribute("statusCode", "300");
 		}
 		model.addAttribute("message", msg);
-        return model;
-    }
-	
+		return model;
+	}
+
 	/**
-	 * 设置继电器状态
+	 * 设置继电器状态，开关。
+	 * 
 	 * @param USER_NO
 	 * @param USER_NO
 	 * @return
 	 */
-	@RequestMapping(value="/setRelaySwitch/{MACHINE_ID}/{status}",method=RequestMethod.GET)
+	@RequestMapping(value = "/setRelaySwitch/{MACHINE_ID}/{status}", method = RequestMethod.GET)
 	public @ResponseBody Object setRelaySwitch(@PathVariable String MACHINE_ID, @PathVariable String status) {
 		Socket socket = null;
 		DataOutputStream dos = null;
 		RelaySwitch relaySwitch = new RelaySwitch();
 		relaySwitch.setCode("300");
 		try {
-			if(SocketThread.socketMap.containsKey(MACHINE_ID)) {
+			if (SocketThread.socketMap.containsKey(MACHINE_ID)) {
 				TcpSocketService service = SocketThread.socketMap.get(MACHINE_ID);
 				socket = service.connectedsocket;
 			}
-			if(socket != null) {
+			if (socket != null) {
 				dos = new DataOutputStream(socket.getOutputStream());
 			}
-			if(dos != null) {
-				if(status.equals("0")) {
+			if (dos != null) {
+				if (status.equals("0")) {
 					String str = "&R,0!";
-					if(dos != null) dos.write(str.getBytes());
+					if (dos != null)
+						dos.write(str.getBytes());
 					relaySwitch.setCode("200");
-				} else if(status.equals("1")){
+				} else if (status.equals("1")) {
 					String str = "&R,1!";
-					if(dos != null) dos.write(str.getBytes());
+					if (dos != null)
+						dos.write(str.getBytes());
 					relaySwitch.setCode("200");
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if(dos != null)dos.close();
+				if (dos != null)
+					dos.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		return relaySwitch;
 	}
-	
+
 	/**
 	 * 设置机器的名称
+	 * 
 	 * @param MACHINE_ID
 	 * @return
 	 */
-	@RequestMapping(value="/setMechineName/{MACHINE_ID}/{MACHINE_NAME}",method=RequestMethod.GET)
+	@RequestMapping(value = "/setMechineName/{MACHINE_ID}/{MACHINE_NAME}", method = RequestMethod.GET)
 	public @ResponseBody Object setMechineName(@PathVariable String MACHINE_ID, @PathVariable String MACHINE_NAME) {
 		RelaySwitch relaySwitch = new RelaySwitch();
 		relaySwitch.setCode("300");
@@ -234,12 +250,12 @@ public class BusinessCtroller {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		if(MACHINE_ID != null && !MACHINE_ID.equals("") && MACHINE_NAME != null && !"".equals(MACHINE_NAME)) {
+		if (MACHINE_ID != null && !MACHINE_ID.equals("") && MACHINE_NAME != null && !"".equals(MACHINE_NAME)) {
 			Map<String, String> paramMap = new LinkedHashMap<String, String>();
 			paramMap.put("TITLE", MACHINE_NAME);
 			paramMap.put("ID", MACHINE_ID);
 			int result = infoStr.updateInfo(paramMap, "sys.business.updateMachineInfoByMachineId");
-			if(result == 1) {
+			if (result == 1) {
 				relaySwitch.setCode("200");
 			}
 		}

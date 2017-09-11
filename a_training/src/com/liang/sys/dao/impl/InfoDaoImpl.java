@@ -134,7 +134,6 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 	 * @return
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public String addUserInfo(Object object,String target) throws Exception {
 		String resultStr = "OK";
 		try {
@@ -158,7 +157,6 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 	 * @return
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public AdminBean login(Object object,String target) throws Exception {
 		AdminBean admin = null;
 		try {
@@ -179,7 +177,6 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 	 * @return
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public String addMachineInfo(Object object,String target) throws Exception {
 		String resultStr = "OK";
 		try {
@@ -226,6 +223,4 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 		}
 		return resultStr;
 	}
-	
-	
 }

@@ -1,0 +1,70 @@
+drop database if exists mayaoping;
+
+create database mayaoping default character set utf8;
+
+use mayaoping;
+
+create table tb_user (
+SEQ INT auto_increment primary key,
+USER_NAME varchar(32) not null,
+PASSWORD varchar(32)  not null,
+CREATE_DATE DATETIME,
+UPDATE_DATE DATETIME,
+UPDATE_BY varchar(32),
+ACTIVITY enum('0','1'),
+IS_ADMIN enum('0','1')
+);
+
+CREATE TABLE IF NOT EXISTS tb_advertise(
+SEQ INT auto_increment primary key,
+TITLE varchar(32),
+PIC_URL1 varchar(512),
+PIC_URL2 varchar(512),
+PIC_URL3 varchar(512),
+ADV_URL varchar(512),
+ACTIVITY enum('0','1'),
+CREATE_DATE DATETIME,
+CREATED_BY varchar(32),
+UPDATE_DATE DATETIME,
+UPDATED_BY varchar(32),
+LAYOUT varchar(32),
+CITY varchar(32),
+IS_ADMIN enum('0','1')
+);
+
+create table TB_USER_MACHINE(
+USER_NO INT primary key,
+MACHINE_ID varchar(32),
+MACHINE_TITLE varchar(32),
+CREATE_DATE DATETIME,
+ACTIVITY enum('0','1')
+);
+
+create table if not exists TB_LOGIN_INFO(
+USER_NO INT,
+IP varchar(32),
+LOGIN_DATE DATETIME
+);
+
+create table if not exists TB_MACHINE(
+SEQ INT auto_increment primary key,
+ID INT,
+TITLE varchar(32),
+ACTIVITY enum('0','1'),
+UPDATE_DATE DATETIME,
+TEMPERATURE INT,
+TDS INT,
+PH INT,
+STATE INT
+);
+
+create table if not exists TB_START_PAGE(
+SEQ INT,
+PIC_URL varchar(512),
+ACTIVITY enum('0','1'),
+CREATE_DATE DATETIME,UPDATE_DATE DATETIME,
+CITY varchar(32),
+PIC_NAME varchar(32)
+);
+
+insert into tb_user (user_name,password,activity,is_admin) values ('admin','123456',1,1);

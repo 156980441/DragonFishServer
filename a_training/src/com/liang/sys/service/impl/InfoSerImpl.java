@@ -132,7 +132,6 @@ public class InfoSerImpl implements InfoSer {
 	 * 新增信息
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public String addUserInfo(Map map,String target) {
 		String result = "OK";
 		try {
@@ -148,7 +147,6 @@ public class InfoSerImpl implements InfoSer {
 	 * 新增信息
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public AdminBean login(Map map,String target) {
 		AdminBean admin = null;
 		try {
@@ -163,7 +161,6 @@ public class InfoSerImpl implements InfoSer {
 	 * 新增设备信息
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public String addMachineInfo(Map map,String target) {
 		String result = "OK";
 		try {
@@ -212,7 +209,6 @@ public class InfoSerImpl implements InfoSer {
 	 * 删除设备信息
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public String deleteMachineInfo(Map map,String target) {
 		String result = "OK";
 		try {

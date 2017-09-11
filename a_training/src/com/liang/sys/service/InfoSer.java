@@ -16,7 +16,6 @@ public interface InfoSer {
 	/**
 	 * 查询信息
 	 */
-	@SuppressWarnings("unchecked")
 	public List getInfoList(Map map,String target);
 
 

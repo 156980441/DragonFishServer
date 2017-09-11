@@ -1,5 +1,7 @@
 package com.liang.sys.bean;
 
+
+/*设备开关状态*/
 public class RelaySwitch {
 
 	private String code;

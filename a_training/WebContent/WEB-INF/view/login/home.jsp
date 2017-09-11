@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>app</title>
+<title>鱼管家后台管理系统</title>
 
 <link href="/resources/themes/default/style.css" rel="stylesheet"
 	type="text/css" media="screen" />
@@ -15,6 +15,7 @@
 	type="text/css" media="print" />
 <link href="/resources/uploadify/css/uploadify.css" rel="stylesheet"
 	type="text/css" media="screen" />
+	
 <!--[if IE]>
 <link href="/resources/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
