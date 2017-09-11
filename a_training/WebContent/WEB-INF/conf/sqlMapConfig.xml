@@ -4,25 +4,24 @@
 
 <sqlMapConfig>
 	<settings lazyLoadingEnabled="false" useStatementNamespaces="true" />
-	
+
 	<!-- 设置全局 parameterMapping 和 resultMapping 别名 -->
-		
-		<!-- 定义基本数据类型Mapping -->
-		<typeAlias alias="int" type="java.lang.Integer" />
-		<typeAlias alias="string" type="java.lang.String" />
-				
-		<!-- 定义集合类型的Mapping -->
-		<typeAlias alias="linkMap" type="java.util.LinkedHashMap" />
-		<typeAlias alias="list" type="java.util.List" />
-		
-		<!-- 定义JavaBean的Mapping -->
-		<!-- session admin -->
-		<typeAlias alias="AdminBean" type="com.liang.sys.bean.AdminBean" />
-		<typeAlias alias="AdvertiseBean" type="com.liang.sys.bean.AdvertiseBean" />
-		<typeAlias alias="StartPageBean" type="com.liang.sys.bean.StartPageBean" />
-		
+
+	<!-- 定义基本数据类型Mapping -->
+	<typeAlias alias="int" type="java.lang.Integer" />
+	<typeAlias alias="string" type="java.lang.String" />
+
+	<!-- 定义集合类型的Mapping -->
+	<typeAlias alias="linkMap" type="java.util.LinkedHashMap" />
+	<typeAlias alias="list" type="java.util.List" />
+
+	<!-- 定义JavaBean的Mapping -->
+	<typeAlias alias="AdminBean" type="com.liang.sys.bean.AdminBean" />
+	<typeAlias alias="AdvertiseBean" type="com.liang.sys.bean.AdvertiseBean" />
+	<typeAlias alias="StartPageBean" type="com.liang.sys.bean.StartPageBean" />
+
 	<!-- LOGIN -->
 	<sqlMap resource="com/liang/sys/dao/sql/sqlLogin.xml" />
 	<sqlMap resource="com/liang/sys/dao/sql/sqlBusiness.xml" />
-	
+
 </sqlMapConfig>
