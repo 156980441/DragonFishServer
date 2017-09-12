@@ -166,10 +166,6 @@ public class AppController {
 
 	/**
 	 * 设置继电器状态，开关。
-	 * 
-	 * @param USER_NO
-	 * @param USER_NO
-	 * @return
 	 */
 	@RequestMapping(value = "/setRelaySwitch/{MACHINE_ID}/{status}", method = RequestMethod.GET)
 	public @ResponseBody Object setRelaySwitch(@PathVariable String MACHINE_ID, @PathVariable String status) {

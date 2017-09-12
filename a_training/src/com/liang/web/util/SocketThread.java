@@ -34,11 +34,10 @@ public class SocketThread implements Runnable {
 	public void setServerSocket(ServerSocket serverSocket) {
 		this.serverSocket = serverSocket;
 	}
-	public Map getSocketMap() {
+	public Map<String, TcpSocketService> getSocketMap() {
 		return socketMap;
 	}
-	public void setSocketMap(Map socketMap) {
+	public void setSocketMap(Map<String, TcpSocketService> socketMap) {
 		SocketThread.socketMap = socketMap;
 	}  
-    
 }  
