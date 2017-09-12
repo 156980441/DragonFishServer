@@ -34,40 +34,37 @@ public class LoginCtroller {
 	@Autowired
 	private UserDao infoStr;
 
-	/*login request*/
+	/* login request */
 	@RequestMapping(value = "/in")
 	@ResponseBody
-	public String loginIn(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public String loginIn(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return infoStr.findUser(request, response);
 	}
 
-	/*logout request*/
+	/* logout request */
 	@RequestMapping(value = "/out", method = RequestMethod.GET)
-	public void loginOut(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public void loginOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.getSession().removeAttribute("LoginUser");
 		request.getRequestDispatcher("/").forward(request, response);
 	}
 
-	/*main request*/
+	/* main request */
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ModelAndView loginHome(HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView loginHome(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
+			throws Exception {
 		// ModelAndView(视图逻辑名，数据)
 		return new ModelAndView("/login/home", modelMap);
 	}
 
 	@RequestMapping(value = "/video")
-	public ModelAndView video(HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView video(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
+			throws Exception {
 		modelMap.put("videoList", infoStr.getInfoList(request, "sys.login.findUser"));
 		return new ModelAndView("/login/video", modelMap);
 	}
 
 	@RequestMapping(value = "/viewUserList")
-	public ModelAndView viewUserList(HttpServletRequest request,
-			Page page, ModelMap modelMap) throws Exception {
+	public ModelAndView viewUserList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
 		List<?> userList = infoStr.getInfoList(request, "sys.login.findUser");
 		int userTotalCount = userList.size();
 		page.setTotalCount(userTotalCount);
@@ -75,31 +72,31 @@ public class LoginCtroller {
 		modelMap.put("videoList", infoStr.getInfoListByPage(request, "sys.login.findUserByPage", page));
 		return new ModelAndView("/login/viewUserList", modelMap);
 	}
-	
+
 	@RequestMapping(value = "/viewAddUserInfo")
-	public ModelAndView viewAddResumeInfo(HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) throws Exception {
+	public ModelAndView viewAddResumeInfo(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
+			throws Exception {
 		List userInfoList = infoStr.getInfoList(request, "sys.login.findUserInfo");
-		if(userInfoList != null &&userInfoList.size()>0){
+		if (userInfoList != null && userInfoList.size() > 0) {
 			modelMap.put("userInfo", userInfoList.get(0));
 		}
 		return new ModelAndView("/login/viewAddUserInfo", modelMap);
 	}
-	
+
 	@RequestMapping(value = "/addUserInfo")
 	@ResponseBody
 	public Map addUserInfo(HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//seq 不为空：修改，为空：新增
+		// seq 不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
-		if(!"".equals(seq)){
+		if (!"".equals(seq)) {
 			result = this.infoStr.addInfo(request, "sys.login.updateUserInfo");
-		}else{
+		} else {
 			Map<String, String> userMap = new LinkedHashMap<String, String>();
 			userMap.put("USER_NAME", request.getParameter("USER_NAME"));
 			List<User> userList = this.infoStr.getInfoList(userMap, "sys.login.findUser");
-			if(userList == null || userList.size() == 0) {
+			if (userList == null || userList.size() == 0) {
 				result = this.infoStr.addInfo(request, "sys.login.addUserInfo");
 			} else {
 				result = 2;
@@ -109,7 +106,7 @@ public class LoginCtroller {
 			map.put("statusCode", "200");
 			map.put("message", "保存成功");
 			map.put("formId", "viewUserInfoForm");
-		} else if(result == 2){
+		} else if (result == 2) {
 			map.put("statusCode", "300");
 			map.put("message", "用户名已存在");
 		} else {
@@ -118,17 +115,17 @@ public class LoginCtroller {
 		}
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/deleteUserInfo")
 	public @ResponseBody Map deleteUserInfo(HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//seq不为空：修改，为空：新增
+		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
-		if(!"".equals(seq)) {
+		if (!"".equals(seq)) {
 			result = this.infoStr.deleteInfo(seq, "sys.login.deleteUserInfo");
 		}
-		if(result == 1) {
+		if (result == 1) {
 			map.put("statusCode", "200");
 			map.put("message", "删除成功");
 			map.put("formId", "viewUserInfoForm");
@@ -140,17 +137,17 @@ public class LoginCtroller {
 		}
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/deleteMachineInfo")
 	public @ResponseBody Map deleteMachineInfo(HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//seq不为空：修改，为空：新增
+		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
-		if(!"".equals(seq)) {
+		if (!"".equals(seq)) {
 			result = this.infoStr.deleteInfo(seq, "sys.login.deleteMachineInfo");
 		}
-		if(result == 1) {
+		if (result == 1) {
 			map.put("statusCode", "200");
 			map.put("message", "删除成功");
 			map.put("formId", "viewMachineInfoForm");
@@ -162,20 +159,20 @@ public class LoginCtroller {
 		}
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/deleteAdvertiseInfo")
 	public @ResponseBody Map deleteAdvertiseInfo(HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//seq不为空：修改，为空：新增
+		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
-		if(!"".equals(seq)) {
+		if (!"".equals(seq)) {
 			// 获取图片所在的路径
 			Map advertiesMap = new LinkedHashMap();
 			advertiesMap.put("SEQ", seq);
-			List<Advertise> advertisList = infoStr.getInfoList(advertiesMap, "sys.business.viewAdvertiseListBySEQ");  
+			List<Advertise> advertisList = infoStr.getInfoList(advertiesMap, "sys.business.viewAdvertiseListBySEQ");
 			String[] pic_urls = new String[3];
-			if(advertisList != null && advertisList.size() > 0) {
+			if (advertisList != null && advertisList.size() > 0) {
 				Advertise obj = advertisList.get(0);
 				pic_urls[0] = obj.getPic_url1();
 				pic_urls[1] = obj.getPic_url2();
@@ -183,23 +180,24 @@ public class LoginCtroller {
 			}
 			String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 			path = path.replace("\\", "/").replace("WEB-INF/classes/", "");
-			//System.out.println(path);
+			// System.out.println(path);
 			// 删除数据库中的数据
 			result = this.infoStr.deleteInfo(seq, "sys.login.deleteAdvertiseInfo");
 			// 删除图片
 			try {
-				for(int i = 0; i < pic_urls.length; i++) {
+				for (int i = 0; i < pic_urls.length; i++) {
 					String pic_url = pic_urls[i];
-					if(pic_url != null && !"".equals(pic_url)) {
+					if (pic_url != null && !"".equals(pic_url)) {
 						File file = new File(path + pic_url);
-						if(file.isFile()) file.delete();
+						if (file.isFile())
+							file.delete();
 					}
 				}
-			}catch(Exception e) {
+			} catch (Exception e) {
 				result = 0;
 			}
 		}
-		if(result == 1) {
+		if (result == 1) {
 			map.put("statusCode", "200");
 			map.put("message", "删除成功");
 			map.put("formId", "viewAdvertiseInfoForm");
@@ -211,39 +209,40 @@ public class LoginCtroller {
 		}
 		return map;
 	}
-	
+
 	@RequestMapping(value = "/deleteStartPageInfo")
 	public @ResponseBody Map deleteStartPageInfo(HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//seq不为空：修改，为空：新增
+		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
-		if(!"".equals(seq)) {
+		if (!"".equals(seq)) {
 			// 获取图片所在的路径
 			Map<String, String> startPageMap = new LinkedHashMap<String, String>();
 			startPageMap.put("SEQ", seq);
-			List<StartPageBean> advertisList = infoStr.getInfoList(startPageMap, "sys.business.viewStartPageListBySEQ");  
+			List<StartPageBean> advertisList = infoStr.getInfoList(startPageMap, "sys.business.viewStartPageListBySEQ");
 			String pic_url = null;
-			if(advertisList != null && advertisList.size() > 0) {
+			if (advertisList != null && advertisList.size() > 0) {
 				StartPageBean obj = advertisList.get(0);
 				pic_url = obj.getPic_url();
 			}
 			String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 			path = path.replace("\\", "/").replace("WEB-INF/classes/", "");
-			//System.out.println(path);
+			// System.out.println(path);
 			// 删除数据库中的数据
 			result = this.infoStr.deleteInfo(seq, "sys.login.deleteStartPageInfo");
 			// 删除图片
 			try {
-				if(pic_url != null && !"".equals(pic_url)) {
+				if (pic_url != null && !"".equals(pic_url)) {
 					File file = new File(path + pic_url);
-					if(file.isFile()) file.delete();
+					if (file.isFile())
+						file.delete();
 				}
-			}catch(Exception e) {
+			} catch (Exception e) {
 				result = 0;
 			}
 		}
-		if(result == 1) {
+		if (result == 1) {
 			map.put("statusCode", "200");
 			map.put("message", "删除成功");
 			map.put("formId", "viewAdvertiseInfoForm");
