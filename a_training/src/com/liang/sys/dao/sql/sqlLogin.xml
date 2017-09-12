@@ -8,7 +8,7 @@
 	<!-- id表示select里的sql语句
 	parameterClass表示参数的内容
 	resultClass表示返回结果的类型 -->
-	<select id="findUser" parameterClass="linkMap" resultClass="AdminBean">
+	<select id="findUser" parameterClass="linkMap" resultClass="User">
 		<![CDATA[
 			SELECT SEQ AS userNo,
 			       USER_NAME AS username,
@@ -50,7 +50,7 @@
 	</select>
 
 	<select id="findUserByPage" parameterClass="linkMap"
-		resultClass="AdminBean">
+		resultClass="User">
 		<![CDATA[
 			SELECT SEQ AS userNo,
 			       USER_NAME AS username,
@@ -186,7 +186,7 @@
 	</update>
 
 	<select id="findUserForApp" parameterClass="linkMap"
-		resultClass="AdminBean">
+		resultClass="User">
 		<![CDATA[
 			SELECT SEQ AS userNo,
 			       USER_NAME AS username,

@@ -16,9 +16,9 @@
 	<typeAlias alias="list" type="java.util.List" />
 
 	<!-- 定义JavaBean的Mapping -->
-	<typeAlias alias="AdminBean" type="com.liang.sys.bean.AdminBean" />
-	<typeAlias alias="AdvertiseBean" type="com.liang.sys.bean.AdvertiseBean" />
-	<typeAlias alias="StartPageBean" type="com.liang.sys.bean.StartPageBean" />
+	<typeAlias alias="User" type="com.fanyl.domain.User" />
+	<typeAlias alias="Advertise" type="com.fanyl.domain.Advertise" />
+	<typeAlias alias="StartPageBean" type="com.fanyl.domain.StartPageBean" />
 
 	<!-- LOGIN -->
 	<sqlMap resource="com/liang/sys/dao/sql/sqlLogin.xml" />

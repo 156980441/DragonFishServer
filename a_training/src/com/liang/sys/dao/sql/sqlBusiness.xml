@@ -85,7 +85,7 @@
 	</select>
 	
 	<select id="viewAdvertiseListBySEQ" parameterClass="linkMap"
-		resultClass="AdvertiseBean">
+		resultClass="Advertise">
 		<![CDATA[
 			SELECT SEQ AS advertiesNo,
 			       PIC_URL1 AS pic_url1,
