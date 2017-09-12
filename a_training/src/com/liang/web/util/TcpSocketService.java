@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 public class TcpSocketService implements Runnable {
-	
+
 	public Socket connectedsocket;
 
 	public TcpSocketService(Socket connectedsocket) {
@@ -29,8 +29,8 @@ public class TcpSocketService implements Runnable {
 			 * InputStreamReader(inputStream);//提高效率，将自己字节流转为字符流 BufferedReader
 			 * bufferedReader=new BufferedReader(inputStreamReader);
 			 */// 加入缓冲区
-			// DataInputStream dis = new
-			// DataInputStream(connectedsocket.getInputStream());
+				// DataInputStream dis = new
+				// DataInputStream(connectedsocket.getInputStream());
 			is = connectedsocket.getInputStream();
 			String temp = null;
 			int index = 0;
