@@ -1,4 +1,4 @@
-package com.liang.sys.dao.impl;
+package com.fanyl.dao.impl;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.liang.sys.bean.AdminBean;
-import com.liang.sys.dao.InfoDao;
+import com.fanyl.dao.UserDao2;
+import com.fanyl.domain.User;
 import com.liang.web.util.SqlMapClientSupport;
 import com.liang.web.util.StringUtil;
 
 @Repository
-public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
+public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 
 	@Override
 	public List getInfoList(Object object, String target) {
@@ -26,9 +26,6 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 		return result;
 	}
 	
-	/**
-	 * 分页查询信息
-	 */
 	@Override
 	public List getInfoListByPage(Object object, String target) {
 		List result = null;
@@ -68,12 +65,6 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 		return obj;
 	}
 
-	/**
-	 * 添加
-	 * 
-	 * @param Object
-	 * @return
-	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public int addInfo(Object object,String target) throws Exception {
@@ -92,9 +83,6 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 		return 1;
 	}
 	
-	/**
-	 * 更新
-	 */
 	@Override
 	public int updateInfo(Object object,String target) throws Exception {
 		Map obj=(Map)object;
@@ -127,12 +115,6 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 		return 1;
 	}
 
-	/**
-	 * 添加
-	 * 
-	 * @param Object
-	 * @return
-	 */
 	@Override
 	public String addUserInfo(Object object,String target) throws Exception {
 		String resultStr = "OK";
@@ -150,19 +132,13 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 		return resultStr;
 	}
 
-	/**
-	 * 登录
-	 * 
-	 * @param Object
-	 * @return
-	 */
 	@Override
-	public AdminBean login(Object object,String target) throws Exception {
-		AdminBean admin = null;
+	public User login(Object object,String target) throws Exception {
+		User admin = null;
 		try {
 			List result = this.queryForList( "sys.login.findUserForApp", object);
 			if(result != null && result.size() > 0){
-				admin = (AdminBean)result.get(0);
+				admin = (User)result.get(0);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -170,12 +146,6 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 		return admin;
 	}
 
-	/**
-	 * 添加
-	 * 
-	 * @param Object
-	 * @return
-	 */
 	@Override
 	public String addMachineInfo(Object object,String target) throws Exception {
 		String resultStr = "OK";
@@ -198,13 +168,6 @@ public class InfoDaoImpl extends SqlMapClientSupport implements InfoDao {
 		return resultStr;
 	}
 
-	/**
-	 * 删除操作
-	 * @param object
-	 * @param target
-	 * @return
-	 * @throws Exception
-	 */
 	@Override
 	public int deleteInfo(Object object,String target) throws Exception {
 		Map obj=(Map)object;

@@ -16,7 +16,8 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import com.liang.sys.bean.AdminBean;
+
+import com.fanyl.domain.User;
 
 
 /**
@@ -78,7 +79,7 @@ public class ObjectBindUtil {
 		}
 		
 		//use 'language' for parameter
-		AdminBean admin = SessionUtil.getLoginUserFromSession(request) ;
+		User admin = SessionUtil.getLoginUserFromSession(request) ;
 		//这个参数用来结合管理登陆者具有管理哪些人员类型的员工，全局搜索supervisorPersonId 可参考其他地方的用法。
 		data.put("adminID", admin == null ? "" : admin.getUserNo());
 		//对于具有分页功能页面来说  orderField orderDirection 两个参数是我们必须的 在此封装
@@ -110,7 +111,7 @@ public class ObjectBindUtil {
 		}
 		
 		//use 'language' for parameter
-		AdminBean admin = SessionUtil.getLoginUserFromSession(request) ;
+		User admin = SessionUtil.getLoginUserFromSession(request) ;
 		//这个参数用来结合管理登陆者具有管理哪些人员类型的员工，全局搜索supervisorPersonId 可参考其他地方的用法。
 		data.put("adminID", admin == null ? "" : admin.getUserNo());
 		//对于具有分页功能页面来说  orderField orderDirection 两个参数是我们必须的 在此封装
@@ -216,7 +217,7 @@ public class ObjectBindUtil {
 		}
 		
 		//use 'language' for parameter
-		AdminBean admin = SessionUtil.getLoginUserFromSession(request) ;
+		User admin = SessionUtil.getLoginUserFromSession(request) ;
 		data.put("adminID", admin == null ? "" : admin.getUserNo());
 		//对于具有分页功能页面来说  orderField orderDirection 两个参数是我们必须的 在此封装
 		//排序列 不以页面上名称为准 区分后台传参与前台名称

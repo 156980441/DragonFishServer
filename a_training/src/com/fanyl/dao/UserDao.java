@@ -1,4 +1,4 @@
-package com.liang.sys.service;
+package com.fanyl.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -6,10 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.liang.sys.bean.AdminBean;
-import com.liang.sys.bean.Page;
+import com.fanyl.domain.Page;
+import com.fanyl.domain.User;
 
-public interface InfoSer {
+public interface UserDao {
 	
 	public String findUser(HttpServletRequest request,HttpServletResponse response);
 
@@ -22,7 +22,6 @@ public interface InfoSer {
 	/**
 	 * 查询信息
 	 */
-	@SuppressWarnings("unchecked")
 	public List getInfoList(HttpServletRequest request,String target);
 	
 	/**
@@ -37,7 +36,6 @@ public interface InfoSer {
 	/**
 	 * 新增信息
 	 */
-	@SuppressWarnings("unchecked")
 	public int addInfo(HttpServletRequest request,String target);
 	
 	/**
@@ -51,36 +49,30 @@ public interface InfoSer {
 	/**
 	 * 删除用户信息
 	 */
-	@SuppressWarnings("unchecked")
 	public int deleteInfo(String SEQ, String target);
 	
 	/**
 	 * 新增信息
 	 */
-	@SuppressWarnings("unchecked")
 	public int addStartPageInfo(HttpServletRequest request,String target);
 	
 	/**
 	 * 新增信息
 	 */
-	@SuppressWarnings("unchecked")
 	public String addUserInfo(Map map,String target) ;
 	
 	/**
 	 * 登录
 	 */
-	@SuppressWarnings("unchecked")
-	public AdminBean login(Map map,String target);
+	public User login(Map map,String target);
 	
 	/**
 	 * 新增设备信息
 	 */
-	@SuppressWarnings("unchecked")
 	public String addMachineInfo(Map map,String target);
 	
 	/**
 	 * 删除设备信息
 	 */
-	@SuppressWarnings("unchecked")
 	public String deleteMachineInfo(Map map,String target);
 }

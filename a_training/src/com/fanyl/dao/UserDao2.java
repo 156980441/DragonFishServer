@@ -1,10 +1,10 @@
-package com.liang.sys.dao;
+package com.fanyl.dao;
 
 import java.util.List;
 
-import com.liang.sys.bean.AdminBean;
+import com.fanyl.domain.User;
 
-public interface InfoDao {
+public interface UserDao2 {
 	
 	public List getInfoList(Object object,String target);
 	
@@ -27,7 +27,6 @@ public interface InfoDao {
 	 * @param Object
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public int addInfo(Object object,String target) throws Exception;
 	
 	/**
@@ -36,7 +35,6 @@ public interface InfoDao {
 	 * @param Object
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public int addStartPageInfo(Object object,String target) throws Exception;
 
 	/**
@@ -45,7 +43,6 @@ public interface InfoDao {
 	 * @param Object
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public String addUserInfo(Object object,String target) throws Exception;
 	
 	/**
@@ -72,8 +69,7 @@ public interface InfoDao {
 	 * @param Object
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public AdminBean login(Object object,String target) throws Exception ;
+	public User login(Object object,String target) throws Exception ;
 
 	/**
 	 * 添加
@@ -81,7 +77,6 @@ public interface InfoDao {
 	 * @param Object
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public String addMachineInfo(Object object,String target) throws Exception;
 	
 	/**

@@ -1,4 +1,4 @@
-package com.liang.web.login;
+package com.fanyl.web;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.liang.sys.bean.AdminBean;
-import com.liang.sys.bean.RelaySwitch;
-import com.liang.sys.service.InfoSer;
+import com.fanyl.dao.UserDao;
+import com.fanyl.domain.RelaySwitch;
+import com.fanyl.domain.User;
 import com.liang.web.util.SocketThread;
 import com.liang.web.util.TcpSocketService;
 
@@ -30,7 +30,7 @@ public class BusinessCtroller {
 	Logger logger = Logger.getLogger(BusinessCtroller.class);
 
 	@Autowired
-	private InfoSer infoStr;
+	private UserDao infoStr;
 
 	/**
 	 * get adverise list
@@ -155,7 +155,7 @@ public class BusinessCtroller {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody Object login(@RequestBody Map map, Model model) {
-		AdminBean admin = infoStr.login(map, "sys.login.findUserForApp");
+		User admin = infoStr.login(map, "sys.login.findUserForApp");
 		if (admin != null) {
 			model.addAttribute("statusCode", "200");
 		} else {

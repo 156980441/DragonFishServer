@@ -3,7 +3,7 @@ package com.liang.web.util;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.liang.sys.bean.AdminBean;
+import com.fanyl.domain.User;
 
 
 public class SessionUtil {
@@ -27,13 +27,13 @@ public class SessionUtil {
 	 * @return Map
 	 */
 	@SuppressWarnings("unchecked")
-	public static AdminBean getLoginUserFromSession(HttpServletRequest request) {
+	public static User getLoginUserFromSession(HttpServletRequest request) {
 		// session用户信息
 		HttpSession session = request.getSession() ;
 		/*
 		 * SY_ADMIN_V,从这个视图中提取信息
 		*/
-		AdminBean admin = (AdminBean)session.getAttribute("LoginUser") ;
+		User admin = (User)session.getAttribute("LoginUser") ;
 		
 		return admin ;
 	}

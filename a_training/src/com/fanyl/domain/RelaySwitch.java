@@ -1,4 +1,4 @@
-package com.liang.sys.bean;
+package com.fanyl.domain;
 
 
 /*设备开关状态*/

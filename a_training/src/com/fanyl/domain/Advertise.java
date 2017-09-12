@@ -1,8 +1,8 @@
-package com.liang.sys.bean;
+package com.fanyl.domain;
 
 import java.io.Serializable;
 
-public class AdvertiseBean implements Serializable {
+public class Advertise implements Serializable {
 
 	private static final long serialVersionUID = -1651028280172377550L;
 

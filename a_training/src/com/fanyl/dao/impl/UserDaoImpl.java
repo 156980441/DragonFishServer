@@ -1,4 +1,4 @@
-package com.liang.sys.service.impl;
+package com.fanyl.dao.impl;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,17 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.liang.sys.bean.AdminBean;
-import com.liang.sys.bean.Page;
-import com.liang.sys.dao.InfoDao;
-import com.liang.sys.service.InfoSer;
+import com.fanyl.dao.UserDao;
+import com.fanyl.dao.UserDao2;
+import com.fanyl.domain.Page;
+import com.fanyl.domain.User;
 import com.liang.web.util.ObjectBindUtil;
 
 @Service
-public class InfoSerImpl implements InfoSer {
+public class UserDaoImpl implements UserDao {
 
 	@Autowired
-	private InfoDao infoDao;
+	private UserDao2 infoDao;
 
 	@Override
 	public String findUser(HttpServletRequest request,
@@ -31,7 +31,7 @@ public class InfoSerImpl implements InfoSer {
 		hm.put("username", request.getParameter("username"));
 		hm.put("password", request.getParameter("password"));
 
-		AdminBean user = (AdminBean) infoDao.getInfoObject(hm,"sys.login.findUser");
+		User user = (User) infoDao.getInfoObject(hm,"sys.login.findUser");
 
 		if(user == null){
 			return "登录失败，请与管理员联系";
@@ -147,8 +147,8 @@ public class InfoSerImpl implements InfoSer {
 	 * 新增信息
 	 */
 	@Override
-	public AdminBean login(Map map,String target) {
-		AdminBean admin = null;
+	public User login(Map map,String target) {
+		User admin = null;
 		try {
 			admin = this.infoDao.login(map,target);
 		} catch (Exception e) {

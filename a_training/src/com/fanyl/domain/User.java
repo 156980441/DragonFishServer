@@ -1,8 +1,8 @@
-package com.liang.sys.bean;
+package com.fanyl.domain;
 
 import java.io.Serializable;
 
-public class AdminBean implements Serializable {
+public class User implements Serializable {
 	
 	private static final long serialVersionUID = -2034432429142674566L;
 

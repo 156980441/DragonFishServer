@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.liang.sys.bean.AdminBean;
+import com.fanyl.domain.User;
 import com.liang.web.util.SessionUtil;
 
 @Component
@@ -56,7 +56,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		if(url.indexOf("/login/in") == 0 || url.indexOf("/resources/") == 0 || url.length() == 1 || url.indexOf("/androidInterface")==0 || url.indexOf("/interface/")==0){				
 			flag = true;			
 		}else{
-			AdminBean admin = SessionUtil.getLoginUserFromSession(request) ;
+			User admin = SessionUtil.getLoginUserFromSession(request) ;
 			if(admin != null && admin.getUsername() != null){
 				flag = true;
 			}else{

@@ -1,4 +1,4 @@
-package com.liang.web.login;
+package com.fanyl.web;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +25,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.portlet.ModelAndView;
 
-import com.liang.sys.bean.Page;
-import com.liang.sys.bean.TournamentContent;
-import com.liang.sys.service.InfoSer;
+import com.fanyl.dao.UserDao;
+import com.fanyl.domain.Page;
+import com.fanyl.domain.TournamentContent;
 import com.liang.web.util.StringUtil;
 
 @Controller
@@ -37,7 +37,7 @@ public class LoginBusinessCtroller {
 	Logger logger = Logger.getLogger(LoginBusinessCtroller.class);
 
 	@Autowired
-	private InfoSer infoStr;
+	private UserDao infoStr;
 
 	@RequestMapping(value = "/viewMachineList")
 	public ModelAndView viewMachineList(HttpServletRequest request,

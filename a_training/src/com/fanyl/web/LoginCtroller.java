@@ -1,4 +1,4 @@
-package com.liang.web.login;
+package com.fanyl.web;
 
 import java.io.File;
 import java.util.HashMap;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.portlet.ModelAndView;
 
-import com.liang.sys.bean.AdminBean;
-import com.liang.sys.bean.AdvertiseBean;
-import com.liang.sys.bean.Page;
-import com.liang.sys.bean.StartPageBean;
-import com.liang.sys.service.InfoSer;
+import com.fanyl.dao.UserDao;
+import com.fanyl.domain.Advertise;
+import com.fanyl.domain.Page;
+import com.fanyl.domain.StartPageBean;
+import com.fanyl.domain.User;
 import com.liang.web.util.StringUtil;
 
 @Controller
@@ -32,7 +32,7 @@ public class LoginCtroller {
 	Logger logger = Logger.getLogger(LoginCtroller.class);
 
 	@Autowired
-	private InfoSer infoStr;
+	private UserDao infoStr;
 
 	/*login request*/
 	@RequestMapping(value = "/in")
@@ -98,7 +98,7 @@ public class LoginCtroller {
 		}else{
 			Map<String, String> userMap = new LinkedHashMap<String, String>();
 			userMap.put("USER_NAME", request.getParameter("USER_NAME"));
-			List<AdminBean> userList = this.infoStr.getInfoList(userMap, "sys.login.findUser");
+			List<User> userList = this.infoStr.getInfoList(userMap, "sys.login.findUser");
 			if(userList == null || userList.size() == 0) {
 				result = this.infoStr.addInfo(request, "sys.login.addUserInfo");
 			} else {
@@ -173,10 +173,10 @@ public class LoginCtroller {
 			// 获取图片所在的路径
 			Map advertiesMap = new LinkedHashMap();
 			advertiesMap.put("SEQ", seq);
-			List<AdvertiseBean> advertisList = infoStr.getInfoList(advertiesMap, "sys.business.viewAdvertiseListBySEQ");  
+			List<Advertise> advertisList = infoStr.getInfoList(advertiesMap, "sys.business.viewAdvertiseListBySEQ");  
 			String[] pic_urls = new String[3];
 			if(advertisList != null && advertisList.size() > 0) {
-				AdvertiseBean obj = advertisList.get(0);
+				Advertise obj = advertisList.get(0);
 				pic_urls[0] = obj.getPic_url1();
 				pic_urls[1] = obj.getPic_url2();
 				pic_urls[2] = obj.getPic_url3();
