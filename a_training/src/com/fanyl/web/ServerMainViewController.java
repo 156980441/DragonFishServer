@@ -30,11 +30,14 @@ import com.fanyl.domain.Page;
 import com.fanyl.domain.TournamentContent;
 import com.liang.web.util.StringUtil;
 
+/*服务器页面的控制器，广告管理，设备管理等*/
+
 @Controller
 @RequestMapping(value = "/business")
-public class LoginBusinessCtroller {
 
-	Logger logger = Logger.getLogger(LoginBusinessCtroller.class);
+public class ServerMainViewController {
+
+	Logger logger = Logger.getLogger(ServerMainViewController.class);
 
 	@Autowired
 	private UserDao infoStr;

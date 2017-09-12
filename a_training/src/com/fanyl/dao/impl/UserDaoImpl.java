@@ -74,7 +74,6 @@ public class UserDaoImpl implements UserDao {
 	 * 查询信息
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public List getInfoList(HttpServletRequest request,String target) {
 		Map paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		return infoDao.getInfoList(paramMap,target);
