@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>APP</title>
+    <title>鱼管家后台管理系统</title>
 <script src="/resources/js/jquery-2.1.4.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		 $(document).ready(function() {
@@ -49,6 +49,7 @@
         }
     </script>
     <style type="text/css">
+    
 html,body {
 	width: 100%;
 	height: 100%;
@@ -62,7 +63,6 @@ body {
 	background: url(/resources/login/indexBg.jpg) center  no-repeat;
 	background-size: cover;
 	filter: none;
-  
 }
 
 .login_bg {
@@ -161,8 +161,10 @@ input[type="text"],input[type="password"] {
 	padding-bottom: 0;
 	background: rgba(255, 255, 255, .3);
 }
+
 </style>
   </head>
+  
   <body style="zoom: 1;"  >
   	<div class="login_bg" >
   		<div class="login"  >
