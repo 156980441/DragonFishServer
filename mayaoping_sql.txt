@@ -33,7 +33,8 @@ IS_ADMIN enum('0','1')
 );
 
 create table TB_USER_MACHINE(
-USER_NO INT primary key,
+SEQ INT auto_increment primary key,
+USER_NO INT,
 MACHINE_ID varchar(32),
 MACHINE_TITLE varchar(32),
 CREATE_DATE DATETIME,
