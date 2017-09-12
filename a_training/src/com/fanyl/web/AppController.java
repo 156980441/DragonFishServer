@@ -23,11 +23,14 @@ import com.fanyl.domain.User;
 import com.liang.web.util.SocketThread;
 import com.liang.web.util.TcpSocketService;
 
+/*处理手机客户端发来的请求*/
+
 @Controller
 @RequestMapping(value = "/interface")
-public class BusinessCtroller {
 
-	Logger logger = Logger.getLogger(BusinessCtroller.class);
+public class AppController {
+	
+	Logger logger = Logger.getLogger(AppController.class);
 
 	@Autowired
 	private UserDao infoStr;
@@ -36,10 +39,6 @@ public class BusinessCtroller {
 	 * get adverise list
 	 * 
 	 * http://localhost:8000/interface/getAdvertiseList?LAYOUT=1
-	 * 
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "/getAdvertiseList/{layout}", method = RequestMethod.GET)
 	public @ResponseBody Object getAdvertiseList(@PathVariable String layout) {
@@ -49,11 +48,9 @@ public class BusinessCtroller {
 	}
 
 	/**
-	 * http://localhost:8000/interface/getAdvertiseListByCity?city=1
+	 * get advertise list by city
 	 * 
-	 * @param request
-	 * @param model
-	 * @return
+	 * http://localhost:8000/interface/getAdvertiseListByCity?city=1
 	 */
 	@RequestMapping(value = "/getAdvertiseListByCity/{city}", method = RequestMethod.GET)
 	public @ResponseBody Object getAdvertiseListByCity(@PathVariable String city) {
@@ -65,9 +62,6 @@ public class BusinessCtroller {
 	/**
 	 * http://localhost:8000/interface/getStartPageListByCity?city=1
 	 * 
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "/getStartPageListByCity/{city}", method = RequestMethod.GET)
 	public @ResponseBody Object getStartPageListByCity(@PathVariable String city) {
@@ -80,9 +74,6 @@ public class BusinessCtroller {
 	/**
 	 * http://localhost:8000/interface/getMachineList?USER_NO=XXX
 	 * 
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "/getMachineList/{userNo}", method = RequestMethod.GET)
 	public @ResponseBody Object getMachineList(@PathVariable String userNo) {
@@ -94,9 +85,6 @@ public class BusinessCtroller {
 	/**
 	 * http://localhost:8000/interface/getMachineInfo?SEQ=XXX
 	 * 
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 
 	// @PathVariable是用来获得请求url中的动态参数的，这里是 seq。
@@ -111,9 +99,6 @@ public class BusinessCtroller {
 	/**
 	 * http://localhost:8000/interface/addMachineInfo?jsonData=[{"USER_NO":"5","MACHINE_ID":"111","MACHINE_TITLE":"设备"}]
 	 * 
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "/addMachineInfo", method = RequestMethod.POST)
 	public @ResponseBody Object addMachineInfo(@RequestBody Map map, Model model) {
@@ -130,9 +115,6 @@ public class BusinessCtroller {
 	/**
 	 * http://localhost:8000/interface/addUserInfo?jsonData=[{"USER_NAME":"admin5","PASSWORD":"123456"}]
 	 * 
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "/addUserInfo", method = RequestMethod.POST)
 	public @ResponseBody Object addUserInfo(@RequestBody Map map, Model model) {
@@ -147,11 +129,8 @@ public class BusinessCtroller {
 	}
 
 	/**
+	 * app user login
 	 * http://localhost:8000/interface/login?jsonData=[{"USER_NAME":"admin5","PASSWORD":"123456"}]
-	 * 
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody Object login(@RequestBody Map map, Model model) {
@@ -168,9 +147,6 @@ public class BusinessCtroller {
 	/**
 	 * http://localhost:8000/interface/deleteMachineInfo/USER_NO/MACHINE_ID
 	 * 
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "/deleteMachineInfo/{USER_NO}/{MACHINE_ID}", method = RequestMethod.GET)
 	public @ResponseBody Object deleteMachineInfo(@PathVariable String USER_NO, @PathVariable String MACHINE_ID,

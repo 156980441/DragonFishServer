@@ -11,6 +11,7 @@ import com.fanyl.domain.User;
 
 public interface UserDao {
 	
+	/*查询用户*/
 	public String findUser(HttpServletRequest request,HttpServletResponse response);
 
 	/**

@@ -142,6 +142,7 @@
 
 	<!-- 启动包扫描功能,以便注册带有@Controller等注解的类成为spring的bean  -->
 	<context:component-scan base-package="com.liang" />
+	<context:component-scan base-package="com.fanyl" />
 
 	<mvc:interceptors>
 		<!-- 国际化拦截器 ,必需配置 -->
