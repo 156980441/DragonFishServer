@@ -32,18 +32,20 @@ public class LoginCtroller {
 	Logger logger = Logger.getLogger(LoginCtroller.class);
 
 	@Autowired
-	private UserDao infoStr;
+	private UserDao userDaoImpl;
 
 	/* login request */
 	@RequestMapping(value = "/in")
 	@ResponseBody
 	public String loginIn(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return infoStr.findUser(request, response);
+		logger.info("user press login button");
+		return userDaoImpl.findUser(request, response);
 	}
 
 	/* logout request */
 	@RequestMapping(value = "/out", method = RequestMethod.GET)
 	public void loginOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("user press logout button");
 		request.getSession().removeAttribute("LoginUser");
 		request.getRequestDispatcher("/").forward(request, response);
 	}
@@ -59,24 +61,24 @@ public class LoginCtroller {
 	@RequestMapping(value = "/video")
 	public ModelAndView video(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
 			throws Exception {
-		modelMap.put("videoList", infoStr.getInfoList(request, "sys.login.findUser"));
+		modelMap.put("videoList", userDaoImpl.getInfoList(request, "sys.login.findUser"));
 		return new ModelAndView("/login/video", modelMap);
 	}
 
 	@RequestMapping(value = "/viewUserList")
 	public ModelAndView viewUserList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
-		List<?> userList = infoStr.getInfoList(request, "sys.login.findUser");
+		List<?> userList = userDaoImpl.getInfoList(request, "sys.login.findUser");
 		int userTotalCount = userList.size();
 		page.setTotalCount(userTotalCount);
 		modelMap.put("page", page);
-		modelMap.put("videoList", infoStr.getInfoListByPage(request, "sys.login.findUserByPage", page));
+		modelMap.put("videoList", userDaoImpl.getInfoListByPage(request, "sys.login.findUserByPage", page));
 		return new ModelAndView("/login/viewUserList", modelMap);
 	}
 
 	@RequestMapping(value = "/viewAddUserInfo")
 	public ModelAndView viewAddResumeInfo(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
 			throws Exception {
-		List userInfoList = infoStr.getInfoList(request, "sys.login.findUserInfo");
+		List userInfoList = userDaoImpl.getInfoList(request, "sys.login.findUserInfo");
 		if (userInfoList != null && userInfoList.size() > 0) {
 			modelMap.put("userInfo", userInfoList.get(0));
 		}
@@ -91,13 +93,13 @@ public class LoginCtroller {
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
 		if (!"".equals(seq)) {
-			result = this.infoStr.addInfo(request, "sys.login.updateUserInfo");
+			result = this.userDaoImpl.addInfo(request, "sys.login.updateUserInfo");
 		} else {
 			Map<String, String> userMap = new LinkedHashMap<String, String>();
 			userMap.put("USER_NAME", request.getParameter("USER_NAME"));
-			List<User> userList = this.infoStr.getInfoList(userMap, "sys.login.findUser");
+			List<User> userList = this.userDaoImpl.getInfoList(userMap, "sys.login.findUser");
 			if (userList == null || userList.size() == 0) {
-				result = this.infoStr.addInfo(request, "sys.login.addUserInfo");
+				result = this.userDaoImpl.addInfo(request, "sys.login.addUserInfo");
 			} else {
 				result = 2;
 			}
@@ -123,7 +125,7 @@ public class LoginCtroller {
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
 		if (!"".equals(seq)) {
-			result = this.infoStr.deleteInfo(seq, "sys.login.deleteUserInfo");
+			result = this.userDaoImpl.deleteInfo(seq, "sys.login.deleteUserInfo");
 		}
 		if (result == 1) {
 			map.put("statusCode", "200");
@@ -145,7 +147,7 @@ public class LoginCtroller {
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
 		if (!"".equals(seq)) {
-			result = this.infoStr.deleteInfo(seq, "sys.login.deleteMachineInfo");
+			result = this.userDaoImpl.deleteInfo(seq, "sys.login.deleteMachineInfo");
 		}
 		if (result == 1) {
 			map.put("statusCode", "200");
@@ -170,7 +172,7 @@ public class LoginCtroller {
 			// 获取图片所在的路径
 			Map advertiesMap = new LinkedHashMap();
 			advertiesMap.put("SEQ", seq);
-			List<Advertise> advertisList = infoStr.getInfoList(advertiesMap, "sys.business.viewAdvertiseListBySEQ");
+			List<Advertise> advertisList = userDaoImpl.getInfoList(advertiesMap, "sys.business.viewAdvertiseListBySEQ");
 			String[] pic_urls = new String[3];
 			if (advertisList != null && advertisList.size() > 0) {
 				Advertise obj = advertisList.get(0);
@@ -182,7 +184,7 @@ public class LoginCtroller {
 			path = path.replace("\\", "/").replace("WEB-INF/classes/", "");
 			// System.out.println(path);
 			// 删除数据库中的数据
-			result = this.infoStr.deleteInfo(seq, "sys.login.deleteAdvertiseInfo");
+			result = this.userDaoImpl.deleteInfo(seq, "sys.login.deleteAdvertiseInfo");
 			// 删除图片
 			try {
 				for (int i = 0; i < pic_urls.length; i++) {
@@ -220,7 +222,7 @@ public class LoginCtroller {
 			// 获取图片所在的路径
 			Map<String, String> startPageMap = new LinkedHashMap<String, String>();
 			startPageMap.put("SEQ", seq);
-			List<StartPageBean> advertisList = infoStr.getInfoList(startPageMap, "sys.business.viewStartPageListBySEQ");
+			List<StartPageBean> advertisList = userDaoImpl.getInfoList(startPageMap, "sys.business.viewStartPageListBySEQ");
 			String pic_url = null;
 			if (advertisList != null && advertisList.size() > 0) {
 				StartPageBean obj = advertisList.get(0);
@@ -230,7 +232,7 @@ public class LoginCtroller {
 			path = path.replace("\\", "/").replace("WEB-INF/classes/", "");
 			// System.out.println(path);
 			// 删除数据库中的数据
-			result = this.infoStr.deleteInfo(seq, "sys.login.deleteStartPageInfo");
+			result = this.userDaoImpl.deleteInfo(seq, "sys.login.deleteStartPageInfo");
 			// 删除图片
 			try {
 				if (pic_url != null && !"".equals(pic_url)) {

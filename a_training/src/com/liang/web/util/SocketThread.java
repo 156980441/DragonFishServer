@@ -12,8 +12,10 @@ import org.springframework.stereotype.Component;
 public class SocketThread implements Runnable {  
 	
 	private ServerSocket serverSocket;
+	
 	public static Map<String, TcpSocketService> socketMap = new HashMap<String, TcpSocketService>();
-    @Override
+    
+	@Override
 	public void run() {  
     	try {  
             ServerSocket serverSocket = new ServerSocket(8647); 
