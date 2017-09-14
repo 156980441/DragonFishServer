@@ -18,13 +18,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	Logger logger = Logger.getLogger(LoginInterceptor.class);
 	
 	private String requestUrl = null;
-
 	private String queryString = null;
 	
 	@Override
-	@SuppressWarnings("unchecked")
-	public boolean preHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		
 		boolean flag=false;
 		

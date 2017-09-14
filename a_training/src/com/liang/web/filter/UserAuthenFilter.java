@@ -1,6 +1,7 @@
 package com.liang.web.filter;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -10,17 +11,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 
 public class UserAuthenFilter implements Filter {
+	
 	private FilterConfig filterConfig;// 保留参数
 
-	private static long counter = 0;
-
-	private String requestUri = null;
-
-	private String queryString = null;
-	
 	@Override
 	public void init(FilterConfig a_filterConfig) throws ServletException {
 		filterConfig = a_filterConfig;

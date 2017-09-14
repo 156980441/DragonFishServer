@@ -1,7 +1,6 @@
 package com.fanyl.web;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.LinkedHashMap;
@@ -20,10 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fanyl.dao.UserDao;
 import com.fanyl.domain.RelaySwitch;
 import com.fanyl.domain.User;
-import com.liang.web.util.SocketThread;
-import com.liang.web.util.TcpSocketService;
 
 /*处理手机客户端发来的请求*/
+
+// SpringMVC
+// @PathVariable是用来获得请求url中的动态参数的。
+// @ResponseBody转换为指定格式后，这里是 List，写入到Response对象的body数据区
 
 @Controller
 @RequestMapping(value = "/interface")
@@ -37,24 +38,20 @@ public class AppController {
 	private UserDao infoStr;
 
 	/**
-	 * get adverise list
-	 * 
 	 * http://localhost:8000/interface/getAdvertiseList?LAYOUT=1
 	 */
 	@RequestMapping(value = "/getAdvertiseList/{layout}", method = RequestMethod.GET)
-	public @ResponseBody Object getAdvertiseList(@PathVariable String layout) {
+	public @ResponseBody Object appAdvertiseList(@PathVariable String layout) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("LAYOUT", layout);
 		return infoStr.getInfoList(map, "sys.business.viewAdvertiseList");
 	}
 
 	/**
-	 * get advertise list by city
-	 * 
 	 * http://localhost:8000/interface/getAdvertiseListByCity?city=1
 	 */
 	@RequestMapping(value = "/getAdvertiseListByCity/{city}", method = RequestMethod.GET)
-	public @ResponseBody Object getAdvertiseListByCity(@PathVariable String city) {
+	public @ResponseBody Object appAdvertiseListByCity(@PathVariable String city) {
 		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
 		map.put("city", city);
 		return infoStr.getInfoList(map, "sys.business.viewAdvertiseList");
@@ -62,7 +59,6 @@ public class AppController {
 
 	/**
 	 * http://localhost:8000/interface/getStartPageListByCity?city=1
-	 * 
 	 */
 	@RequestMapping(value = "/getStartPageListByCity/{city}", method = RequestMethod.GET)
 	public @ResponseBody Object getStartPageListByCity(@PathVariable String city) {
@@ -74,7 +70,6 @@ public class AppController {
 
 	/**
 	 * http://localhost:8000/interface/getMachineList?USER_NO=XXX
-	 * 
 	 */
 	@RequestMapping(value = "/getMachineList/{userNo}", method = RequestMethod.GET)
 	public @ResponseBody Object getMachineList(@PathVariable String userNo) {
@@ -85,11 +80,7 @@ public class AppController {
 
 	/**
 	 * http://localhost:8000/interface/getMachineInfo?SEQ=XXX
-	 * 
 	 */
-
-	// @PathVariable是用来获得请求url中的动态参数的，这里是 seq。
-	// @ResponseBody转换为指定格式后，这里是 List，写入到Response对象的body数据区
 	@RequestMapping(value = "/getMachineInfo/{seq}", method = RequestMethod.GET)
 	public @ResponseBody Object getMachineInfo(@PathVariable String seq) {
 		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
@@ -99,7 +90,6 @@ public class AppController {
 
 	/**
 	 * http://localhost:8000/interface/addMachineInfo?jsonData=[{"USER_NO":"5","MACHINE_ID":"111","MACHINE_TITLE":"设备"}]
-	 * 
 	 */
 	@RequestMapping(value = "/addMachineInfo", method = RequestMethod.POST)
 	public @ResponseBody Object addMachineInfo(@RequestBody Map map, Model model) {
@@ -115,7 +105,6 @@ public class AppController {
 
 	/**
 	 * http://localhost:8000/interface/addUserInfo?jsonData=[{"USER_NAME":"admin5","PASSWORD":"123456"}]
-	 * 
 	 */
 	@RequestMapping(value = "/addUserInfo", method = RequestMethod.POST)
 	public @ResponseBody Object addUserInfo(@RequestBody Map map, Model model) {
@@ -130,11 +119,10 @@ public class AppController {
 	}
 
 	/**
-	 * app user login
 	 * http://localhost:8080/interface/login?jsonData=[{"USER_NAME":"admin","PASSWORD":"123456"}]
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public @ResponseBody Object login(@RequestBody Map map, Model model) {
+	public @ResponseBody Object appUserLogin(@RequestBody Map<String,String> map, Model model) {
 		User admin = infoStr.login(map, "sys.login.findUserForApp");
 		if (admin != null) {
 			model.addAttribute("statusCode", "200");
@@ -147,7 +135,6 @@ public class AppController {
 
 	/**
 	 * http://localhost:8000/interface/deleteMachineInfo/USER_NO/MACHINE_ID
-	 * 
 	 */
 	@RequestMapping(value = "/deleteMachineInfo/{USER_NO}/{MACHINE_ID}", method = RequestMethod.GET)
 	public @ResponseBody Object deleteMachineInfo(@PathVariable String USER_NO, @PathVariable String MACHINE_ID,
@@ -213,9 +200,6 @@ public class AppController {
 
 	/**
 	 * 设置机器的名称
-	 * 
-	 * @param MACHINE_ID
-	 * @return
 	 */
 	@RequestMapping(value = "/setMechineName/{MACHINE_ID}/{MACHINE_NAME}", method = RequestMethod.GET)
 	public @ResponseBody Object setMechineName(@PathVariable String MACHINE_ID, @PathVariable String MACHINE_NAME) {
