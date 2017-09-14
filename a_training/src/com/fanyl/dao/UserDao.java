@@ -68,7 +68,7 @@ public interface UserDao {
 	public User login(Map map,String target);
 	
 	/**
-	 * 新增设备信息
+	 * 新增用戶所持有设备
 	 */
 	public String addMachineInfo(Map map,String target);
 	

@@ -1,6 +1,7 @@
 package com.fanyl.web;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.LinkedHashMap;
@@ -19,12 +20,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fanyl.dao.UserDao;
 import com.fanyl.domain.RelaySwitch;
 import com.fanyl.domain.User;
+import com.liang.web.util.SocketThread;
+import com.liang.web.util.TcpSocketService;
 
 /*处理手机客户端发来的请求*/
 
 // SpringMVC
-// @PathVariable是用来获得请求url中的动态参数的。
-// @ResponseBody转换为指定格式后，这里是 List，写入到Response对象的body数据区
+// @PathVariable 是用来获得请求 url 中的动态参数的。
+// @ResponseBody 转换为指定格式后，这里是 List，写入到 Response 对象的 body 数据区
+// @RequestMapping 是一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。
+// @Controller 它标记的类就是一个SpringMVC Controller 对象。分发处理器将会扫描使用了该注解的类的方法。通俗来说，被Controller标记的类就是一个控制器，这个类中的方法，就是相应的动作。
+// @Service("userService")注解是告诉spring，当Spring要创建UserServiceImpl的的实例时，bean的名字必须叫做"userService"，这样当Action需要使用UserServiceImpl的的实例时,就可以由Spring创建好的"userService"，然后注入给Action。
 
 @Controller
 @RequestMapping(value = "/interface")
@@ -153,7 +159,7 @@ public class AppController {
 	}
 
 	/**
-	 * 设置继电器状态，开关。
+	 * set device open or close
 	 */
 	@RequestMapping(value = "/setRelaySwitch/{MACHINE_ID}/{status}", method = RequestMethod.GET)
 	public @ResponseBody Object setRelaySwitch(@PathVariable String MACHINE_ID, @PathVariable String status) {
@@ -164,26 +170,26 @@ public class AppController {
 		RelaySwitch relaySwitch = new RelaySwitch();
 		relaySwitch.setCode("300");
 		
-		/*try {
+		try {
+			// 针对当前设备有没有开启连接服务
 			if (SocketThread.socketMap.containsKey(MACHINE_ID)) {
 				TcpSocketService service = SocketThread.socketMap.get(MACHINE_ID);
 				socket = service.connectedsocket;
 			}
+			// 如果已经开启了连接服务
 			if (socket != null) {
 				dos = new DataOutputStream(socket.getOutputStream());
 			}
+			
 			if (dos != null) {
 				if (status.equals("0")) {
 					String str = "&R,0!";
-					if (dos != null)
-						dos.write(str.getBytes());
-					relaySwitch.setCode("200");
+					dos.write(str.getBytes());
 				} else if (status.equals("1")) {
 					String str = "&R,1!";
-					if (dos != null)
-						dos.write(str.getBytes());
-					relaySwitch.setCode("200");
+					dos.write(str.getBytes());
 				}
+				relaySwitch.setCode("200");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -194,12 +200,12 @@ public class AppController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}*/
+		}
 		return relaySwitch;
 	}
 
 	/**
-	 * 设置机器的名称
+	 * set device name
 	 */
 	@RequestMapping(value = "/setMechineName/{MACHINE_ID}/{MACHINE_NAME}", method = RequestMethod.GET)
 	public @ResponseBody Object setMechineName(@PathVariable String MACHINE_ID, @PathVariable String MACHINE_NAME) {

@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	/**
-	 * 查询信息
+	 * APP get user device list
 	 */
 	@Override
 	public List getInfoList(Map map,String target) {

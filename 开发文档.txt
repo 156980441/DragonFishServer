@@ -6,3 +6,69 @@ jQuery
 js
 数据库：
 mysql
+数据库表说明：
+TB_USER 用户表，存储服务端以及客户端用户信息。
+create table if not exists TB_USER (
+SEQ INT auto_increment primary key, # 主键
+USER_NAME varchar(32) not null,
+PASSWORD varchar(32)  not null,
+CREATE_DATE datetime,
+UPDATE_DATE datetime,
+UPDATE_BY varchar(32),
+ACTIVITY enum('0','1'),
+IS_ADMIN enum('0','1') # 是否是 admin 用户
+);
+
+create table if not exists TB_ADVERTISE(
+SEQ INT auto_increment primary key,
+TITLE varchar(32),
+PIC_URL1 varchar(512),
+PIC_URL2 varchar(512),
+PIC_URL3 varchar(512),
+ADV_URL varchar(512),
+ACTIVITY enum('0','1'),
+CREATE_DATE datetime,
+CREATED_BY varchar(32),
+UPDATE_DATE datetime,
+UPDATED_BY varchar(32),
+LAYOUT varchar(32),
+CITY varchar(32),
+IS_ADMIN enum('0','1')
+);
+
+create table TB_USER_MACHINE(
+SEQ INT auto_increment primary key,
+USER_NO INT,
+MACHINE_ID varchar(32),
+MACHINE_TITLE varchar(32),
+CREATE_DATE datetime,
+ACTIVITY enum('0','1')
+);
+
+create table if not exists TB_LOGIN_INFO(
+USER_NO INT,
+IP varchar(32),
+LOGIN_DATE datetime
+);
+
+create table if not exists TB_MACHINE(
+SEQ INT auto_increment primary key,
+ID INT,
+TITLE varchar(32),
+ACTIVITY enum('0','1'),
+UPDATE_DATE datetime,
+TEMPERATURE INT,
+TDS INT,
+PH INT,
+STATE INT
+);
+
+create table if not exists TB_START_PAGE(
+SEQ INT,
+PIC_URL varchar(512),
+ACTIVITY enum('0','1'),
+CREATE_DATE datetime,
+UPDATE_DATE datetime,
+CITY varchar(32),
+PIC_NAME varchar(32)
+);

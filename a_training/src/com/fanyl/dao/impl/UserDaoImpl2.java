@@ -18,8 +18,7 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 	public List getInfoList(Object object, String target) {
 		List result = null;
 		try {
-			result = this
-					.queryForList( target, object);
+			result = this.queryForList( target, object);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
