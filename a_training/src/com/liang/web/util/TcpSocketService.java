@@ -21,16 +21,6 @@ public class TcpSocketService implements Runnable {
 		String id = null;
 		ConnectionPool pool = ConnectionPool.getInstance();
 		try {
-			// 根据输入输出流和客户端连接
-			/*
-			 * InputStream
-			 * inputStream=connectedsocket.getInputStream();//得到一个输入流，接收客户端传递的信息
-			 * InputStreamReader inputStreamReader=new
-			 * InputStreamReader(inputStream);//提高效率，将自己字节流转为字符流 BufferedReader
-			 * bufferedReader=new BufferedReader(inputStreamReader);
-			 */// 加入缓冲区
-				// DataInputStream dis = new
-				// DataInputStream(connectedsocket.getInputStream());
 			is = connectedsocket.getInputStream();
 			String temp = null;
 			int index = 0;

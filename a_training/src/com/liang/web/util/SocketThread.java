@@ -8,6 +8,15 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+/*
+ * 通过实现 Runnable 接口；
+ * 通过继承 Thread 类本身；
+ * 通过 Callable 和 Future 创建线程。
+ * run()新线程的入口点。
+ * 必须调用 start() 方法才能执行。
+*/
+
+
 @Component
 public class SocketThread implements Runnable {  
 	

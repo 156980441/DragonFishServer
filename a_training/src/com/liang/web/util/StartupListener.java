@@ -18,10 +18,16 @@ public class StartupListener implements ApplicationContextAware, ServletContextA
         InitializingBean, ApplicationListener<ContextRefreshedEvent> {
  
     protected Logger logger = Logger.getLogger(StartupListener.class);
+    
 	@Autowired
     private SocketThread myThread; 
+	
     @Override
 	public void setApplicationContext(ApplicationContext ctx) throws BeansException {
+    	System.out.println("Class: "+this.getClass().getName()+" method: "+
+    			Thread.currentThread().getStackTrace()[1].getMethodName() +" line:"+
+    			Thread.currentThread().getStackTrace()[1].getLineNumber());
+    	
         logger.info("1 => StartupListener.setApplicationContext");
         Thread thread = new Thread(myThread);
         thread.start();
@@ -29,16 +35,28 @@ public class StartupListener implements ApplicationContextAware, ServletContextA
  
     @Override
 	public void setServletContext(ServletContext context) {
+    	System.out.println("Class: "+this.getClass().getName()+" method: "+
+    			Thread.currentThread().getStackTrace()[1].getMethodName() +" line:"+
+    			Thread.currentThread().getStackTrace()[1].getLineNumber());
+    	
         logger.info("2 => StartupListener.setServletContext");
     }
  
     @Override
 	public void afterPropertiesSet() throws Exception {
+    	System.out.println("Class: "+this.getClass().getName()+" method: "+
+    			Thread.currentThread().getStackTrace()[1].getMethodName() +" line:"+
+    			Thread.currentThread().getStackTrace()[1].getLineNumber());
+    	
         logger.info("3 => StartupListener.afterPropertiesSet");
     }
  
     @Override
 	public void onApplicationEvent(ContextRefreshedEvent evt) {
+    	System.out.println("Class: "+this.getClass().getName()+" method: "+
+    			Thread.currentThread().getStackTrace()[1].getMethodName() +" line:"+
+    			Thread.currentThread().getStackTrace()[1].getLineNumber());
+    	
         logger.info("4.1 => MyApplicationListener.onApplicationEvent");
         if (evt.getApplicationContext().getParent() == null) {
             logger.info("4.2 => MyApplicationListener.onApplicationEvent");
