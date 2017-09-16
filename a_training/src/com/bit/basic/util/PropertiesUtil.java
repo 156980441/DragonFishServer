@@ -11,7 +11,6 @@ import java.util.Set;
 
 /**
  *  获取properties文件内容的工具类
- * @author zhanhk
  */
 public class PropertiesUtil {
 	

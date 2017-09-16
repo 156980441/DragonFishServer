@@ -98,7 +98,6 @@ public class ObjectBindUtil {
 	 * @param req
 	 * @return LinkedHashMap
 	 */
-	@SuppressWarnings("unchecked")
 	public static LinkedHashMap getRequestParamDataForCode(HttpServletRequest request) {
 		LinkedHashMap data = new LinkedHashMap() ;
 		Enumeration e = request.getParameterNames() ;
@@ -128,7 +127,6 @@ public class ObjectBindUtil {
 	 * @param req
 	 * @return LinkedHashMap
 	 */
-	@SuppressWarnings("unchecked")
 	public static LinkedHashMap getRequestParamDataNoSession(HttpServletRequest request) {
 		LinkedHashMap data = new LinkedHashMap() ;
 		Enumeration e = request.getParameterNames() ;
@@ -147,7 +145,6 @@ public class ObjectBindUtil {
 	 * @param req
 	 * @return LinkedHashMap
 	 */
-	@SuppressWarnings("unchecked")
 	public static LinkedHashMap getRequestParamDataNoSession(HttpServletRequest request,String embellish) {
 		LinkedHashMap data = new LinkedHashMap();
 		Enumeration e = request.getParameterNames();
@@ -233,7 +230,6 @@ public class ObjectBindUtil {
 	 * @param req
 	 * @return List<LinkedHashMap<String, Object>>
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<LinkedHashMap<String, Object>> getRequestJsonData(String jsonString, String status, LinkedHashMap<String,Object> appendMap) {
 		
 		List<LinkedHashMap<String, Object>> returnList = new ArrayList(10) ; 
@@ -296,7 +292,6 @@ public class ObjectBindUtil {
 	 * @param req
 	 * @return List<LinkedHashMap<String, Object>>
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<LinkedHashMap<String, Object>> getRequestJsonData(String jsonString, String status) {
 		
 		return getRequestJsonData(jsonString, status, null) ;
@@ -308,7 +303,6 @@ public class ObjectBindUtil {
 	 * @param req
 	 * @return List<LinkedHashMap<String, Object>>
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<LinkedHashMap<String, Object>> getRequestJsonData(String jsonString) {
 		
 		return getRequestJsonData(jsonString, null, null) ;
@@ -320,7 +314,6 @@ public class ObjectBindUtil {
 	 * @param req
 	 * @return List<LinkedHashMap<String, Object>>
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<LinkedHashMap<String, Object>> getRequestJsonData(String jsonString, LinkedHashMap<String,Object> appendMap) {
 		
 		return getRequestJsonData(jsonString, null, appendMap) ;
