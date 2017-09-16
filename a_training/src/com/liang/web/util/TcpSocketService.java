@@ -17,29 +17,31 @@ public class TcpSocketService implements Runnable {
 
 	@Override
 	public void run() {
-		InputStream is = null;
-		String id = null;
+		InputStream readStream = null;
+		String deviceID = null;
 		ConnectionPool pool = ConnectionPool.getInstance();
 		try {
-			is = connectedsocket.getInputStream();
+			readStream = connectedsocket.getInputStream();
 			String temp = null;
 			int index = 0;
 			while (true) {
-				DataInputStream dis = new DataInputStream(is);
+				DataInputStream device2Server = new DataInputStream(readStream);
 				try {
-					temp = inputStream2String(dis, id);
-					// System.out.print(temp);
-					if (id == null) {
-						id = temp;
-						if (!SocketThread.socketMap.containsKey(id)) {
-							SocketThread.socketMap.put(id, this);
+					temp = inputStream2String(device2Server, deviceID);
+					if (deviceID == null) {
+						deviceID = temp;
+						// device id as key
+						if (!SocketThread.socketMap.containsKey(deviceID)) {
+							SocketThread.socketMap.put(deviceID, this);
 						} else {
-							SocketThread.socketMap.remove(id);
-							SocketThread.socketMap.put(id, this);
+							SocketThread.socketMap.remove(deviceID);
+							SocketThread.socketMap.put(deviceID, this);
 						}
 					} else {
+						// 如果没有数据就等待
 						if (temp == null)
 							continue;
+						
 						Connection conn = pool.getConnection();
 						PreparedStatement ps = null;
 						String[] comm = temp.split(",");
@@ -53,11 +55,11 @@ public class TcpSocketService implements Runnable {
 							ps.setString(3, comm[3]);
 							String state = comm[4].substring(0, comm[4].length() - 1);
 							ps.setString(4, state);
-							ps.setString(5, id);
+							ps.setString(5, deviceID);
 							ps.executeUpdate();
 						} catch (Exception e) {
 							e.printStackTrace();
-							is.close();
+							readStream.close();
 							if (conn != null)
 								conn.close();
 							break;
@@ -75,38 +77,46 @@ public class TcpSocketService implements Runnable {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (is != null)
-					is.close();
+				if (readStream != null)
+					readStream.close();
 				connectedsocket.close();
-				if (SocketThread.socketMap.containsKey(id))
-					SocketThread.socketMap.remove(id);
+				if (SocketThread.socketMap.containsKey(deviceID))
+					SocketThread.socketMap.remove(deviceID);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public String inputStream2String(DataInputStream dis, String id) throws Exception {
+	public String inputStream2String(DataInputStream device2Server, String deviceID) throws Exception {
+		
 		StringBuffer out = new StringBuffer();
 		byte[] b = new byte[128];
 		String result = null;
-		for (int n; (n = dis.read(b)) != -1;) {
+		
+		for (int n; (n = device2Server.read(b)) != -1;) {
 			out.append(new String(b, 0, n));
 			String inputStr = out.toString();
-			if (id == null) {
+			if (deviceID == null) {
 				int idIndex = inputStr.indexOf("#");
 				if (idIndex > 0) {
+					System.out.println(inputStr.substring(0, idIndex) + "data.");
 					return inputStr.substring(0, idIndex);
 				} else {
+					// device id at first time
+					System.out.println(inputStr + "connect server.");
 					return inputStr;
 				}
 			} else {
+				// 每次取字节流最后的 # 和 ！ 保证是最近一次的发送数据
 				int lastStartIndex = inputStr.lastIndexOf("#");
 				int lastEndIndex = inputStr.lastIndexOf("!");
 				if (lastEndIndex > lastStartIndex) {
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
+						System.out.println(inputStr.substring(lastStartIndex, lastEndIndex + 1) + "data.");
 						return inputStr.substring(lastStartIndex, lastEndIndex + 1);
 					} else {
+						System.out.println("error data.");
 						return null;
 					}
 				} else {

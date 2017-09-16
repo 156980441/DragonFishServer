@@ -16,39 +16,43 @@ import org.springframework.stereotype.Component;
  * 必须调用 start() 方法才能执行。
 */
 
-
 @Component
-public class SocketThread implements Runnable {  
-	
+public class SocketThread implements Runnable {
+
 	private ServerSocket serverSocket;
-	
+
 	public static Map<String, TcpSocketService> socketMap = new HashMap<String, TcpSocketService>();
-    
+
 	@Override
-	public void run() {  
-    	try {  
-            ServerSocket serverSocket = new ServerSocket(8647); 
-            while(true){
-                Socket socket = serverSocket.accept();  
-                TcpSocketService tcpSocketService = new TcpSocketService(socket);
-                Thread thread = new Thread(tcpSocketService);
-                thread.start();
-            }
-        } catch (IOException e) {  
-            e.printStackTrace();
-        }
-    }
-    
+	public void run() {
+		try {
+			ServerSocket serverSocket = new ServerSocket(8647);
+			while (true) {
+				Socket socket = serverSocket.accept();
+				System.out.println("one device connect to server 8647");
+				// 一旦有连接进入，在开启一个线程负责接收数据
+				TcpSocketService tcpSocketService = new TcpSocketService(socket);
+				Thread thread = new Thread(tcpSocketService);
+				thread.start();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ServerSocket getServerSocket() {
 		return serverSocket;
 	}
+
 	public void setServerSocket(ServerSocket serverSocket) {
 		this.serverSocket = serverSocket;
 	}
+
 	public Map<String, TcpSocketService> getSocketMap() {
 		return socketMap;
 	}
+
 	public void setSocketMap(Map<String, TcpSocketService> socketMap) {
 		SocketThread.socketMap = socketMap;
-	}  
-}  
+	}
+}

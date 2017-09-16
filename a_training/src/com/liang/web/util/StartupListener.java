@@ -27,8 +27,7 @@ public class StartupListener implements ApplicationContextAware, ServletContextA
     	System.out.println("Class: "+this.getClass().getName()+" method: "+
     			Thread.currentThread().getStackTrace()[1].getMethodName() +" line:"+
     			Thread.currentThread().getStackTrace()[1].getLineNumber());
-    	
-        logger.info("1 => StartupListener.setApplicationContext");
+    	// 开启一个监听线程
         Thread thread = new Thread(myThread);
         thread.start();
     }
