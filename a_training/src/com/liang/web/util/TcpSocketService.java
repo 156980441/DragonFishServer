@@ -41,7 +41,7 @@ public class TcpSocketService implements Runnable {
 						// 如果没有数据就等待
 						if (temp == null)
 							continue;
-						
+
 						Connection conn = pool.getConnection();
 						PreparedStatement ps = null;
 						String[] comm = temp.split(",");
@@ -58,10 +58,13 @@ public class TcpSocketService implements Runnable {
 							ps.setString(5, deviceID);
 							ps.executeUpdate();
 						} catch (Exception e) {
+							
 							e.printStackTrace();
+							
 							readStream.close();
 							if (conn != null)
 								conn.close();
+							System.out.println("database errer when update data from device.");
 							break;
 						}
 					}
@@ -89,18 +92,18 @@ public class TcpSocketService implements Runnable {
 	}
 
 	public String inputStream2String(DataInputStream device2Server, String deviceID) throws Exception {
-		
+
 		StringBuffer out = new StringBuffer();
 		byte[] b = new byte[128];
 		String result = null;
-		
+
 		for (int n; (n = device2Server.read(b)) != -1;) {
 			out.append(new String(b, 0, n));
 			String inputStr = out.toString();
 			if (deviceID == null) {
 				int idIndex = inputStr.indexOf("#");
 				if (idIndex > 0) {
-					System.out.println(inputStr.substring(0, idIndex) + "connect server but has #.");
+					System.out.println(inputStr.substring(0, idIndex) + " connect server but has #.");
 					return inputStr.substring(0, idIndex);
 				} else {
 					// device id at first time

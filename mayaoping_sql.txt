@@ -51,12 +51,12 @@ create table if not exists TB_MACHINE(
 SEQ INT auto_increment primary key,
 ID INT,
 TITLE varchar(32),
-ACTIVITY enum('0','1'),
+ACTIVITY enum('0','1'), # 对应服务器状态选项，有服务器设置是否开启。并不是APP传来的开关选项
 UPDATE_DATE datetime,
 TEMPERATURE INT,
 TDS INT,
 PH INT,
-STATE INT
+STATE INT  # 对应APP传来的开关选项
 );
 
 create table if not exists TB_START_PAGE(
