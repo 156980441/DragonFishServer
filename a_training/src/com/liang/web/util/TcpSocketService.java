@@ -48,7 +48,7 @@ public class TcpSocketService implements Runnable {
 						try {
 							String sql = " UPDATE tb_machine " + "    SET TEMPERATURE = ?, " + "  	   TDS = ?, "
 									+ " 	   	   PH = ?, " + " 	   	   STATE = ?, "
-									+ " 	   	   UPDATE_DATE = NOW() " + " 	 WHERE ID = ? and state = 1";
+									+ " 	   	   UPDATE_DATE = NOW() " + " 	 WHERE ID = ?";
 							ps = conn.prepareStatement(sql);
 							ps.setString(1, comm[1]);
 							ps.setString(2, comm[2]);
@@ -100,7 +100,7 @@ public class TcpSocketService implements Runnable {
 			if (deviceID == null) {
 				int idIndex = inputStr.indexOf("#");
 				if (idIndex > 0) {
-					System.out.println(inputStr.substring(0, idIndex) + "data.");
+					System.out.println(inputStr.substring(0, idIndex) + "connect server but has #.");
 					return inputStr.substring(0, idIndex);
 				} else {
 					// device id at first time
