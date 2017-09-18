@@ -53,9 +53,9 @@ ID INT,
 TITLE varchar(32),
 ACTIVITY enum('0','1'), # 对应服务器状态选项，有服务器设置是否开启。并不是APP传来的开关选项
 UPDATE_DATE datetime,
-TEMPERATURE INT,
-TDS INT,
-PH INT,
+TEMPERATURE float,
+TDS float,
+PH float,
 STATE INT  # 对应APP传来的开关选项
 );
 
