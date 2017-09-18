@@ -19,12 +19,12 @@ public class TcpSocketService implements Runnable {
 	public void run() {
 		InputStream readStream = null;
 		String deviceID = null;
+		String temp = null;
+		int index = 0;
 		ConnectionPool pool = ConnectionPool.getInstance();
 		try {
 			readStream = connectedsocket.getInputStream();
 			DataInputStream device2Server = new DataInputStream(readStream);
-			String temp = null;
-			int index = 0;
 			while (true) {
 				try {
 					temp = inputStream2String(device2Server, deviceID);
@@ -53,14 +53,13 @@ public class TcpSocketService implements Runnable {
 							ps.setString(1, comm[1]);
 							ps.setString(2, comm[2]);
 							ps.setString(3, comm[3]);
-							String state = comm[4].substring(0, comm[4].length() - 1);
-							ps.setString(4, state);
+							ps.setString(4, comm[4]);
 							ps.setString(5, deviceID);
 							ps.executeUpdate();
 						} catch (Exception e) {
-							
+
 							e.printStackTrace();
-							
+
 							readStream.close();
 							if (conn != null)
 								conn.close();
@@ -69,15 +68,21 @@ public class TcpSocketService implements Runnable {
 						}
 					}
 					// 强制关闭该进程，回收资源，以免内存溢出
-					if (index++ == 20) {
+					if (index++ == 2) {
+						System.out.println("2 release resource");
 						break;
 					}
 				} catch (Exception e) {
+					System.out.println("other exception");
 					break;
 				}
 			}
+			
 		} catch (Exception e) {
+			
+			System.out.println("socket get input stream exception");
 			e.printStackTrace();
+			
 		} finally {
 			try {
 				if (readStream != null)
@@ -88,6 +93,7 @@ public class TcpSocketService implements Runnable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			System.out.println("thead exit");
 		}
 	}
 
@@ -98,12 +104,12 @@ public class TcpSocketService implements Runnable {
 		String result = null;
 
 		for (int n; (n = device2Server.read(b)) != -1;) {
-			
-			System.out.println("read "+n+" byte into string buffer");
+
+			System.out.println("read " + n + " byte into string buffer");
 			out.append(new String(b, 0, n));
 			String inputStr = out.toString();
-			System.out.println("string is " + inputStr);
-			
+			System.out.println("origin string is " + inputStr);
+
 			// 第一次传还没有设备 ID
 			if (deviceID == null) {
 				// 防止网络不好传过来的数据多余 ID，还带有数据
@@ -122,20 +128,20 @@ public class TcpSocketService implements Runnable {
 				int lastEndIndex = inputStr.lastIndexOf("!");
 				if (lastEndIndex > lastStartIndex) {
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
-						System.out.println(deviceID + " send "+inputStr.substring(lastStartIndex, lastEndIndex + 1));
-						return inputStr.substring(lastStartIndex + 1, lastEndIndex + 1);
+						System.out.println(deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
+						return inputStr.substring(lastStartIndex + 1, lastEndIndex);
 					} else {
-						System.out.println(deviceID + " send " + inputStr +", can't process");
+						System.out.println(deviceID + " send " + inputStr + ", can't process");
 						return null;
 					}
 				} else {
 					inputStr = inputStr.substring(0, lastEndIndex + 1);
 					lastStartIndex = inputStr.lastIndexOf("#");
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
-						System.out.println(deviceID + " send "+ inputStr.substring(lastStartIndex, lastEndIndex + 1));
-						return inputStr.substring(lastStartIndex + 1, lastEndIndex + 1);
+						System.out.println(deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
+						return inputStr.substring(lastStartIndex + 1, lastEndIndex);
 					} else {
-						System.out.println(deviceID + " send " + inputStr +", can't process");
+						System.out.println(deviceID + " send " + inputStr + ", can't process");
 						return null;
 					}
 				}

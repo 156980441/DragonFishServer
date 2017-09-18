@@ -30,8 +30,10 @@ public class SocketThread implements Runnable {
 			int connectDeviceNum = 0;
 			while (true) {
 				Socket socket = serverSocket.accept();
+				
 				connectDeviceNum = connectDeviceNum + 1;
 				System.out.println("one device connect to server 8647, current " + connectDeviceNum + " devices connect server");
+				
 				// 一旦有连接进入，在开启一个线程负责处理数据
 				TcpSocketService tcpSocketService = new TcpSocketService(socket);
 				Thread thread = new Thread(tcpSocketService, "device num " + connectDeviceNum);
