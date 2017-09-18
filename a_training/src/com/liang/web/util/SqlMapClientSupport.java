@@ -94,8 +94,8 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	 * @return 
 	 * @throws SQLException
 	 */
-	public List<?> queryForList(String statementName, Object parameterObject) throws SQLException {
-		List<?> result = new ArrayList<Object>() ;
+	public List<Object> queryForList(String statementName, Object parameterObject) throws SQLException {
+		List<Object> result = new ArrayList<Object>() ;
 		if(parameterObject != null){
 			result = this.getSqlMapClientTemplate().queryForList(statementName, parameterObject);
 		}

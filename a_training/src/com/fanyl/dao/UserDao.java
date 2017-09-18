@@ -65,7 +65,7 @@ public interface UserDao {
 	/**
 	 * 登录
 	 */
-	public User login(Map map,String target);
+	public User login(Map<String, String> map,String target);
 	
 	/**
 	 * 新增用戶所持有设备

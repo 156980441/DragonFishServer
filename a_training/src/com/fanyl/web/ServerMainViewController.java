@@ -42,10 +42,12 @@ public class ServerMainViewController {
 	@Autowired
 	private UserDao infoStr;
 
+	// 浏览器获取设备列表
 	@RequestMapping(value = "/viewMachineList")
-	public ModelAndView viewMachineList(HttpServletRequest request,
-			Page page, ModelMap modelMap) throws Exception {
+	public ModelAndView viewMachineList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
+		// 先获取列表
 		List mechineList = infoStr.getInfoList(request, "sys.business.viewMachineList");
+		// 分页显示
 		int mechineTotalCount = mechineList.size();
 		page.setTotalCount(mechineTotalCount);
 		modelMap.put("page", page);

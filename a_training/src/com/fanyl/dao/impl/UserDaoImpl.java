@@ -146,7 +146,7 @@ public class UserDaoImpl implements UserDao {
 	 * 新增信息
 	 */
 	@Override
-	public User login(Map map,String target) {
+	public User login(Map<String,String> map,String target) {
 		User admin = null;
 		try {
 			admin = this.infoDao.login(map,target);

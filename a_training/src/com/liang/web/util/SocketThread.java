@@ -27,12 +27,14 @@ public class SocketThread implements Runnable {
 	public void run() {
 		try {
 			ServerSocket serverSocket = new ServerSocket(8647);
+			int connectDeviceNum = 0;
 			while (true) {
 				Socket socket = serverSocket.accept();
-				System.out.println("one device connect to server 8647");
+				connectDeviceNum = connectDeviceNum + 1;
+				System.out.println("one device connect to server 8647, current " + connectDeviceNum + " devices connect server");
 				// 一旦有连接进入，在开启一个线程负责处理数据
 				TcpSocketService tcpSocketService = new TcpSocketService(socket);
-				Thread thread = new Thread(tcpSocketService);
+				Thread thread = new Thread(tcpSocketService, "device num " + connectDeviceNum);
 				thread.start();
 			}
 		} catch (IOException e) {

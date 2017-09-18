@@ -22,10 +22,10 @@ public class TcpSocketService implements Runnable {
 		ConnectionPool pool = ConnectionPool.getInstance();
 		try {
 			readStream = connectedsocket.getInputStream();
+			DataInputStream device2Server = new DataInputStream(readStream);
 			String temp = null;
 			int index = 0;
 			while (true) {
-				DataInputStream device2Server = new DataInputStream(readStream);
 				try {
 					temp = inputStream2String(device2Server, deviceID);
 					if (deviceID == null) {
@@ -98,36 +98,44 @@ public class TcpSocketService implements Runnable {
 		String result = null;
 
 		for (int n; (n = device2Server.read(b)) != -1;) {
+			
+			System.out.println("read "+n+" byte into string buffer");
 			out.append(new String(b, 0, n));
 			String inputStr = out.toString();
+			System.out.println("string is " + inputStr);
+			
+			// 第一次传还没有设备 ID
 			if (deviceID == null) {
+				// 防止网络不好传过来的数据多余 ID，还带有数据
 				int idIndex = inputStr.indexOf("#");
 				if (idIndex > 0) {
 					System.out.println(inputStr.substring(0, idIndex) + " connect server but has #.");
 					return inputStr.substring(0, idIndex);
 				} else {
 					// device id at first time
-					System.out.println(inputStr + "connect server.");
+					System.out.println(inputStr + " connect server.");
 					return inputStr;
 				}
 			} else {
-				// 每次取字节流最后的 # 和 ！ 保证是最近一次的发送数据
+				// 每次取字节流最后的 # 和 ！ 保证是最近一次的发送数据,可以减少数据库的存储
 				int lastStartIndex = inputStr.lastIndexOf("#");
 				int lastEndIndex = inputStr.lastIndexOf("!");
 				if (lastEndIndex > lastStartIndex) {
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
-						System.out.println(inputStr.substring(lastStartIndex, lastEndIndex + 1) + "data.");
-						return inputStr.substring(lastStartIndex, lastEndIndex + 1);
+						System.out.println(deviceID + " send "+inputStr.substring(lastStartIndex, lastEndIndex + 1));
+						return inputStr.substring(lastStartIndex + 1, lastEndIndex + 1);
 					} else {
-						System.out.println("error data.");
+						System.out.println(deviceID + " send " + inputStr +", can't process");
 						return null;
 					}
 				} else {
 					inputStr = inputStr.substring(0, lastEndIndex + 1);
 					lastStartIndex = inputStr.lastIndexOf("#");
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
-						return inputStr.substring(lastStartIndex, lastEndIndex + 1);
+						System.out.println(deviceID + " send "+ inputStr.substring(lastStartIndex, lastEndIndex + 1));
+						return inputStr.substring(lastStartIndex + 1, lastEndIndex + 1);
 					} else {
+						System.out.println(deviceID + " send " + inputStr +", can't process");
 						return null;
 					}
 				}
