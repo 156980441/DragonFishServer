@@ -18,7 +18,7 @@
 
 	<!-- ************************************************************************************** -->
 
-	<!-- 配置 C0P3 dataSource -->
+	<!-- 配置 C0P3 dataSource，对于 C0P3 的讲解 http://www.cnblogs.com/fingerboy/p/5184398.html-->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/mayaoping?useUnicode=true&amp;characterEncoding=utf8" />
