@@ -1,10 +1,9 @@
-package com.liang.web.util;
+package com.fanyl.c3p0;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.bit.basic.util.C3P0Data;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class ConnectionPool {

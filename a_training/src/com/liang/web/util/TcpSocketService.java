@@ -6,6 +6,9 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.fanyl.c3p0.ConnectionPool;
 
 public class TcpSocketService implements Runnable {
 
@@ -17,87 +20,98 @@ public class TcpSocketService implements Runnable {
 
 	@Override
 	public void run() {
+		
 		InputStream readStream = null;
+		DataInputStream device2Server = null;
 		String deviceID = null;
 		String temp = null;
-		int index = 0;
-		ConnectionPool pool = ConnectionPool.getInstance();
+		ConnectionPool pool = null;
+		Connection conn = null;
+		
 		try {
+			pool = ConnectionPool.getInstance();
 			readStream = connectedsocket.getInputStream();
-			DataInputStream device2Server = new DataInputStream(readStream);
+			device2Server = new DataInputStream(readStream);
 			while (true) {
-				try {
-					temp = inputStream2String(device2Server, deviceID);
-					if (deviceID == null) {
-						deviceID = temp;
-						// device id as key
-						if (!SocketThread.socketMap.containsKey(deviceID)) {
-							SocketThread.socketMap.put(deviceID, this);
-						} else {
-							SocketThread.socketMap.remove(deviceID);
-							SocketThread.socketMap.put(deviceID, this);
-						}
-					} else {
-						// 如果没有数据就等待
-						if (temp == null)
-							continue;
 
-						Connection conn = pool.getConnection();
-						PreparedStatement ps = null;
-						String[] comm = temp.split(",");
-						try {
-							String sql = " UPDATE tb_machine " + "    SET TEMPERATURE = ?, " + "  	   TDS = ?, "
-									+ " 	   	   PH = ?, " + " 	   	   STATE = ?, "
-									+ " 	   	   UPDATE_DATE = NOW() " + " 	 WHERE ID = ?";
-							ps = conn.prepareStatement(sql);
-							ps.setString(1, comm[1]);
-							ps.setString(2, comm[2]);
-							ps.setString(3, comm[3]);
-							ps.setString(4, comm[4]);
-							ps.setString(5, deviceID);
-							ps.executeUpdate();
-						} catch (Exception e) {
+				temp = inputStream2String(device2Server, deviceID);
 
-							e.printStackTrace();
-
-							readStream.close();
-							if (conn != null)
-								conn.close();
-							System.out.println("database errer when update data from device.");
-							break;
-						}
-					}
-					// 强制关闭该进程，回收资源，以免内存溢出
-					if (index++ == 2) {
-						System.out.println("2 release resource");
-						break;
-					}
-				} catch (Exception e) {
-					System.out.println("other exception");
+				if (temp.equalsIgnoreCase("Internet worm")) {
+					System.out.println("Internet worm.");
 					break;
 				}
+
+				if (deviceID == null) {
+					deviceID = temp;
+					// device id as key
+					if (!SocketThread.socketMap.containsKey(deviceID)) {
+						SocketThread.socketMap.put(deviceID, this);
+					} else {
+						SocketThread.socketMap.remove(deviceID);
+						SocketThread.socketMap.put(deviceID, this);
+					}
+				} else {
+					
+					// 如果没有数据就等待
+					if (temp == null)
+						continue;
+
+					conn = pool.getConnection();
+					if (conn == null) {
+						System.out.println("get db connection failed.");
+					}
+
+					PreparedStatement ps = null;
+					String[] comm = temp.split(",");
+					try {
+						String sql = " UPDATE tb_machine " + " SET TEMPERATURE = ?, " + " TDS = ?, " + " PH = ?, "
+								+ " STATE = ?, " + " UPDATE_DATE = NOW() " + " WHERE ID = ?";
+						ps = conn.prepareStatement(sql);
+						ps.setString(1, comm[1]);
+						ps.setString(2, comm[2]);
+						ps.setString(3, comm[3]);
+						ps.setString(4, comm[4]);
+						ps.setString(5, deviceID);
+						ps.executeUpdate();
+					} catch (SQLException e) {
+						System.out.println("SQLException.");
+						e.printStackTrace();
+						break;
+					}
+				}
 			}
-			
-		} catch (Exception e) {
-			
-			System.out.println("socket get input stream exception");
+
+		} catch (IOException e) {
+
+			System.out.println("socket IOException");
 			e.printStackTrace();
-			
+
 		} finally {
 			try {
 				if (readStream != null)
+				{
+					device2Server.close();
 					readStream.close();
+				}
 				connectedsocket.close();
+				if (conn != null)
+				{
+					conn.close();
+				}
 				if (SocketThread.socketMap.containsKey(deviceID))
 					SocketThread.socketMap.remove(deviceID);
 			} catch (IOException e) {
+				System.out.println("thead clear IOException");
+				e.printStackTrace();
+			} catch (SQLException e) {
+				System.out.println("thead clear SQLException");
 				e.printStackTrace();
 			}
 			System.out.println("thead exit");
 		}
 	}
 
-	public String inputStream2String(DataInputStream device2Server, String deviceID) throws Exception {
+	public String inputStream2String(DataInputStream device2Server, String deviceID) throws IOException {
 
 		StringBuffer out = new StringBuffer();
 		byte[] b = new byte[128];
@@ -109,6 +123,12 @@ public class TcpSocketService implements Runnable {
 			out.append(new String(b, 0, n));
 			String inputStr = out.toString();
 			System.out.println("origin string is " + inputStr);
+
+			// 去除网络爬虫
+			if (inputStr.indexOf("HTTP") != -1) {
+				System.out.println("Internet worm");
+				return "Internet worm";
+			}
 
 			// 第一次传还没有设备 ID
 			if (deviceID == null) {
