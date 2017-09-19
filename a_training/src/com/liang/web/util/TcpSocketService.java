@@ -20,14 +20,14 @@ public class TcpSocketService implements Runnable {
 
 	@Override
 	public void run() {
-		
+
 		InputStream readStream = null;
 		DataInputStream device2Server = null;
 		String deviceID = null;
 		String temp = null;
 		ConnectionPool pool = null;
 		Connection conn = null;
-		
+
 		try {
 			pool = ConnectionPool.getInstance();
 			readStream = connectedsocket.getInputStream();
@@ -46,12 +46,9 @@ public class TcpSocketService implements Runnable {
 					// device id as key
 					if (!SocketThread.socketMap.containsKey(deviceID)) {
 						SocketThread.socketMap.put(deviceID, this);
-					} else {
-						SocketThread.socketMap.remove(deviceID);
-						SocketThread.socketMap.put(deviceID, this);
 					}
 				} else {
-					
+
 					// 如果没有数据就等待
 					if (temp == null)
 						continue;
@@ -88,14 +85,12 @@ public class TcpSocketService implements Runnable {
 
 		} finally {
 			try {
-				if (readStream != null)
-				{
+				if (readStream != null) {
 					device2Server.close();
 					readStream.close();
 				}
 				connectedsocket.close();
-				if (conn != null)
-				{
+				if (conn != null) {
 					conn.close();
 				}
 				if (SocketThread.socketMap.containsKey(deviceID))
