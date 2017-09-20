@@ -59,12 +59,17 @@ public class TcpSocketService implements Runnable {
 					{
 						try  
 				        {  
+							System.out.println("no data, sleep 1000 ms");
 				            Thread.sleep(1000);  
+				            continue;
 				        }  
 				        catch (InterruptedException e)  
 				        {  
+				        	System.out.println("thead sleep exception");
+				        	e.printStackTrace();
+				        	break;
 				        } 
-						continue;
+						
 					}
 
 					String[] comm = temp.split(",");
