@@ -43,7 +43,7 @@ public class ConnectionPool {
 			return conn;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 }

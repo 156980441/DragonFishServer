@@ -27,11 +27,16 @@ public class TcpSocketService implements Runnable {
 		String temp = null;
 		ConnectionPool pool = null;
 		Connection conn = null;
+		PreparedStatement ps = null;
 
 		try {
 			pool = ConnectionPool.getInstance();
 			readStream = connectedsocket.getInputStream();
 			device2Server = new DataInputStream(readStream);
+			conn = pool.getConnection();
+			if (conn == null) {
+				System.out.println("get db connection failed.");
+			}
 			while (true) {
 
 				temp = inputStream2String(device2Server, deviceID);
@@ -51,14 +56,17 @@ public class TcpSocketService implements Runnable {
 
 					// 如果没有数据就等待
 					if (temp == null)
+					{
+						try  
+				        {  
+				            Thread.sleep(1000);  
+				        }  
+				        catch (InterruptedException e)  
+				        {  
+				        } 
 						continue;
-
-					conn = pool.getConnection();
-					if (conn == null) {
-						System.out.println("get db connection failed.");
 					}
 
-					PreparedStatement ps = null;
 					String[] comm = temp.split(",");
 					try {
 						String sql = " UPDATE tb_machine " + " SET TEMPERATURE = ?, " + " TDS = ?, " + " PH = ?, "
@@ -89,7 +97,6 @@ public class TcpSocketService implements Runnable {
 					device2Server.close();
 					readStream.close();
 				}
-				connectedsocket.close();
 				if (conn != null) {
 					conn.close();
 				}

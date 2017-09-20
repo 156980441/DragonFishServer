@@ -40,6 +40,7 @@ public class SocketThread implements Runnable {
 				thread.start();
 			}
 		} catch (IOException e) {
+			System.out.println("new socket failed or accept failed");
 			e.printStackTrace();
 		}
 	}
