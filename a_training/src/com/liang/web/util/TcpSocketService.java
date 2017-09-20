@@ -13,9 +13,11 @@ import com.fanyl.c3p0.ConnectionPool;
 public class TcpSocketService implements Runnable {
 
 	public Socket connectedsocket;
+	private int timeout;
 
 	public TcpSocketService(Socket connectedsocket) {
 		this.connectedsocket = connectedsocket;
+		this.timeout = 1000 * 60 * 5;
 	}
 
 	@Override
@@ -28,6 +30,7 @@ public class TcpSocketService implements Runnable {
 		ConnectionPool pool = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
+		int waitingTime = 0;
 
 		try {
 			pool = ConnectionPool.getInstance();
@@ -61,7 +64,15 @@ public class TcpSocketService implements Runnable {
 				        {  
 							System.out.println("no data, sleep 1000 ms");
 				            Thread.sleep(1000);  
-				            continue;
+				            waitingTime = waitingTime + 1000;
+				            if (waitingTime == this.timeout)
+				            {
+				            	break;
+				            }
+				            else
+				            {
+				            	continue;
+				            }
 				        }  
 				        catch (InterruptedException e)  
 				        {  
