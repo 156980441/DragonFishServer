@@ -26,10 +26,10 @@ public class TcpSocketService implements Runnable {
 		System.out.println("start receive thread " + Thread.currentThread().getName());
 		InputStream readStream = null;
 		DataInputStream device2Server = null;
-		String deviceID = null;
-		String temp = null;
 		ConnectionPool pool = null;
 		Connection conn = null;
+		String deviceID = null;
+		String temp = null;
 		PreparedStatement ps = null;
 		int waitingTime = 0;
 
@@ -46,6 +46,32 @@ public class TcpSocketService implements Runnable {
 
 				temp = inputStream2String(device2Server, deviceID);
 
+				// handle error data
+				if (temp == null)
+				{
+					try  
+			        {  
+						System.out.println("error data, sleep 1000 ms");
+			            Thread.sleep(1000);  
+			            waitingTime = waitingTime + 1000;
+			            if (waitingTime == this.timeout)
+			            {
+			            	break;
+			            }
+			            else
+			            {
+			            	continue;
+			            }
+			        }  
+			        catch (InterruptedException e)  
+			        {  
+			        	System.out.println("thead sleep exception");
+			        	e.printStackTrace();
+			        	break;
+			        } 
+					
+				}
+				
 				if (temp.equalsIgnoreCase("Internet worm")) {
 					System.out.println("Internet worm.");
 					break;
@@ -58,33 +84,6 @@ public class TcpSocketService implements Runnable {
 						SocketThread.socketMap.put(deviceID, this);
 					}
 				} else {
-
-					// 如果没有数据就等待
-					if (temp == null)
-					{
-						try  
-				        {  
-							System.out.println("no data, sleep 1000 ms");
-				            Thread.sleep(1000);  
-				            waitingTime = waitingTime + 1000;
-				            if (waitingTime == this.timeout)
-				            {
-				            	break;
-				            }
-				            else
-				            {
-				            	continue;
-				            }
-				        }  
-				        catch (InterruptedException e)  
-				        {  
-				        	System.out.println("thead sleep exception");
-				        	e.printStackTrace();
-				        	break;
-				        } 
-						
-					}
-
 					String[] comm = temp.split(",");
 					try {
 						String sql = " UPDATE tb_machine " + " SET TEMPERATURE = ?, " + " TDS = ?, " + " PH = ?, "
@@ -127,6 +126,7 @@ public class TcpSocketService implements Runnable {
 			} finally {
 				if (SocketThread.socketMap.containsKey(deviceID))
 					SocketThread.socketMap.remove(deviceID);
+				SocketThread.connectDeviceNum = SocketThread.connectDeviceNum - 1;
 				System.out.println("end receive thread " + Thread.currentThread().getName());
 			}
 		}
@@ -135,8 +135,7 @@ public class TcpSocketService implements Runnable {
 	public String inputStream2String(DataInputStream device2Server, String deviceID) throws IOException {
 
 		StringBuffer out = new StringBuffer();
-		byte[] b = new byte[128];
-		String result = null;
+		byte[] b = new byte[64];
 
 		for (int n; (n = device2Server.read(b)) != -1;) {
 
@@ -188,6 +187,6 @@ public class TcpSocketService implements Runnable {
 				}
 			}
 		}
-		return result;
+		return null;
 	}
 }
