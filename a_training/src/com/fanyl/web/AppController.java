@@ -36,7 +36,7 @@ import com.liang.web.util.TcpSocketService;
 @RequestMapping(value = "/interface")
 
 public class AppController {
-	
+
 	// 获取日志记录器，这个记录器将负责控制日志信息。Name 一般取本类的名字。
 	Logger logger = Logger.getLogger(AppController.class);
 
@@ -128,7 +128,7 @@ public class AppController {
 	 * http://localhost:8080/interface/login?jsonData=[{"USER_NAME":"admin","PASSWORD":"123456"}]
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public @ResponseBody Object appUserLogin(@RequestBody Map<String,String> map, Model model) {
+	public @ResponseBody Object appUserLogin(@RequestBody Map<String, String> map, Model model) {
 		User admin = infoStr.login(map, "sys.login.findUserForApp");
 		if (admin != null) {
 			model.addAttribute("statusCode", "200");
@@ -160,28 +160,23 @@ public class AppController {
 
 	/**
 	 * set device open or close
+	 * http://localhost:8080/interface/setRelaySwitch/{MACHINE_ID}/{status}
 	 */
 	@RequestMapping(value = "/setRelaySwitch/{MACHINE_ID}/{status}", method = RequestMethod.GET)
 	public @ResponseBody Object setRelaySwitch(@PathVariable String MACHINE_ID, @PathVariable String status) {
-		
+
 		Socket socket = null;
 		DataOutputStream dos = null;
-		
+
 		RelaySwitch relaySwitch = new RelaySwitch();
 		relaySwitch.setCode("300");
-		
-		try {
-			// 针对当前设备有没有开启连接服务
-			if (SocketThread.socketMap.containsKey(MACHINE_ID)) {
-				TcpSocketService service = SocketThread.socketMap.get(MACHINE_ID);
-				socket = service.connectedsocket;
-			}
-			// 如果已经开启了连接服务
-			if (socket != null) {
+
+		// 针对当前设备有没有开启连接服务
+		if (SocketThread.socketMap.containsKey(MACHINE_ID)) {
+			TcpSocketService service = SocketThread.socketMap.get(MACHINE_ID);
+			socket = service.connectedsocket;
+			try {
 				dos = new DataOutputStream(socket.getOutputStream());
-			}
-			
-			if (dos != null) {
 				if (status.equals("0")) {
 					String str = "&R,0!";
 					dos.write(str.getBytes());
@@ -190,17 +185,18 @@ public class AppController {
 					dos.write(str.getBytes());
 				}
 				relaySwitch.setCode("200");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (dos != null)
-					dos.close();
 			} catch (IOException e) {
+				System.out.println("setRelaySwitch getOutputStream or write exception");
 				e.printStackTrace();
+			} finally {
+				try {
+					socket.shutdownOutput();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
+
 		return relaySwitch;
 	}
 
