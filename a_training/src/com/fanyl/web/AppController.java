@@ -98,7 +98,7 @@ public class AppController {
 	 * http://localhost:8000/interface/addMachineInfo?jsonData=[{"USER_NO":"5","MACHINE_ID":"111","MACHINE_TITLE":"设备"}]
 	 */
 	@RequestMapping(value = "/addMachineInfo", method = RequestMethod.POST)
-	public @ResponseBody Object addMachineInfo(@RequestBody Map map, Model model) {
+	public @ResponseBody Object addMachineInfo(@RequestBody Map<String, String> map, Model model) {
 		String msg = infoStr.addMachineInfo(map, "sys.business.addMachineInfoForApp");
 		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
@@ -113,7 +113,7 @@ public class AppController {
 	 * http://localhost:8000/interface/addUserInfo?jsonData=[{"USER_NAME":"admin5","PASSWORD":"123456"}]
 	 */
 	@RequestMapping(value = "/addUserInfo", method = RequestMethod.POST)
-	public @ResponseBody Object addUserInfo(@RequestBody Map map, Model model) {
+	public @ResponseBody Object addUserInfo(@RequestBody Map<String, String> map, Model model) {
 		String msg = infoStr.addUserInfo(map, "sys.login.addUserInfoForApp");
 		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
@@ -125,7 +125,8 @@ public class AppController {
 	}
 
 	/**
-	 * http://localhost:8080/interface/login?jsonData=[{"USER_NAME":"admin","PASSWORD":"123456"}]
+	 * http://localhost:8080/interface/login test:firefox restclient
+	 * {"USER_NAME":"admin","PASSWORD":"123456"} Content-Type application/json
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody Object appUserLogin(@RequestBody Map<String, String> map, Model model) {
@@ -156,7 +157,7 @@ public class AppController {
 				TcpSocketService service = SocketThread.socketMap.get(MACHINE_ID);
 				Socket socket = service.connectedsocket;
 				try {
-					socket.shutdownInput();
+					socket.shutdownInput(); // 这里关掉之后并没有释放线程资源
 				} catch (IOException e) {
 					System.out.println("deleteMachineInfo shutdownInput exception");
 					e.printStackTrace();
@@ -200,11 +201,10 @@ public class AppController {
 				System.out.println("setRelaySwitch getOutputStream or write exception");
 				e.printStackTrace();
 			} finally {
-				try {
-					socket.shutdownOutput();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				/*
+				 * try { socket.shutdownOutput();// will close socket, why? }
+				 * catch (IOException e) { e.printStackTrace(); }
+				 */
 			}
 		}
 
