@@ -17,12 +17,13 @@ public class TcpSocketService implements Runnable {
 
 	public TcpSocketService(Socket connectedsocket) {
 		this.connectedsocket = connectedsocket;
-		this.timeout = 1000 * 60 * 5;
+		this.timeout = 1000 * 1 * 5;
 	}
 
 	@Override
 	public void run() {
 
+		System.out.println("start receive thread " + Thread.currentThread().getName());
 		InputStream readStream = null;
 		DataInputStream device2Server = null;
 		String deviceID = null;
@@ -40,6 +41,7 @@ public class TcpSocketService implements Runnable {
 			if (conn == null) {
 				System.out.println("get db connection failed.");
 			}
+			
 			while (true) {
 
 				temp = inputStream2String(device2Server, deviceID);
@@ -116,16 +118,17 @@ public class TcpSocketService implements Runnable {
 				if (conn != null) {
 					conn.close();
 				}
-				if (SocketThread.socketMap.containsKey(deviceID))
-					SocketThread.socketMap.remove(deviceID);
 			} catch (IOException e) {
 				System.out.println("thead clear IOException");
 				e.printStackTrace();
 			} catch (SQLException e) {
 				System.out.println("thead clear SQLException");
 				e.printStackTrace();
+			} finally {
+				if (SocketThread.socketMap.containsKey(deviceID))
+					SocketThread.socketMap.remove(deviceID);
+				System.out.println("end receive thread " + Thread.currentThread().getName());
 			}
-			System.out.println("thead exit");
 		}
 	}
 
