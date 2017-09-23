@@ -151,6 +151,17 @@ public class AppController {
 		String msg = infoStr.deleteMachineInfo(map, "sys.login.deleteMachineInfoForApp");
 		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
+			// delete device and release thread source
+			if (SocketThread.socketMap.containsKey(MACHINE_ID)) {
+				TcpSocketService service = SocketThread.socketMap.get(MACHINE_ID);
+				Socket socket = service.connectedsocket;
+				try {
+					socket.shutdownInput();
+				} catch (IOException e) {
+					System.out.println("deleteMachineInfo shutdownInput exception");
+					e.printStackTrace();
+				}
+			}
 		} else {
 			model.addAttribute("statusCode", "300");
 		}
