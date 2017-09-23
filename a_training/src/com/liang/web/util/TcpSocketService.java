@@ -111,8 +111,7 @@ public class TcpSocketService implements Runnable {
 		} finally {
 			try {
 				if (readStream != null) {
-					device2Server.close();
-					readStream.close();
+					this.connectedsocket.shutdownInput();
 				}
 				if (conn != null) {
 					conn.close();
