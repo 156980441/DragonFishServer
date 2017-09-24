@@ -116,7 +116,9 @@
 						<div id="fileNmae1_upload"></div>
 						<div id="fileQueue_upload" class="fileQueue"></div> <input
 						type="hidden" id="fileUrl_upload" name="fileUrl"
-						value="<c:if test="${ not empty advertiseInfo.PIC_URL1}">${advertiseInfo.PIC_URL1}</c:if><c:if test="${ not empty advertiseInfo.PIC_URL2}">;${advertiseInfo.PIC_URL2}</c:if><c:if test="${ not empty advertiseInfo.PIC_URL3}">;${advertiseInfo.PIC_URL3}</c:if>" />
+						value="<c:if test="${ not empty advertiseInfo.PIC_URL1}">${advertiseInfo.PIC_URL1}</c:if>
+						<c:if test="${ not empty advertiseInfo.PIC_URL2}">;${advertiseInfo.PIC_URL2}</c:if>
+						<c:if test="${ not empty advertiseInfo.PIC_URL3}">;${advertiseInfo.PIC_URL3}</c:if>" />
 						<input type="hidden" id="fileName_upload" name="fileName" value="" />
 
 						<div class="buttonActive">

@@ -31,19 +31,18 @@
 	</bean>
 
 	<!-- 配置 ibatis -->
+	
+	<!-- SqlMapClientFactoryBean 的装配 
+	SqlMapClientFactoryBean是SqlMapClientTemplate使用的基础，如果在
+SpringFramework应用中没有装配SqlMapClientFactoryBean，
+那么SqlMapClientTemplate将不可用，报空指针错误。 -->
+
 	<bean id="sqlMapClientF" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="configLocations" value="WEB-INF/conf/sqlMapConfig.xml" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!--重载SQL加之类载入数据库方言 -->
-	<bean id="sqlExecutor" class="com.liang.web.util.limit.LimitSqlExecutor">
-		<property name="dialect">
-			<bean class="com.liang.web.util.limit.dialect.OracleDialect" />
-		</property>
-	</bean>
-
-	<!--加入Oracle方言的ibatis控制类 -->
+<!--加入Oracle方言的ibatis控制类 -->
 	<bean id="sqlMapClient" class="com.liang.web.util.SqlMapClientSupport"
 		init-method="initialize">
 		<property name="dataSource">
@@ -53,16 +52,27 @@
 			<ref bean="sqlMapClientF" />
 		</property>
 		<property name="sqlExecutor">
-			<ref bean="sqlExecutor" />
+			<ref bean="sqlExecutor" /><!-- id 对应 -->
+		</property>
+	</bean>
+	
+	<!--重载SQL加之类载入数据库方言 -->
+	<bean id="sqlExecutor" class="com.liang.web.util.limit.LimitSqlExecutor">
+		<property name="dialect">
+			<bean class="com.liang.web.util.limit.dialect.OracleDialect" />
 		</property>
 	</bean>
 
-
+	
 	<!-- 事务配置 -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+
+
+
+
 
 	<!-- urlFilenameViewController set -->
 	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">

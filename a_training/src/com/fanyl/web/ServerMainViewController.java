@@ -66,6 +66,7 @@ public class ServerMainViewController {
 		return new ModelAndView("/business/viewAdvertiseList", modelMap);
 	}
 	
+	// 广告管理，点击添加进入该方法
 	@RequestMapping(value = "/viewAddAdvertiseInfo")
 	public ModelAndView viewAddAdvertiseInfo(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws Exception {

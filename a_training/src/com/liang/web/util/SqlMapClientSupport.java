@@ -11,17 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import org.springframework.stereotype.Component;
 
-import com.liang.web.util.limit.LimitSqlExecutor;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.engine.execution.SqlExecutor;
 import com.ibatis.sqlmap.engine.impl.ExtendedSqlMapClient;
+import com.liang.web.util.limit.LimitSqlExecutor;
 
 @Component
 public class SqlMapClientSupport extends SqlMapClientDaoSupport{
+	
 	@Autowired  
 	private SqlMapClient sqlMapClient;
 	@Autowired
 	private SqlExecutor sqlExecutor;
+	
 	@PostConstruct        
 	public void initSqlMapClient(){         
 		super.setSqlMapClient(sqlMapClient);    
@@ -81,9 +83,9 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	 * @return 
 	 * @throws SQLException
 	 */
-	public List<?> queryForList(String statementName)
+	public List queryForList(String statementName)
 	throws SQLException {
-		List<?> result = this.queryForList(statementName, null) ;
+		List result = this.queryForList(statementName, null) ;
 		return result;
 	}
 	
@@ -94,8 +96,8 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	 * @return 
 	 * @throws SQLException
 	 */
-	public List<Object> queryForList(String statementName, Object parameterObject) throws SQLException {
-		List<Object> result = new ArrayList<Object>() ;
+	public List queryForList(String statementName, Object parameterObject) throws SQLException {
+		List result = new ArrayList<Object>() ;
 		if(parameterObject != null){
 			result = this.getSqlMapClientTemplate().queryForList(statementName, parameterObject);
 		}
@@ -147,7 +149,7 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	
 	/**
 	 * 无参数的插入
-	 * @param statementName 查询语句xml引用
+	 * @param statementName 查询语句 xml 引用
 	 * @return 
 	 * @throws SQLException
 	 */	
@@ -161,7 +163,7 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	
 	/**
 	 * 有参数的插入
-	 * @param statementName 查询语句xml引用
+	 * @param statementName 查询语句 xml 引用
 	 * @param parameterObject 查询条件参数
 	 * @return 
 	 * @throws SQLException
@@ -182,7 +184,7 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	
 	/**
 	 * 无参数的更新
-	 * @param statementName 查询语句xml引用
+	 * @param statementName 查询语句 xml 引用
 	 * @return 
 	 * @throws SQLException
 	 */	
@@ -254,7 +256,7 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	 * @return 
 	 * @throws SQLException
 	 */
-	public Object insertForList(String statementName, List list) throws SQLException {
+	public Object insertForList(String statementName, List<Object> list) throws SQLException {
 
 		this.sqlMapClient.startBatch();
 		
@@ -283,7 +285,7 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	 * @return 
 	 * @throws SQLException
 	 */
-	public Object updateForList(String statementName, List list) throws SQLException {
+	public Object updateForList(String statementName, List<Object> list) throws SQLException {
 		
 		this.sqlMapClient.startBatch();
 		
@@ -312,7 +314,7 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	 * @return 
 	 * @throws SQLException
 	 */
-	public Object deleteForList(String statementName, List list) throws SQLException {
+	public Object deleteForList(String statementName, List<Object> list) throws SQLException {
 		
 		this.sqlMapClient.startBatch();
 		
