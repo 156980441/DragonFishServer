@@ -1,4 +1,12 @@
+开发工具：
+eclipse
+jdk 1.8
+部署
+tomcat
+windows server
+mysql
 开发技术采用：
+
 springmvc
 ibatis
 dwz
