@@ -23,7 +23,7 @@ public class TcpSocketService implements Runnable {
 	@Override
 	public void run() {
 
-		System.out.println("start receive thread " + Thread.currentThread().getName());
+		System.out.println("start receive thread: " + Thread.currentThread().getName());
 		InputStream readStream = null;
 		DataInputStream device2Server = null;
 		ConnectionPool pool = null;

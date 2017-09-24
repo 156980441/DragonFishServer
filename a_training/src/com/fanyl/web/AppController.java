@@ -158,6 +158,7 @@ public class AppController {
 				Socket socket = service.connectedsocket;
 				try {
 					socket.shutdownInput(); // 这里关掉之后并没有释放线程资源
+					socket.shutdownOutput();// 这里关掉之后释放线程资源
 				} catch (IOException e) {
 					System.out.println("deleteMachineInfo shutdownInput exception");
 					e.printStackTrace();
