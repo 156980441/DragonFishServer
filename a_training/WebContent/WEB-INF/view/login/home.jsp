@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>鱼管家后台管理系统</title>
 
+<!-- 国产jQuery UI框架 - DWZ富客户端框架(J-UI.com) -->
 <link href="/resources/themes/default/style.css" rel="stylesheet"
 	type="text/css" media="screen" />
 <link href="/resources/themes/css/core.css" rel="stylesheet"
@@ -15,7 +16,7 @@
 	type="text/css" media="print" />
 <link href="/resources/uploadify/css/uploadify.css" rel="stylesheet"
 	type="text/css" media="screen" />
-	
+
 <!--[if IE]>
 <link href="/resources/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
@@ -31,9 +32,12 @@
 <script src="/resources/js/jquery.cookie.js" type="text/javascript"></script>
 <script src="/resources/js/jquery.validate.js" type="text/javascript"></script>
 <script src="/resources/js/jquery.bgiframe.js" type="text/javascript"></script>
-<script src="/resources/xheditor/xheditor-1.2.2.min.js" type="text/javascript"></script>
-<script src="/resources/xheditor/xheditor_lang/zh-cn.js" type="text/javascript"></script>
-<script src="/resources/uploadify/scripts/jquery.uploadify.js" type="text/javascript"></script>
+<script src="/resources/xheditor/xheditor-1.2.2.min.js"
+	type="text/javascript"></script>
+<script src="/resources/xheditor/xheditor_lang/zh-cn.js"
+	type="text/javascript"></script>
+<script src="/resources/uploadify/scripts/jquery.uploadify.js"
+	type="text/javascript"></script>
 
 <!-- svg图表  supports Firefox 3.0+, Safari 3.0+, Chrome 5.0+, Opera 9.5+ and Internet Explorer 6.0+ -->
 <script type="text/javascript" src="/resources/chart/raphael.js"></script>
@@ -45,7 +49,8 @@
 
 <script src="/resources/js/dwz.core.js" type="text/javascript"></script>
 <script src="/resources/js/dwz.util.date.js" type="text/javascript"></script>
-<script src="/resources/js/dwz.validate.method.js" type="text/javascript"></script>
+<script src="/resources/js/dwz.validate.method.js"
+	type="text/javascript"></script>
 <script src="/resources/js/dwz.barDrag.js" type="text/javascript"></script>
 <script src="/resources/js/dwz.drag.js" type="text/javascript"></script>
 <script src="/resources/js/dwz.tree.js" type="text/javascript"></script>
