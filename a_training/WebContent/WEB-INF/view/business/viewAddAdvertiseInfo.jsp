@@ -120,7 +120,6 @@
 						<c:if test="${ not empty advertiseInfo.PIC_URL2}">;${advertiseInfo.PIC_URL2}</c:if>
 						<c:if test="${ not empty advertiseInfo.PIC_URL3}">;${advertiseInfo.PIC_URL3}</c:if>" />
 						<input type="hidden" id="fileName_upload" name="fileName" value="" />
-
 						<div class="buttonActive">
 							<div class="buttonContent">
 								<button type="button"
