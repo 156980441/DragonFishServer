@@ -60,7 +60,7 @@ public interface UserDao {
 	/**
 	 * 新增信息
 	 */
-	public String addUserInfo(Map map,String target) ;
+	public String addUserInfo(Map<String,String> map,String target) ;
 	
 	/**
 	 * 登录

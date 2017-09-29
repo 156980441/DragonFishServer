@@ -69,4 +69,6 @@ CITY varchar(32),
 PIC_NAME varchar(32)
 );
 
-insert into tb_user (user_name,password,activity,is_admin,create_date) values ('admin','123456',1,1,now());
+alter table TB_USER add MAIL varchar(128) not null after PASSWORD;
+
+insert into tb_user (user_name,password,mail,activity,is_admin,create_date) values ('admin','123456','156980441@qq.com',1,1,now());

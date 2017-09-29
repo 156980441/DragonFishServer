@@ -110,7 +110,8 @@ public class AppController {
 	}
 
 	/**
-	 * http://localhost:8000/interface/addUserInfo?jsonData=[{"USER_NAME":"admin5","PASSWORD":"123456"}]
+	 * http://localhost:8080/interface/addUserInfo
+	 * {"USER_NAME":"admin5","PASSWORD":"123456","MAIL":"156980441@qq.com"}
 	 */
 	@RequestMapping(value = "/addUserInfo", method = RequestMethod.POST)
 	public @ResponseBody Object addUserInfo(@RequestBody Map<String, String> map, Model model) {

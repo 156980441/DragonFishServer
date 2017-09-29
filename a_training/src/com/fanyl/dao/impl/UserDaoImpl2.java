@@ -122,7 +122,7 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 			if( result != null && result.size() > 0){
 				resultStr = "用户名已存在";
 			}else{
-				this.updateForList( target,(List)object);
+				this.insert( target,object);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

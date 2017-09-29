@@ -17,6 +17,16 @@ public class User implements Serializable {
 	private String activity;
 	
 	private String createDate;
+	
+	private String mail;
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
 
 	public String getUserNo() {
 		return userNo;

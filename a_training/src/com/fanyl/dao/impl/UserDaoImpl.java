@@ -115,7 +115,6 @@ public class UserDaoImpl implements UserDao {
 	 * 新增信息
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public int addStartPageInfo(HttpServletRequest request,String target) {
 		Map paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		try {
@@ -131,7 +130,7 @@ public class UserDaoImpl implements UserDao {
 	 * 新增信息
 	 */
 	@Override
-	public String addUserInfo(Map map,String target) {
+	public String addUserInfo(Map<String,String> map,String target) {
 		String result = "OK";
 		try {
 			result = this.infoDao.addUserInfo(map,target);
