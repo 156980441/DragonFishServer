@@ -193,6 +193,7 @@
 			SELECT SEQ AS userNo,
 			       USER_NAME AS username,
 			       PASSWORD  AS password,
+			       MAIL AS mail,
 			       DATE_FORMAT(CREATE_DATE,"%Y-%m-%d %H:%i") AS createDate,
 			       ACTIVITY as activity,
 			       IS_ADMIN as isAdmin

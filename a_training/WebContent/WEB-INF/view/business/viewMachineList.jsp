@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" errorPage=""%>
 <%@ include file="../inc/initTaglibs.jsp"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <form id="pagerForm" method="post" action="/business/viewMachineList">
 	<input type="hidden" name="status" value="${page.status}"> 

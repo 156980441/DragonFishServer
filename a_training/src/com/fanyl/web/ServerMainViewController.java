@@ -40,29 +40,29 @@ public class ServerMainViewController {
 	Logger logger = Logger.getLogger(ServerMainViewController.class);
 
 	@Autowired
-	private UserDao infoStr;
+	private UserDao userDaoImpl;
 
 	// 浏览器获取设备列表
 	@RequestMapping(value = "/viewMachineList")
 	public ModelAndView viewMachineList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
 		// 先获取列表
-		List mechineList = infoStr.getInfoList(request, "sys.business.viewMachineList");
+		List mechineList = userDaoImpl.getInfoList(request, "sys.business.viewMachineList");
 		// 分页显示
 		int mechineTotalCount = mechineList.size();
 		page.setTotalCount(mechineTotalCount);
 		modelMap.put("page", page);
-		modelMap.put("viewMachineList", infoStr.getInfoListByPage(request, "sys.business.viewMachineListByPage", page));
+		modelMap.put("viewMachineList", userDaoImpl.getInfoListByPage(request, "sys.business.viewMachineListByPage", page));
 		return new ModelAndView("/business/viewMachineList", modelMap);
 	}
 
 	@RequestMapping(value = "/viewAdvertiseList")
 	public ModelAndView viewAdvertiseList(HttpServletRequest request,
 			Page page, ModelMap modelMap) throws Exception {
-		List<?> advertiseList = infoStr.getInfoList(request, "sys.business.viewAdvertiseList");
+		List<?> advertiseList = userDaoImpl.getInfoList(request, "sys.business.viewAdvertiseList");
 		int avertiseTotalCount = advertiseList.size();
 		page.setTotalCount(avertiseTotalCount);
 		modelMap.put("page", page);
-		modelMap.put("viewAdvertiseList", infoStr.getInfoListByPage(request, "sys.business.viewAdvertiseListByPage", page));
+		modelMap.put("viewAdvertiseList", userDaoImpl.getInfoListByPage(request, "sys.business.viewAdvertiseListByPage", page));
 		return new ModelAndView("/business/viewAdvertiseList", modelMap);
 	}
 	
@@ -70,7 +70,7 @@ public class ServerMainViewController {
 	@RequestMapping(value = "/viewAddAdvertiseInfo")
 	public ModelAndView viewAddAdvertiseInfo(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws Exception {
-		List advertiseList = infoStr.getInfoList(request, "sys.business.viewAdvertiseList");
+		List advertiseList = userDaoImpl.getInfoList(request, "sys.business.viewAdvertiseList");
 		if(advertiseList != null &&advertiseList.size()>0){
 			modelMap.put("advertiseInfo", advertiseList.get(0));
 		}
@@ -80,18 +80,18 @@ public class ServerMainViewController {
 	@RequestMapping(value = "/viewStartPageList")
 	public ModelAndView viewStartPageList(HttpServletRequest request,
 			Page page, ModelMap modelMap) throws Exception {
-		List startPageList = infoStr.getInfoList(request, "sys.business.viewStartPageList");
+		List startPageList = userDaoImpl.getInfoList(request, "sys.business.viewStartPageList");
 		int startPageTotalCount = startPageList.size();
 		page.setTotalCount(startPageTotalCount);
 		modelMap.put("page", page);
-		modelMap.put("viewStartPageList", infoStr.getInfoListByPage(request, "sys.business.viewStartPageListByPage", page));
+		modelMap.put("viewStartPageList", userDaoImpl.getInfoListByPage(request, "sys.business.viewStartPageListByPage", page));
 		return new ModelAndView("/business/viewStartPageList", modelMap);
 	}
 	
 	@RequestMapping(value = "/viewAddStartPageInfo")
 	public ModelAndView viewAddStartPageInfo(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws Exception {
-		List startPageList = infoStr.getInfoList(request, "sys.business.viewStartPageList");
+		List startPageList = userDaoImpl.getInfoList(request, "sys.business.viewStartPageList");
 		if(startPageList != null &&startPageList.size()>0){
 			modelMap.put("startPageInfo", startPageList.get(0));
 		}
@@ -106,9 +106,9 @@ public class ServerMainViewController {
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
 		if(!"".equals(seq)){
-			result = this.infoStr.addStartPageInfo(request, "sys.business.updateStartPageInfo");
+			result = this.userDaoImpl.addStartPageInfo(request, "sys.business.updateStartPageInfo");
 		}else{
-			result = this.infoStr.addStartPageInfo(request, "sys.business.addStartPageInfo");
+			result = this.userDaoImpl.addStartPageInfo(request, "sys.business.addStartPageInfo");
 		}
 		if (result == 1) {
 			map.put("statusCode", "200");
@@ -130,9 +130,9 @@ public class ServerMainViewController {
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
 		if(!"".equals(seq)){
-			result = this.infoStr.addInfo(request, "sys.business.updateAdvertiseInfo");
+			result = this.userDaoImpl.addInfo(request, "sys.business.updateAdvertiseInfo");
 		}else{
-			result = this.infoStr.addInfo(request, "sys.business.addAdvertiseInfo");
+			result = this.userDaoImpl.addInfo(request, "sys.business.addAdvertiseInfo");
 		}
 		if (result == 1) {
 			map.put("statusCode", "200");
@@ -149,7 +149,7 @@ public class ServerMainViewController {
 	@RequestMapping(value = "/viewAddMachineInfo")
 	public ModelAndView viewAddResumeInfo(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws Exception {
-		List machineInfoList = infoStr.getInfoList(request, "sys.business.viewMachineList");
+		List machineInfoList = userDaoImpl.getInfoList(request, "sys.business.viewMachineList");
 		if(machineInfoList != null &&machineInfoList.size()>0){
 			modelMap.put("machineInfo", machineInfoList.get(0));
 		}
@@ -158,15 +158,15 @@ public class ServerMainViewController {
 	
 	@RequestMapping(value = "/addMachineInfo")
 	@ResponseBody
-	public Map addMachineInfo(HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		//seq不为空：修改，为空：新增
+	public Map<String, String> addMachineInfo(HttpServletRequest request) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		// seq 不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
 		if(!"".equals(seq)){
-			result = this.infoStr.addInfo(request, "sys.business.updateMachineInfo");
+			result = this.userDaoImpl.addInfo(request, "sys.business.updateMachineInfo");
 		}else{
-			result = this.infoStr.addInfo(request, "sys.business.addMachineInfo");
+			result = this.userDaoImpl.addInfo(request, "sys.business.addMachineInfo");
 		}
 		if (result == 1) {
 			map.put("statusCode", "200");

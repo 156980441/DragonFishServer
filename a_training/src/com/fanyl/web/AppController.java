@@ -58,7 +58,7 @@ public class AppController {
 	 */
 	@RequestMapping(value = "/getAdvertiseListByCity/{city}", method = RequestMethod.GET)
 	public @ResponseBody Object appAdvertiseListByCity(@PathVariable String city) {
-		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
+		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("city", city);
 		return infoStr.getInfoList(map, "sys.business.viewAdvertiseList");
 	}
@@ -68,9 +68,9 @@ public class AppController {
 	 */
 	@RequestMapping(value = "/getStartPageListByCity/{city}", method = RequestMethod.GET)
 	public @ResponseBody Object getStartPageListByCity(@PathVariable String city) {
-		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
+		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("city", city);
-		map.put("ACTIVITY", 1);
+		map.put("ACTIVITY", "1");
 		return infoStr.getInfoList(map, "sys.business.viewStartPageList");
 	}
 

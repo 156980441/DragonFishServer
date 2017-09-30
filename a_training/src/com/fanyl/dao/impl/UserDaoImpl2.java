@@ -65,9 +65,8 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public int addInfo(Object object,String target) throws Exception {
-		Map obj=(Map)object;
+		Map<String, String> obj=(Map<String, String>)object;
 		//附件上传
 		if (obj.get("fileUrl") != null && !"".equals(StringUtil.checkNull(obj.get("fileUrl")))) {
 			String[] fileUrl = StringUtil.checkNull(obj.get("fileUrl")).split(";");

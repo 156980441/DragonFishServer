@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 
 import com.fanyl.domain.User;
 
-
 public class SessionUtil {
 
 	private static SessionUtil instance;
@@ -22,19 +21,14 @@ public class SessionUtil {
 	
 	/**
 	 * get session LoginUser
-	 * 
-	 * @param req
-	 * @return Map
 	 */
-	@SuppressWarnings("unchecked")
 	public static User getLoginUserFromSession(HttpServletRequest request) {
 		// session用户信息
 		HttpSession session = request.getSession() ;
 		/*
 		 * SY_ADMIN_V,从这个视图中提取信息
-		*/
+		 */
 		User admin = (User)session.getAttribute("LoginUser") ;
-		
 		return admin ;
 	}
 	

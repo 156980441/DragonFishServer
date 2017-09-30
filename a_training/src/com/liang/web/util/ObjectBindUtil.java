@@ -171,8 +171,8 @@ public class ObjectBindUtil {
 	 * @param req
 	 * @return LinkedHashMap
 	 */
-	public static LinkedHashMap getRequestParamData(HttpServletRequest request,String embellish) {
-		LinkedHashMap data = new LinkedHashMap();
+	public static LinkedHashMap<String, String> getRequestParamData(HttpServletRequest request,String embellish) {
+		LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
 		Enumeration e = request.getParameterNames();
 		while (e.hasMoreElements()) {
 			String key = (String) e.nextElement();

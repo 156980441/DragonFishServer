@@ -101,7 +101,7 @@ public class UserDaoImpl implements UserDao {
 	 */
 	@Override
 	public int addInfo(HttpServletRequest request,String target) {
-		Map paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
+		Map<String, String> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		try {
 			this.infoDao.addInfo(paramMap,target);
 		} catch (Exception e) {
