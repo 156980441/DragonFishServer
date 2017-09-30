@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE log4j:configuration SYSTEM "/WEB-INF/tld/log4j.dtd">
+<!-- 浏览器呈现模式配置， DOCTYPE 声明指出阅读程序应该用什么规则集来解释文档中的标记。 -->
+<!-- DOCTYPE 根元素 SYSTEM "文档类型定义位置" -->
+<!-- DTD实际上可以看作XML文件的模板，这些XML文件中的元素等，都必须符合DTD中的定义。 -->
+<!-- DTD可以是一个完全独立的文件，也可以在XML文件中直接设定。所以，DTD分为外部DTD（在XML文件中调用另外已经编辑好的DTD）和内部DTD（在XML文件中直接设定DTD）两种 -->
 
+<!DOCTYPE log4j:configuration SYSTEM "/WEB-INF/lib/log4j.dtd">
+
+<!-- XML 命名空间提供避免元素命名冲突的方法。 -->
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
 
 	<!--
@@ -43,15 +49,13 @@
 
 	<!-- file appender for debug level -->
 	<appender name="FileDebug" class="org.apache.log4j.RollingFileAppender">
-	
 		<param name="Encoding" value="UTF-8" />
 		<!-- 日志文件路径 -->
-		<param name="File"
-			value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/debug.log" />
+		<param name="File" value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/debug.log" />
 		<param name="MaxFileSize" value="10240KB" />
 		<param name="MaxBackupIndex" value="50" />
-		
 		<layout class="org.apache.log4j.PatternLayout">
+		<!-- 时间 ，类名，信息，优先级，信息，换行 -->
 			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%C:%M()] %p [%m]%n" />
 		</layout>
 		
@@ -67,8 +71,7 @@
 	<!-- file appender for info level -->
 	<appender name="FileInfo" class="org.apache.log4j.RollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
-		<param name="File"
-			value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/info.log" />
+		<param name="File" value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/info.log" />
 		<param name="MaxFileSize" value="10240KB" />
 		<param name="MaxBackupIndex" value="50" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -84,8 +87,7 @@
 	<!-- file appender for info warn -->
 	<appender name="FileWarn" class="org.apache.log4j.RollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
-		<param name="File"
-			value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/warn.log" />
+		<param name="File" value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/warn.log" />
 		<param name="MaxFileSize" value="10240KB" />
 		<param name="MaxBackupIndex" value="50" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -101,8 +103,7 @@
 	<!-- file appender for error level -->
 	<appender name="FileError" class="org.apache.log4j.RollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
-		<param name="File"
-			value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/error.log" />
+		<param name="File" value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/error.log" />
 		<param name="MaxFileSize" value="10240KB" />
 		<param name="MaxBackupIndex" value="50" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -128,7 +129,7 @@
 
 	<appender name="IBatis" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-4r [%t] %-5p %c %x - %m%n" />
+			<param name="ConversionPattern" value="%-4r [%d{yyyy-MM-dd HH:mm:ss}] [%t] %-5p %c %x - %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="LevelMin" value="DEBUG" />
