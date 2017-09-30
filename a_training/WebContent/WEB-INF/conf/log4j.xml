@@ -129,6 +129,7 @@
 
 	<appender name="IBatis" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
+		<!-- 耗时，时间，线程，优先级，类名，NDC，msg -->
 			<param name="ConversionPattern" value="%-4r [%d{yyyy-MM-dd HH:mm:ss}] [%t] %-5p %c %x - %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
