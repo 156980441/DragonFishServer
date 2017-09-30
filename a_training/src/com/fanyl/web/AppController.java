@@ -79,7 +79,7 @@ public class AppController {
 	 */
 	@RequestMapping(value = "/getMachineList/{userNo}", method = RequestMethod.GET)
 	public @ResponseBody Object getMachineList(@PathVariable String userNo) {
-		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
+		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("USER_NO", userNo);
 		return infoStr.getInfoList(map, "sys.business.viewMachineListForApp");
 	}
@@ -89,13 +89,14 @@ public class AppController {
 	 */
 	@RequestMapping(value = "/getMachineInfo/{seq}", method = RequestMethod.GET)
 	public @ResponseBody Object getMachineInfo(@PathVariable String seq) {
-		Map<Object, Object> map = new LinkedHashMap<Object, Object>();
+		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("SEQ", seq);
 		return infoStr.getInfoList(map, "sys.business.viewMachineList");
 	}
 
 	/**
-	 * http://localhost:8000/interface/addMachineInfo?jsonData=[{"USER_NO":"5","MACHINE_ID":"111","MACHINE_TITLE":"设备"}]
+	 * http://localhost:8080/interface/addMachineInfo
+	 * {"USER_NO":"5","MACHINE_ID":"9999","MACHINE_TITLE":"fanyl_test_device"}
 	 */
 	@RequestMapping(value = "/addMachineInfo", method = RequestMethod.POST)
 	public @ResponseBody Object addMachineInfo(@RequestBody Map<String, String> map, Model model) {

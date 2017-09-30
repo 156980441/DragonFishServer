@@ -65,7 +65,7 @@ public class UserDaoImpl implements UserDao {
 	 * APP get user device list
 	 */
 	@Override
-	public List getInfoList(Map map,String target) {
+	public List getInfoList(Map<String, String> map,String target) {
 		return infoDao.getInfoList(map,target);
 	}
 
@@ -159,7 +159,7 @@ public class UserDaoImpl implements UserDao {
 	 * 新增设备信息
 	 */
 	@Override
-	public String addMachineInfo(Map map,String target) {
+	public String addMachineInfo(Map<String, String> map,String target) {
 		String result = "OK";
 		try {
 			result = this.infoDao.addMachineInfo(map,target);

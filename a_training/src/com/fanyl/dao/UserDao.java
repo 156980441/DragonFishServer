@@ -17,7 +17,7 @@ public interface UserDao {
 	/**
 	 * 查询信息
 	 */
-	public List getInfoList(Map map,String target);
+	public List getInfoList(Map<String, String> map,String target);
 
 
 	/**
@@ -70,7 +70,7 @@ public interface UserDao {
 	/**
 	 * 新增用戶所持有设备
 	 */
-	public String addMachineInfo(Map map,String target);
+	public String addMachineInfo(Map<String, String> map,String target);
 	
 	/**
 	 * 删除设备信息
