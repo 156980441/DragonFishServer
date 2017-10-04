@@ -180,13 +180,6 @@ public class ServerMainViewController {
 	}
 	/**
 	 * 附件上传
-	 * 
-	 * @Copyright: AIT (c)
-	 * @Company: AIT
-	 * @Description: TODO
-	 * @author lwei liangwei@ait.net.cn
-	 * @date 2013-9-12 下午4:18:11
-	 * @version V1.0
 	 */
 	@RequestMapping(value = "/uploadBatch")
 	public ModelAndView uploadBatch(HttpServletRequest request,
