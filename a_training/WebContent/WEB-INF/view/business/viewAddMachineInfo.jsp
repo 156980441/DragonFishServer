@@ -32,14 +32,14 @@
 			</p>
 			<p>
 				<label>STATE：</label>
-				<c:if test="${machineInfo.STATE eq 1}">开</c:if>
-				<c:if test="${machineInfo.STATE eq 0}">关</c:if>
+				<c:if test="${machineInfo.STATE eq true}">开</c:if>
+				<c:if test="${machineInfo.STATE eq false}">关</c:if>
 			</p>
 			<p>
 				<label>状态：</label>
 				<select name="ACTIVITY" class="required combox">
-					<option value="1" <c:if test="${machineInfo.ACTIVITY eq 1}">selected</c:if>>启用</option>
-					<option value="0" <c:if test="${machineInfo.ACTIVITY eq 0}">selected</c:if>>禁用</option>
+					<option value="1" <c:if test="${machineInfo.ACTIVITY eq true}">selected</c:if>>启用</option>
+					<option value="0" <c:if test="${machineInfo.ACTIVITY eq false}">selected</c:if>>禁用</option>
 				</select>
 			</p>
 		</div>
