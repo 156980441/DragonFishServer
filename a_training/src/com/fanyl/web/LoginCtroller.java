@@ -87,8 +87,8 @@ public class LoginCtroller {
 
 	@RequestMapping(value = "/addUserInfo")
 	@ResponseBody
-	public Map addUserInfo(HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public Map<String, String> addUserInfo(HttpServletRequest request) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
 		// seq 不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;

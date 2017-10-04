@@ -77,9 +77,9 @@
 					<td>${item.TEMPERATURE }</td>
 					<td>${item.TDS }</td>
 					<td>${item.PH }</td>
-					<td><c:if test="${item.STATE eq 1 }">开</c:if> <c:if test="${item.STATE ne 1 }">关</c:if></td>
+					<td><c:if test="${item.STATE eq true }">开</c:if> <c:if test="${item.STATE ne true }">关</c:if></td>
 					<td>${item.UPDATE_DATE }</td>
-					<td><c:if test="${item.ACTIVITY eq 1 }">启用</c:if> <c:if test="${item.ACTIVITY ne 1 }">禁用</c:if></td>
+					<td><c:if test="${item.ACTIVITY eq true }">启用</c:if> <c:if test="${item.ACTIVITY ne true }">禁用</c:if></td>
 				</tr>
 			</c:forEach>
 		</tbody>
