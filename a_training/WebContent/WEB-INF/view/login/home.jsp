@@ -25,9 +25,9 @@
 <script src="/resources/js/speedup.js" type="text/javascript"></script>
 <script src="/resources/js/jquery-1.11.3.min.js" type="text/javascript"></script>
 <![endif]-->
-<!--[if gte IE 9]><!-->
+<!--[if gte IE 9]>
 <script src="/resources/js/jquery-2.1.4.min.js" type="text/javascript"></script>
-<!--<![endif]-->
+<![endif]-->
 
 <script src="/resources/js/jquery.cookie.js" type="text/javascript"></script>
 <script src="/resources/js/jquery.validate.js" type="text/javascript"></script>

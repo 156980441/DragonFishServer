@@ -20,7 +20,7 @@ import com.liang.web.util.ObjectBindUtil;
 public class UserDaoImpl implements UserDao {
 
 	@Autowired
-	private UserDao2 infoDao;
+	private UserDao2 userDao2;
 
 	@Override
 	public String findUser(HttpServletRequest request,
@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
 		hm.put("username", request.getParameter("username"));
 		hm.put("password", request.getParameter("password"));
 
-		User user = (User) infoDao.getInfoObject(hm,"sys.login.findUser");
+		User user = (User) userDao2.getInfoObject(hm,"sys.login.findUser");
 
 		if(user == null){
 			return "登录失败，请与管理员联系";
@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao {
 			String IP = this.getRemortIP(request);
 			info.put("USER_NO", user.getUserNo());
 			info.put("IP", IP);
-			infoDao.saveInfo(info,"sys.login.addLoginInfo");
+			userDao2.saveInfo(info,"sys.login.addLoginInfo");
 			request.getSession().setAttribute("LoginUser", user);
 		}
 		return "1";
@@ -66,7 +66,7 @@ public class UserDaoImpl implements UserDao {
 	 */
 	@Override
 	public List getInfoList(Map<String, String> map,String target) {
-		return infoDao.getInfoList(map,target);
+		return userDao2.getInfoList(map,target);
 	}
 
 
@@ -75,15 +75,14 @@ public class UserDaoImpl implements UserDao {
 	 */
 	@Override
 	public List getInfoList(HttpServletRequest request,String target) {
-		Map paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
-		return infoDao.getInfoList(paramMap,target);
+		Map<String, String> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
+		return userDao2.getInfoList(paramMap,target);
 	}
 	
 	/**
 	 * 分页查询信息
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public List getInfoListByPage(HttpServletRequest request, String target, Page page) {
 		Map paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		paramMap.put("startPage", page.getStartIndex());
@@ -93,7 +92,7 @@ public class UserDaoImpl implements UserDao {
             orderDirection = "asc";  
         }
 		paramMap.put("orderDirection", orderDirection);
-		return infoDao.getInfoListByPage(paramMap,target);
+		return userDao2.getInfoListByPage(paramMap,target);
 	}
 	
 	/**
@@ -103,7 +102,7 @@ public class UserDaoImpl implements UserDao {
 	public int addInfo(HttpServletRequest request,String target) {
 		Map<String, String> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		try {
-			this.infoDao.addInfo(paramMap,target);
+			this.userDao2.addInfo(paramMap,target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -118,7 +117,7 @@ public class UserDaoImpl implements UserDao {
 	public int addStartPageInfo(HttpServletRequest request,String target) {
 		Map paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		try {
-			this.infoDao.addStartPageInfo(paramMap,target);
+			this.userDao2.addStartPageInfo(paramMap,target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -133,7 +132,7 @@ public class UserDaoImpl implements UserDao {
 	public String addUserInfo(Map<String,String> map,String target) {
 		String result = "OK";
 		try {
-			result = this.infoDao.addUserInfo(map,target);
+			result = this.userDao2.addUserInfo(map,target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = "ERROR";
@@ -148,7 +147,7 @@ public class UserDaoImpl implements UserDao {
 	public User login(Map<String,String> map,String target) {
 		User admin = null;
 		try {
-			admin = this.infoDao.login(map,target);
+			admin = this.userDao2.login(map,target);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -162,7 +161,7 @@ public class UserDaoImpl implements UserDao {
 	public String addMachineInfo(Map<String, String> map,String target) {
 		String result = "OK";
 		try {
-			result = this.infoDao.addMachineInfo(map,target);
+			result = this.userDao2.addMachineInfo(map,target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = "ERROR";
@@ -179,7 +178,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public int updateInfo(Map<String, String> paramMap,String target) {
 		try {
-			this.infoDao.updateInfo(paramMap,target);
+			this.userDao2.updateInfo(paramMap,target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -195,7 +194,7 @@ public class UserDaoImpl implements UserDao {
 		LinkedHashMap<String, String> paramMap = new LinkedHashMap<String, String>();
 		paramMap.put("SEQ", SEQ);
 		try {
-			this.infoDao.deleteInfo(paramMap, target);
+			this.userDao2.deleteInfo(paramMap, target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -210,7 +209,7 @@ public class UserDaoImpl implements UserDao {
 	public String deleteMachineInfo(Map map,String target) {
 		String result = "OK";
 		try {
-			result = this.infoDao.deleteMachineInfo(map,target);
+			result = this.userDao2.deleteMachineInfo(map,target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = "ERROR";
