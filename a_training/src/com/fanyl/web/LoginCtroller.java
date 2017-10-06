@@ -38,7 +38,6 @@ public class LoginCtroller {
 	@RequestMapping(value = "/in")
 	@ResponseBody
 	public String loginIn(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		logger.info("user press login button");
 		return userDaoImpl.findUser(request, response);
 	}
 
