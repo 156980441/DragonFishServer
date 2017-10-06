@@ -1,5 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java"
-	errorPage=""%>
+<%@ page contentType="text/html; charset=UTF-8" language="java" errorPage=""%>
 <%@ include file="../inc/initTaglibs.jsp"%>
 
 <style type="text/css" media="screen">

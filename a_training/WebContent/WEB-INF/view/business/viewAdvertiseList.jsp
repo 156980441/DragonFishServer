@@ -1,5 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java"
-	errorPage=""%>
+<%@ page contentType="text/html; charset=UTF-8" language="java" errorPage=""%>
 <%@ include file="../inc/initTaglibs.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <form id="pagerForm" method="post" action="/business/viewAdvertiseList">  
@@ -58,8 +57,8 @@
 					</td>
 					<td>${item.UPDATE_DATE }</td>
 					<td>
-						<c:if test="${item.ACTIVITY eq 0 }">禁用</c:if>
-						<c:if test="${item.ACTIVITY eq 1 }">启用</a></c:if>
+						<c:if test="${item.ACTIVITY eq false }">禁用</c:if>
+						<c:if test="${item.ACTIVITY eq true }">启用</a></c:if>
 					</td>
 					<td>
 						<c:if test="${item.city eq 0}">北京市</c:if>

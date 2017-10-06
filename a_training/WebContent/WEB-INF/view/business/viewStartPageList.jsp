@@ -1,7 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java"
-	errorPage=""%>
+<%@ page contentType="text/html; charset=UTF-8" language="java" errorPage=""%>
 <%@ include file="../inc/initTaglibs.jsp"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <form id="pagerForm" method="post" action="/business/viewStartPageList">  
     <input type="hidden" name="status" value="${page.status}">  
     <input type="hidden" name="keywords" value="${page.keywords}" />  
