@@ -160,10 +160,14 @@ public class TcpSocketService implements Runnable {
 				int idIndex = inputStr.indexOf("#");
 				if (idIndex > 0) {
 					System.out.println(inputStr.substring(0, idIndex) + " connect server but has #.");
+					out = null;
+					b = null;
 					return inputStr.substring(0, idIndex);
 				} else {
 					// device id at first time
 					System.out.println(inputStr + " connect server.");
+					out = null;
+					b = null;
 					return inputStr;
 				}
 			} else {
@@ -173,9 +177,13 @@ public class TcpSocketService implements Runnable {
 				if (lastEndIndex > lastStartIndex) {
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
 						System.out.println(deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
+						out = null;
+						b = null;
 						return inputStr.substring(lastStartIndex + 1, lastEndIndex);
 					} else {
 						System.out.println(deviceID + " send " + inputStr + ", can't process");
+						out = null;
+						b = null;
 						return null;
 					}
 				} else {
@@ -183,14 +191,20 @@ public class TcpSocketService implements Runnable {
 					lastStartIndex = inputStr.lastIndexOf("#");
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
 						System.out.println(deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
+						out = null;
+						b = null;
 						return inputStr.substring(lastStartIndex + 1, lastEndIndex);
 					} else {
 						System.out.println(deviceID + " send " + inputStr + ", can't process");
+						out = null;
+						b = null;
 						return null;
 					}
 				}
 			}
 		}
+		out = null;
+		b = null;
 		return null;
 	}
 }
