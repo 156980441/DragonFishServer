@@ -74,6 +74,7 @@ public class TcpSocketService implements Runnable {
 				
 				if (temp.equalsIgnoreCase("Internet worm")) {
 					System.out.println("Internet worm.");
+					temp = null;
 					break;
 				}
 
@@ -85,6 +86,7 @@ public class TcpSocketService implements Runnable {
 					}
 				} else {
 					String[] comm = temp.split(",");
+					temp = null;
 					try {
 						String sql = " UPDATE tb_machine " + " SET TEMPERATURE = ?, " + " TDS = ?, " + " PH = ?, "
 								+ " STATE = ?, " + " UPDATE_DATE = NOW() " + " WHERE ID = ?";
@@ -146,6 +148,9 @@ public class TcpSocketService implements Runnable {
 			// 去除网络爬虫
 			if (inputStr.indexOf("HTTP") != -1) {
 				System.out.println("Internet worm");
+				out = null;
+				b = null;
+				inputStr = null;
 				return "Internet worm";
 			}
 
