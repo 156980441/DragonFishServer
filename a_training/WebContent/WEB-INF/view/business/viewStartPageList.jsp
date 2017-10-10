@@ -51,8 +51,8 @@
 					<td>${i.count + (page.pageNum - 1) * page.numPerPage}</td>
 					<td>${item.PIC_NAME }</td>
 					<td>
-						<c:if test="${item.ACTIVITY eq 0 }">禁用</c:if>
-						<c:if test="${item.ACTIVITY eq 1 }">启用</a></c:if>
+						<c:if test="${item.ACTIVITY eq '0' }">禁用</c:if>
+						<c:if test="${item.ACTIVITY eq '1' }">启用</a></c:if>
 					</td>
 					<td>${item.CREATE_DATE }</td>
 					<td>${item.UPDATE_DATE }</td>
