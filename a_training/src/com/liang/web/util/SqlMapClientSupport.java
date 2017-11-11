@@ -47,12 +47,6 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 		}
 	}
 	
-	/**
-	 * 无条件的查询,返回单个Object对象
-	 * @param statementName 查询语句xml引用
-	 * @return 
-	 * @throws SQLException
-	 */
 	public Object queryForObject(String statementName) throws SQLException {
 		Object result = this.queryForObject(statementName, null) ;
 		return result;
@@ -89,13 +83,6 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 		return result;
 	}
 	
-	/**
-	 * 带条件的查询,返回List对象
-	 * @param statementName 查询语句xml引用
-	 * @param parameterObject 查询条件参宿
-	 * @return 
-	 * @throws SQLException
-	 */
 	public List queryForList(String statementName, Object parameterObject) throws SQLException {
 		List result = new ArrayList<Object>() ;
 		if(parameterObject != null){

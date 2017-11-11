@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fanyl.dao.UserDao;
+import com.fanyl.dao.AppDao;
 import com.fanyl.domain.RelaySwitch;
 import com.fanyl.domain.User;
 import com.liang.web.util.SocketThread;
@@ -41,26 +41,26 @@ public class AppController {
 	Logger logger = Logger.getLogger(AppController.class);
 
 	@Autowired
-	private UserDao userDaoImp;
+	private AppDao appDaoImp;
 
 	/**
 	 * http://localhost:8000/interface/getAdvertiseList?LAYOUT=1
 	 */
 	@RequestMapping(value = "/getAdvertiseList/{layout}", method = RequestMethod.GET)
-	public @ResponseBody Object appAdvertiseList(@PathVariable String layout) {
+	public @ResponseBody Object advertiseList(@PathVariable String layout) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("LAYOUT", layout);
-		return userDaoImp.getInfoList(map, "sys.business.viewAdvertiseList");
+		return appDaoImp.getInfoList(map, "sys.business.viewAdvertiseList");
 	}
 
 	/**
 	 * http://localhost:8000/interface/getAdvertiseListByCity?city=1
 	 */
 	@RequestMapping(value = "/getAdvertiseListByCity/{city}", method = RequestMethod.GET)
-	public @ResponseBody Object appAdvertiseListByCity(@PathVariable String city) {
+	public @ResponseBody Object advertiseListByCity(@PathVariable String city) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("city", city);
-		return userDaoImp.getInfoList(map, "sys.business.viewAdvertiseList");
+		return appDaoImp.getInfoList(map, "sys.business.viewAdvertiseList");
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class AppController {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("city", city);
 		map.put("ACTIVITY", "1");
-		return userDaoImp.getInfoList(map, "sys.business.viewStartPageList");
+		return appDaoImp.getInfoList(map, "sys.business.viewStartPageList");
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class AppController {
 	public @ResponseBody Object getMachineList(@PathVariable String userNo) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("USER_NO", userNo);
-		return userDaoImp.getInfoList(map, "sys.business.viewMachineListForApp");
+		return appDaoImp.getInfoList(map, "sys.business.viewMachineListForApp");
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class AppController {
 	public @ResponseBody Object getMachineInfo(@PathVariable String seq) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("SEQ", seq);
-		return userDaoImp.getInfoList(map, "sys.business.viewMachineList");
+		return appDaoImp.getInfoList(map, "sys.business.viewMachineList");
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class AppController {
 	 */
 	@RequestMapping(value = "/addMachineInfo", method = RequestMethod.POST)
 	public @ResponseBody Object addMachineInfo(@RequestBody Map<String, String> map, Model model) {
-		String msg = userDaoImp.addMachineInfo(map, "sys.business.addMachineInfoForApp");
+		String msg = appDaoImp.addMachineInfo(map, "sys.business.addMachineInfoForApp");
 		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
 		} else {
@@ -116,7 +116,7 @@ public class AppController {
 	 */
 	@RequestMapping(value = "/addUserInfo", method = RequestMethod.POST)
 	public @ResponseBody Object addUserInfo(@RequestBody Map<String, String> map, Model model) {
-		String msg = userDaoImp.addUserInfo(map, "sys.login.addUserInfoForApp");
+		String msg = appDaoImp.addUserInfo(map, "sys.login.addUserInfoForApp");
 		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
 		} else {
@@ -132,7 +132,7 @@ public class AppController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody Object appUserLogin(@RequestBody Map<String, String> map, Model model) {
-		User admin = userDaoImp.login(map, "sys.login.findUserForApp");
+		User admin = appDaoImp.login(map, "sys.login.findUserForApp");
 		if (admin != null) {
 			model.addAttribute("statusCode", "200");
 		} else {
@@ -151,7 +151,7 @@ public class AppController {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("USER_NO", USER_NO);
 		map.put("MACHINE_ID", MACHINE_ID);
-		String msg = userDaoImp.deleteMachineInfo(map, "sys.login.deleteMachineInfoForApp");
+		String msg = appDaoImp.deleteMachineInfo(map, "sys.login.deleteMachineInfoForApp");
 		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
 			// delete device and release thread source
@@ -230,7 +230,7 @@ public class AppController {
 			Map<String, String> paramMap = new LinkedHashMap<String, String>();
 			paramMap.put("TITLE", MACHINE_NAME);
 			paramMap.put("ID", MACHINE_ID);
-			int result = userDaoImp.updateInfo(paramMap, "sys.business.updateMachineInfoByMachineId");
+			int result = appDaoImp.updateInfo(paramMap, "sys.business.updateMachineInfoByMachineId");
 			if (result == 1) {
 				relaySwitch.setCode("200");
 			}
