@@ -179,15 +179,14 @@ public class AppController {
 	 */
 	@RequestMapping(value = "/setRelaySwitch/{MACHINE_ID}/{status}", method = RequestMethod.GET)
 	public @ResponseBody Object setRelaySwitch(@PathVariable String MACHINE_ID, @PathVariable String status) {
-
-		Socket socket = null;
-		DataOutputStream dos = null;
-
+		
 		RelaySwitch relaySwitch = new RelaySwitch();
 		relaySwitch.setCode("300");
 
 		// 针对当前设备有没有开启连接服务
 		if (SocketThread.socketMap.containsKey(MACHINE_ID)) {
+			Socket socket = null;
+			DataOutputStream dos = null;
 			TcpSocketService service = SocketThread.socketMap.get(MACHINE_ID);
 			socket = service.connectedsocket;
 			try {
@@ -199,6 +198,12 @@ public class AppController {
 					String str = "&R,1!";
 					dos.write(str.getBytes());
 				}
+				
+				Map<String, String> paramMap = new LinkedHashMap<String, String>();
+				paramMap.put("STATE", status);
+				paramMap.put("ID", MACHINE_ID);
+				int result = appDaoImp.updateInfo(paramMap, "sys.business.appUpdateMachineStateById");
+				System.out.println("APP setRelaySwitch succ" + status + result);
 				relaySwitch.setCode("200");
 			} catch (IOException e) {
 				System.out.println("setRelaySwitch getOutputStream or write exception");

@@ -337,6 +337,15 @@
 			 WHERE ID = #ID#
 		]]>
 	</update>
+	
+	<update id="appUpdateMachineStateById" parameterClass="linkMap">
+		<![CDATA[
+			UPDATE tb_machine
+			   SET STATE = #STATE#,
+			   	   UPDATE_DATE = NOW()
+			 WHERE ID = #ID#
+		]]>
+	</update>
 
 	<update id="updateMachineInfoForSocket" parameterClass="linkMap">
 		<![CDATA[
