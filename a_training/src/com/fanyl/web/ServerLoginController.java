@@ -22,7 +22,6 @@ import com.fanyl.dao.ServerDao;
 import com.fanyl.domain.Advertise;
 import com.fanyl.domain.Page;
 import com.fanyl.domain.StartPageBean;
-import com.fanyl.domain.User;
 import com.liang.web.util.StringUtil;
 
 @Controller
@@ -92,7 +91,7 @@ public class ServerLoginController {
 		} else {
 			Map<String, String> userMap = new LinkedHashMap<String, String>();
 			userMap.put("USER_NAME", request.getParameter("USER_NAME"));
-			List<User> userList = this.serverDaoImpl.getInfoList(userMap, "sys.login.findUser");
+			List<Object> userList = this.serverDaoImpl.getInfoList(userMap, "sys.login.findUser");
 			if (userList == null || userList.size() == 0) {
 				result = this.serverDaoImpl.addInfo(request, "sys.login.addUserInfo");
 			} else {
@@ -218,11 +217,11 @@ public class ServerLoginController {
 			// 获取图片所在的路径
 			Map<String, String> startPageMap = new LinkedHashMap<String, String>();
 			startPageMap.put("SEQ", seq);
-			List<StartPageBean> advertisList = serverDaoImpl.getInfoList(startPageMap,
+			List<Object> advertisList = serverDaoImpl.getInfoList(startPageMap,
 					"sys.business.viewStartPageListBySEQ");
 			String pic_url = null;
 			if (advertisList != null && advertisList.size() > 0) {
-				StartPageBean obj = advertisList.get(0);
+				StartPageBean obj = (StartPageBean)advertisList.get(0);
 				pic_url = obj.getPic_url();
 			}
 			String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();

@@ -79,8 +79,8 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 	
 	@Override
 	public int updateInfo(Object object,String target) throws Exception {
-		Map obj=(Map)object;
-		this.update(target, obj);
+		Map<String,String> param=(Map<String,String>)object;
+		this.update(target, param);
 		return 1;
 	}
 	
@@ -130,7 +130,7 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 	public User login(Object object,String target) throws Exception {
 		User admin = null;
 		try {
-			List result = this.queryForList( "sys.login.findUserForApp", object);
+			List<Object> result = this.queryForList("sys.login.findUserForApp", object);
 			if(result != null && result.size() > 0){
 				admin = (User)result.get(0);
 			}

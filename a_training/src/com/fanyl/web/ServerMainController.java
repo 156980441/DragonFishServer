@@ -125,7 +125,7 @@ public class ServerMainController {
 
 	@RequestMapping(value = "/addAdvertiseInfo")
 	@ResponseBody
-	public Map addAdvertiseInfo(HttpServletRequest request) throws Exception {
+	public Map<String, Object> addAdvertiseInfo(HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));

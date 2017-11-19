@@ -22,12 +22,12 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 
 	@Autowired
 	private UserDao2 userDao2;
-	
+
 	@Override
-	public List getInfoList(Map<String, String> map, String target) {
-		return userDao2.getInfoList(map,target);
+	public List<Object> getInfoList(Map<String, String> map, String target) {
+		return userDao2.getInfoList(map, target);
 	}
-	
+
 	@Override
 	public String findUser(HttpServletRequest request, HttpServletResponse response) {
 
@@ -53,9 +53,9 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 
 	@Override
 	public int addInfo(HttpServletRequest request, String target) {
-		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
+		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request, "seach_");
 		try {
-			this.userDao2.addInfo(paramMap,target);
+			this.userDao2.addInfo(paramMap, target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -66,7 +66,7 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 	@Override
 	public int updateInfo(Map<String, String> paramMap, String target) {
 		try {
-			this.userDao2.updateInfo(paramMap,target);
+			this.userDao2.updateInfo(paramMap, target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -89,9 +89,9 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 
 	@Override
 	public int addStartPageInfo(HttpServletRequest request, String target) {
-		Map<Object,Object> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
+		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request, "seach_");
 		try {
-			this.userDao2.addStartPageInfo(paramMap,target);
+			this.userDao2.addStartPageInfo(paramMap, target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -100,43 +100,38 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 	}
 
 	@Override
-	public List<Object> getInfoList(HttpServletRequest request, String target) {
-		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
-		return userDao2.getInfoList(paramMap,target);
+	public List<Object> getObjectList(HttpServletRequest request, String target) {
+		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request, "seach_");
+		return userDao2.getInfoList(paramMap, target);
 	}
 
 	@Override
 	public List<Object> getObjectListByPage(HttpServletRequest request, String target, Page page) {
-		// map可以装多种类型的值, 当然键不能重复. 值可以重复. https://zhidao.baidu.com/question/1371992872998963979.html
-		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
+		// map可以装多种类型的值, 当然键不能重复. 值可以重复.
+		// https://zhidao.baidu.com/question/1371992872998963979.html
+		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request, "seach_");
 		paramMap.put("startPage", page.getStartIndex());
 		paramMap.put("numPerPage", page.getNumPerPage());
 		String orderDirection = page.getOrderDirection();
-		if(orderDirection == null || orderDirection.trim().equals("")) {  
-            orderDirection = "asc";  
-        }
+		if (orderDirection == null || orderDirection.trim().equals("")) {
+			orderDirection = "asc";
+		}
 		paramMap.put("orderDirection", orderDirection);
-		return userDao2.getInfoListByPage(paramMap,target);
-	}
-
-	@Override
-	public List getInfoListByPage(Object object, String target) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao2.getInfoListByPage(paramMap, target);
 	}
 
 	// 取得实际IP
-		public String getRemortIP(HttpServletRequest request) {
-			String ip = request.getHeader("x-forwarded-for");
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getHeader("Proxy-Client-IP");
-			}
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getHeader("WL-Proxy-Client-IP");
-			}
-			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-				ip = request.getRemoteAddr();
-			}
-			return ip;
+	public String getRemortIP(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
 		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
+	}
 }

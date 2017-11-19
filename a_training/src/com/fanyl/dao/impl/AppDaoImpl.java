@@ -40,7 +40,7 @@ public class AppDaoImpl implements AppDao, UniversalDao {
 	}
 
 	@Override
-	public List getInfoList(Map<String, String> map, String target) {
+	public List<Object> getInfoList(Map<String, String> map, String target) {
 		return userDao2.getInfoList(map,target);
 	}
 
@@ -69,7 +69,7 @@ public class AppDaoImpl implements AppDao, UniversalDao {
 	}
 
 	@Override
-	public String deleteMachineInfo(Map map, String target) {
+	public String deleteMachineInfo(Map<String, String> map, String target) {
 		String result = "OK";
 		try {
 			result = this.userDao2.deleteMachineInfo(map,target);
