@@ -61,8 +61,8 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 	}
 
 	@Override
-	public int addInfo(Object object,String target) throws Exception {
-		Map<String, String> obj=(Map<String, String>)object;
+	public int addInfo(Object param,String target) throws Exception {
+		Map<Object, Object> obj=(Map<Object, Object>)param;
 		//附件上传
 		if (obj.get("fileUrl") != null && !"".equals(StringUtil.checkNull(obj.get("fileUrl")))) {
 			String[] fileUrl = StringUtil.checkNull(obj.get("fileUrl")).split(";");
@@ -78,8 +78,8 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 	}
 	
 	@Override
-	public int updateInfo(Object object,String target) throws Exception {
-		Map<String,String> param=(Map<String,String>)object;
+	public int updateInfo(Object params,String target) throws Exception {
+		Map<String,String> param=(Map<String,String>)params;
 		this.update(target, param);
 		return 1;
 	}
@@ -113,7 +113,7 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 	public String addUserInfo(Object object,String target) throws Exception {
 		String resultStr = "OK";
 		try {
-			List result = this.queryForList( "sys.login.findUser", object);
+			List<Object> result = this.queryForList("sys.login.findUser", object);
 			if( result != null && result.size() > 0){
 				resultStr = "用户名已存在";
 			}else{
@@ -144,7 +144,7 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 	public String addMachineInfo(Object object,String target) throws Exception {
 		String resultStr = "OK";
 		try {
-			List result = this.queryForList( "sys.business.viewMachineList", object);
+			List<Object> result = this.queryForList( "sys.business.viewMachineList", object);
 			if( result != null && result.size() > 0){
 				result = this.queryForList( "sys.business.getUserMachine", object);
 				if( result != null && result.size() > 0){

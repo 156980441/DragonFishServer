@@ -31,7 +31,8 @@ public class SocketThread implements Runnable {
 				Socket socket = server.accept();
 
 				SocketThread.connectDeviceNum = SocketThread.connectDeviceNum + 1;
-				System.out.println(socket.getRemoteSocketAddress() + " connect to server, total num is " + SocketThread.connectDeviceNum);
+				System.out.println(socket.getRemoteSocketAddress() + " connect to server, total num is "
+						+ SocketThread.connectDeviceNum);
 
 				// 一旦有连接进入，在开启一个线程负责处理数据
 				TcpSocketService tcpSocketService = new TcpSocketService(socket);

@@ -113,8 +113,8 @@ public class ServerLoginController {
 	}
 
 	@RequestMapping(value = "/deleteUserInfo")
-	public @ResponseBody Map deleteUserInfo(HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public @ResponseBody Map<String, String> deleteUserInfo(HttpServletRequest request) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
 		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
@@ -135,8 +135,8 @@ public class ServerLoginController {
 	}
 
 	@RequestMapping(value = "/deleteMachineInfo")
-	public @ResponseBody Map deleteMachineInfo(HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public @ResponseBody Map<String, String> deleteMachineInfo(HttpServletRequest request) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
 		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
@@ -157,20 +157,20 @@ public class ServerLoginController {
 	}
 
 	@RequestMapping(value = "/deleteAdvertiseInfo")
-	public @ResponseBody Map deleteAdvertiseInfo(HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public @ResponseBody Map<String, String> deleteAdvertiseInfo(HttpServletRequest request) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
 		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;
 		if (!"".equals(seq)) {
 			// 获取图片所在的路径
-			Map advertiesMap = new LinkedHashMap();
+			Map<String,String> advertiesMap = new LinkedHashMap<String,String>();
 			advertiesMap.put("SEQ", seq);
-			List<Advertise> advertisList = serverDaoImpl.getInfoList(advertiesMap,
+			List<Object> advertisList = serverDaoImpl.getInfoList(advertiesMap,
 					"sys.business.viewAdvertiseListBySEQ");
 			String[] pic_urls = new String[3];
 			if (advertisList != null && advertisList.size() > 0) {
-				Advertise obj = advertisList.get(0);
+				Advertise obj = (Advertise)advertisList.get(0);
 				pic_urls[0] = obj.getPic_url1();
 				pic_urls[1] = obj.getPic_url2();
 				pic_urls[2] = obj.getPic_url3();
@@ -208,8 +208,8 @@ public class ServerLoginController {
 	}
 
 	@RequestMapping(value = "/deleteStartPageInfo")
-	public @ResponseBody Map deleteStartPageInfo(HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public @ResponseBody Map<String, String> deleteStartPageInfo(HttpServletRequest request) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
 		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;

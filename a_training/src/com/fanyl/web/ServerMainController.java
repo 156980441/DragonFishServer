@@ -101,8 +101,8 @@ public class ServerMainController {
 
 	@RequestMapping(value = "/addStartPageInfo")
 	@ResponseBody
-	public Map addStartPageInfo(HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public Map<String, String> addStartPageInfo(HttpServletRequest request) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
 		// seq不为空：修改，为空：新增
 		String seq = StringUtil.checkNull(request.getParameter("SEQ"));
 		int result = 1;

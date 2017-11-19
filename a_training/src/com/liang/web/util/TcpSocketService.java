@@ -35,43 +35,38 @@ public class TcpSocketService implements Runnable {
 
 		try {
 			pool = ConnectionPool.getInstance();
-			readStream = connectedsocket.getInputStream();
-			device2Server = new DataInputStream(readStream);
 			conn = pool.getConnection();
 			if (conn == null) {
 				System.out.println("get db connection failed.");
+				return;
 			}
+			readStream = connectedsocket.getInputStream();
+			device2Server = new DataInputStream(readStream);
 			
+			// 让线程一直读取
 			while (true) {
 
 				temp = inputStream2String(device2Server, deviceID);
 
 				// handle error data
-				if (temp == null)
-				{
-					try  
-			        {  
+				if (temp == null) {
+					try {
 						System.out.println("error data, sleep 1000 ms");
-			            Thread.sleep(1000);  
-			            waitingTime = waitingTime + 1000;
-			            if (waitingTime == this.timeout)
-			            {
-			            	break;
-			            }
-			            else
-			            {
-			            	continue;
-			            }
-			        }  
-			        catch (InterruptedException e)  
-			        {  
-			        	System.out.println("thead sleep exception");
-			        	e.printStackTrace();
-			        	break;
-			        } 
-					
+						Thread.sleep(1000);
+						waitingTime = waitingTime + 1000;
+						if (waitingTime == this.timeout) {
+							break;
+						} else {
+							continue;
+						}
+					} catch (InterruptedException e) {
+						System.out.println("thead sleep exception");
+						e.printStackTrace();
+						break;
+					}
+
 				}
-				
+
 				if (temp.equalsIgnoreCase("Internet worm")) {
 					System.out.println("Internet worm.");
 					temp = null;
@@ -137,12 +132,13 @@ public class TcpSocketService implements Runnable {
 
 		StringBuffer out = new StringBuffer();
 		byte[] b = new byte[64];
+		String inputStr = null;
 
 		for (int n; (n = device2Server.read(b)) != -1;) {
 
 			System.out.println("read " + n + " byte into string buffer");
 			out.append(new String(b, 0, n));
-			String inputStr = out.toString();
+			inputStr = out.toString();
 			System.out.println("origin string is " + inputStr);
 
 			// 去除网络爬虫

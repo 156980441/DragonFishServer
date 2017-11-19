@@ -14,13 +14,13 @@ public interface UserDao2 {
 	
 	public Object getObject(Object param, String target) ;
 
-	public int addInfo(Object object,String target) throws Exception;
+	public int addInfo(Object param,String target) throws Exception;
 	
 	public int addStartPageInfo(Object object,String target) throws Exception;
 
 	public String addUserInfo(Object object,String target) throws Exception;
 	
-	public int updateInfo(Object object,String target) throws Exception;
+	public int updateInfo(Object param,String target) throws Exception;
 	
 	public int deleteInfo(Object object,String target) throws Exception;
 

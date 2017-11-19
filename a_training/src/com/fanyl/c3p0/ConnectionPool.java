@@ -10,8 +10,8 @@ public class ConnectionPool {
 
 	private static ComboPooledDataSource ds;
 	private static ConnectionPool pool;
-	
-	private ConnectionPool(){
+
+	private ConnectionPool() {
 		ds = new ComboPooledDataSource();
 		try {
 			ds.setDriverClass(C3P0Data.driverClass);
@@ -29,15 +29,15 @@ public class ConnectionPool {
 			e.printStackTrace();
 		}
 	}
-	
-	public static ConnectionPool getInstance(){
-		if(pool == null){
+
+	public static ConnectionPool getInstance() {
+		if (pool == null) {
 			pool = new ConnectionPool();
 		}
 		return pool;
 	}
-	
-	public synchronized final Connection getConnection(){
+
+	public synchronized final Connection getConnection() {
 		try {
 			Connection conn = ds.getConnection();
 			return conn;
