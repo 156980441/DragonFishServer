@@ -5,7 +5,7 @@
 
 <sqlMap namespace="sys.login">
 
-	<!-- id表示select里的sql语句
+	<!-- id表示select里的 sql 语句
 	parameterClass表示参数的内容
 	resultClass表示返回结果的类型 -->
 	<select id="findUser" parameterClass="linkMap" resultClass="User">

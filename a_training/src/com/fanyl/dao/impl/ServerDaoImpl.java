@@ -35,7 +35,7 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 		hm.put("username", request.getParameter("username"));
 		hm.put("password", request.getParameter("password"));
 
-		User user = (User) userDao2.getInfoObject(hm, "sys.login.findUser");
+		User user = (User) userDao2.getObject(hm, "sys.login.findUser");
 
 		if (user == null) {
 			return "登录失败，请与管理员联系";
@@ -100,13 +100,13 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 	}
 
 	@Override
-	public List getInfoList(HttpServletRequest request, String target) {
+	public List<Object> getInfoList(HttpServletRequest request, String target) {
 		Map<String, String> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		return userDao2.getInfoList(paramMap,target);
 	}
 
 	@Override
-	public List getInfoListByPage(HttpServletRequest request, String target, Page page) {
+	public List<Object> getObjectListByPage(HttpServletRequest request, String target, Page page) {
 		Map paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		paramMap.put("startPage", page.getStartIndex());
 		paramMap.put("numPerPage", page.getNumPerPage());

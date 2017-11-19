@@ -2,11 +2,10 @@
 <!DOCTYPE sqlMap 
 	PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
 	"http://www.ibatis.com/dtd/sql-map-2.dtd">
-	
+
 <sqlMap namespace="sys.business">
 
-	<select id="viewAdvertiseList"
-	 parameterClass="linkMap"
+	<select id="viewAdvertiseList" parameterClass="linkMap"
 		resultClass="linkMap">
 		<![CDATA[
 			SELECT SEQ,TITLE,PIC_URL1,PIC_URL2,PIC_URL3,ADV_URL,ACTIVITY,DATE_FORMAT(UPDATE_DATE,"%Y-%m-%d %H:%i") UPDATE_DATE,CREATED_BY ,LAYOUT, city
@@ -39,7 +38,7 @@
 			ORDER BY CREATE_DATE DESC
 		]]>
 	</select>
-	
+
 	<select id="viewAdvertiseListByPage" parameterClass="linkMap"
 		resultClass="linkMap">
 		<![CDATA[
@@ -73,7 +72,7 @@
 			<![CDATA[
 			   ORDER BY $orderField$
 			]]>
-		 	<isNotEmpty prepend=" " property="orderDirection">
+			<isNotEmpty prepend=" " property="orderDirection">
 				<![CDATA[
 				   $orderDirection$
 				]]>
@@ -83,7 +82,7 @@
 		   limit #startPage#,#numPerPage#
 		]]>
 	</select>
-	
+
 	<select id="viewAdvertiseListBySEQ" parameterClass="linkMap"
 		resultClass="Advertise">
 		<![CDATA[
@@ -103,7 +102,7 @@
 			ORDER BY SEQ DESC
 		]]>
 	</select>
-	
+
 	<select id="viewStartPageListBySEQ" parameterClass="linkMap"
 		resultClass="StartPageBean">
 		<![CDATA[
@@ -121,8 +120,9 @@
 			ORDER BY SEQ DESC
 		]]>
 	</select>
-	
-	<select id="viewStartPageList" parameterClass="linkMap" resultClass="linkMap">
+
+	<select id="viewStartPageList" parameterClass="linkMap"
+		resultClass="linkMap">
 		<![CDATA[
 			SELECT SEQ, PIC_URL, ACTIVITY, DATE_FORMAT(CREATE_DATE,"%Y-%m-%d %H:%i") CREATE_DATE,
 			DATE_FORMAT(UPDATE_DATE,"%Y-%m-%d %H:%i") UPDATE_DATE, city, PIC_NAME
@@ -153,8 +153,9 @@
 			ORDER BY city ASC
 		]]>
 	</select>
-	
-	<select id="viewStartPageListByPage" parameterClass="linkMap" resultClass="linkMap">
+
+	<select id="viewStartPageListByPage" parameterClass="linkMap"
+		resultClass="linkMap">
 		<![CDATA[
 			SELECT SEQ, PIC_URL, ACTIVITY, DATE_FORMAT(CREATE_DATE,"%Y-%m-%d %H:%i") CREATE_DATE,
 			DATE_FORMAT(UPDATE_DATE,"%Y-%m-%d %H:%i") UPDATE_DATE, city, PIC_NAME
@@ -185,7 +186,7 @@
 			<![CDATA[
 			   ORDER BY $orderField$
 			]]>
-		 	<isNotEmpty prepend=" " property="orderDirection">
+			<isNotEmpty prepend=" " property="orderDirection">
 				<![CDATA[
 				   $orderDirection$
 				]]>
@@ -195,7 +196,7 @@
 		   limit #startPage#,#numPerPage#
 		]]>
 	</select>
-	
+
 	<insert id="addStartPageInfo" parameterClass="linkMap">
 		<![CDATA[
 			INSERT INTO tb_start_page(
@@ -223,14 +224,14 @@
 			   ACTIVITY = #ACTIVITY#,
 		   	   UPDATE_DATE = NOW(),
 		   	   city = #city#
-	   	]]>  
-	   		<dynamic>
-	   		    <isNotEmpty property="PIC_NAME" prepend=",">
+	   	]]>
+		<dynamic>
+			<isNotEmpty property="PIC_NAME" prepend=",">
 	   		        <![CDATA[ 
 	   	  		 		PIC_NAME = #PIC_NAME#
    	  		 		]]>
-  		 		</isNotEmpty>
-   	   		</dynamic>
+			</isNotEmpty>
+		</dynamic>
    		<![CDATA[
 			 WHERE SEQ = #SEQ#
 		]]>
@@ -257,7 +258,7 @@
 			ORDER BY TB.SEQ
 		]]>
 	</select>
-	
+
 	<select id="viewMachineListByPage" parameterClass="linkMap"
 		resultClass="linkMap">
 		<![CDATA[
@@ -279,7 +280,7 @@
 			<![CDATA[
 			   ORDER BY $orderField$
 			]]>
-		 	<isNotEmpty prepend=" " property="orderDirection">
+			<isNotEmpty prepend=" " property="orderDirection">
 				<![CDATA[
 				   $orderDirection$
 				]]>
@@ -301,7 +302,7 @@
 			ORDER BY TB.SEQ
 		]]>
 	</select>
-	
+
 	<insert id="addMachineInfo" parameterClass="linkMap">
 		<![CDATA[
 			INSERT INTO tb_machine(
@@ -327,7 +328,7 @@
 			 WHERE SEQ = #SEQ#
 		]]>
 	</update>
-	
+
 	<update id="updateMachineInfoByMachineId" parameterClass="linkMap">
 		<![CDATA[
 			UPDATE tb_machine
@@ -413,7 +414,7 @@
 			   AND MACHINE_ID = #MACHINE_ID#
 		]]>
 	</select>
-	
+
 	<insert id="addMachineInfoForApp" parameterClass="linkMap">
 		<![CDATA[
 			INSERT INTO TB_USER_MACHINE(

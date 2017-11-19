@@ -19,6 +19,7 @@ import com.liang.web.util.limit.LimitSqlExecutor;
 @Component
 public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 	
+	// 所有在spring中注入的bean 都建议定义成私有的域变量。并且要配套写上 get 和 set方法。
 	@Autowired  
 	private SqlMapClient sqlMapClient;
 	@Autowired
@@ -34,9 +35,7 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 			((LimitSqlExecutor)sqlExecutor).setEnableLimit(enableLimit);
 		}
 	}
-	/**
-	 * 初始化重载带数据库方言的sqlExecutor类
-	 **/
+
 	public void initialize() throws Exception{
 		if(sqlExecutor!=null){
 			this.sqlMapClient=getSqlMapClientTemplate().getSqlMapClient();
@@ -52,13 +51,6 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 		return result;
 	}
 	
-	/**
-	 * 带条件的查询,返回单个Object对象
-	 * @param statementName 查询语句xml引用
-	 * @param parameterObject 查询条件参宿
-	 * @return 
-	 * @throws SQLException
-	 */
 	public Object queryForObject(String statementName, Object parameterObject) throws SQLException {
 		Object result = new Object() ;
 		if(parameterObject != null){
@@ -71,20 +63,13 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 		return result;
 	}
 	
-	/**
-	 * 无条件的查询,返回List对象
-	 * @param statementName 查询语句xml引用
-	 * @return 
-	 * @throws SQLException
-	 */
-	public List queryForList(String statementName)
-	throws SQLException {
-		List result = this.queryForList(statementName, null) ;
+	public List<Object> queryForList(String statementName) throws SQLException {
+		List<Object> result = this.queryForList(statementName, null) ;
 		return result;
 	}
 	
-	public List queryForList(String statementName, Object parameterObject) throws SQLException {
-		List result = new ArrayList<Object>() ;
+	public List<Object> queryForList(String statementName, Object parameterObject) throws SQLException {
+		List<Object> result = new ArrayList<Object>() ;
 		if(parameterObject != null){
 			result = this.getSqlMapClientTemplate().queryForList(statementName, parameterObject);
 		}
@@ -94,35 +79,16 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 		return result;
 	}
 	
-	/**
-	 * 无条件,带分页条件的查询
-	 * @param statementName 查询语句xml引用
-	 * @param skipResults 当前页
-	 * @param maxResults 每页容量
-	 * @return 
-	 * @throws SQLException
-	 */
-	public List queryForList(String statementName,int skipResults,int maxResults )
+	public List<Object> queryForList(String statementName,int skipResults,int maxResults )
 	throws SQLException {
-
-		List result = this.queryForList(statementName, null, skipResults, maxResults) ;
-		
+		List<Object> result = this.queryForList(statementName, null, skipResults, maxResults) ;
 		return result;
 	}
 	
-	/**
-	 * 带条件,带分页条件的查询
-	 * @param statementName 查询语句xml引用
-	 * @param parameterObject 查询条件参数
-	 * @param skipResults 当前页
-	 * @param maxResults 每页容量
-	 * @return 
-	 * @throws SQLException
-	 */
-	public List queryForList(String statementName, Object parameterObject,int skipResults,int maxResults)
+	public List<Object> queryForList(String statementName, Object parameterObject,int skipResults,int maxResults)
 	throws SQLException {
 		
-		List result = new ArrayList() ;
+		List<Object> result = new ArrayList<Object>() ;
 		
 		if(parameterObject != null){
 			result = this.getSqlMapClientTemplate().queryForList(statementName, parameterObject, skipResults, maxResults);
@@ -130,123 +96,59 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 		else{
 			result = this.getSqlMapClientTemplate().queryForList(statementName, skipResults, maxResults);
 		}
-		 
 		return result;
 	}
 	
-	/**
-	 * 无参数的插入
-	 * @param statementName 查询语句 xml 引用
-	 * @return 
-	 * @throws SQLException
-	 */	
-	public Object insert(String statementName)
-	throws SQLException {
-
+	public Object insert(String statementName) throws SQLException {
 		Object result = this.insert(statementName, null) ;
-		
 		return result;
 	}	
 	
-	/**
-	 * 有参数的插入
-	 * @param statementName 查询语句 xml 引用
-	 * @param parameterObject 查询条件参数
-	 * @return 
-	 * @throws SQLException
-	 */
 	public Object insert(String statementName, Object parameterObject) throws SQLException {
-		
 		Object result = new Object() ;
-		
 		if(parameterObject != null){
 			result = this.sqlMapClient.insert(statementName, parameterObject) ;
 		}
 		else{
 			result = this.sqlMapClient.insert(statementName) ;
 		}
-			
 		return result;
 	}
 	
-	/**
-	 * 无参数的更新
-	 * @param statementName 查询语句 xml 引用
-	 * @return 
-	 * @throws SQLException
-	 */	
 	public Object update(String statementName) throws SQLException {
-
 		Object result = this.update(statementName, null) ;
 		return result;
 	}	
 	
-	/**
-	 * 有参数的更新,由外部程序控制事务
-	 * @param statementName 查询语句xml引用
-	 * @param parameterObject 查询条件参数
-	 * @return 
-	 * @throws SQLException
-	 */
 	public Object update(String statementName, Object parameterObject) throws SQLException {
-		
 		Object result = new Object() ;
-		
 		if(parameterObject != null){
 			result = this.sqlMapClient.update(statementName, parameterObject) ;
 		}
 		else{
 			result = this.sqlMapClient.update(statementName) ;
 		}
-		
 		return result;
 	}
 	
-	/**
-	 * 无参数的删除
-	 * @param statementName 查询语句xml引用
-	 * @return 
-	 * @throws SQLException
-	 */	
-	public Object delete(String statementName)
-	throws SQLException {
-
+	public Object delete(String statementName) throws SQLException {
 		Object result = this.delete(statementName, null) ;
 		return result;
 	}	
 	
-	/**
-	 * 有参数的删除,由外部程序控制事务
-	 * @param statementName 查询语句xml引用
-	 * @param parameterObject 查询条件参数
-	 * @return 
-	 * @throws SQLException
-	 */
 	public Object delete(String statementName, Object parameterObject) throws SQLException {
-		
 		Object result = new Object() ;
-		
 		if(parameterObject != null){
 			result = this.sqlMapClient.delete(statementName, parameterObject) ;
 		}
 		else{
 			result = this.sqlMapClient.delete(statementName) ;
 		}
-		
 		return result;
 	}
 	
-	/**
-	 * 批量插入,外部控制数据
-	 * @param statementName 查询语句xml引用
-	 * @param parameterObject 查询条件参数
-	 * @return 
-	 * @throws SQLException
-	 */
 	public Object insertForList(String statementName, List<Object> list) throws SQLException {
-
 		this.sqlMapClient.startBatch();
-		
 		int batch = 0;
 		for (Object object : list) {					
 			sqlMapClient.insert(statementName, object); 
@@ -258,24 +160,12 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 			    batch = 0; 
 		    } 
 		}
-		
 		this.sqlMapClient.executeBatch();
-			
 		return null;
 	}
 	
-	/**
-	 * 批量更新,外部控制数据
-	 * @param statementName 查询语句xml引用
-	 * @param parameterObject 查询条件参数
-	 * @param sqlMapClient 数据库客户端
-	 * @return 
-	 * @throws SQLException
-	 */
 	public Object updateForList(String statementName, List<Object> list) throws SQLException {
-		
 		this.sqlMapClient.startBatch();
-		
 		int batch = 0;
 		for (Object object : list) {					
 			sqlMapClient.update(statementName, object); 
@@ -287,24 +177,12 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 			    batch = 0; 
 		    } 
 		}
-		
 		this.sqlMapClient.executeBatch();
-		
 		return null;
 	}
 	
-	/**
-	 * 批量删除,外部控制数据
-	 * @param statementName 查询语句xml引用
-	 * @param parameterObject 查询条件参数
-	 * @param sqlMapClient 数据库客户端
-	 * @return 
-	 * @throws SQLException
-	 */
 	public Object deleteForList(String statementName, List<Object> list) throws SQLException {
-		
 		this.sqlMapClient.startBatch();
-		
 		int batch = 0;
 		for (Object object : list) {					
 			sqlMapClient.delete(statementName, object); 
@@ -316,9 +194,7 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 			    batch = 0; 
 		    } 
 		}
-		
 		this.sqlMapClient.executeBatch();	
-		
 		return null ;
 	}
 
@@ -330,33 +206,15 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 		this.sqlExecutor = sqlExecutor;
 	}
 	
-	/**
-	 * start current transation
-	 * 
-	 * @throws SQLException
-	 */
 	public void startTransaction() throws SQLException {
-
 		sqlMapClient.startTransaction();
 	}
 
-	/**
-	 * commit current transation
-	 * 
-	 * @throws SQLException
-	 */
 	public void commitTransation() throws SQLException {
-
 		sqlMapClient.commitTransaction();
 	}
 
-	/**
-	 * end current transation
-	 * 
-	 * @throws SQLException
-	 */
 	public void endTransation() throws SQLException {
-
 		sqlMapClient.endTransaction();
 	}
 	
@@ -372,8 +230,4 @@ public class SqlMapClientSupport extends SqlMapClientDaoSupport{
 		}
 		return null;
 	}
-
-	
-
-	
 }

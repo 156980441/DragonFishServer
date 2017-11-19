@@ -1,8 +1,3 @@
-/*
- * @(#)ObjectBindUtil.java 1.0 2006-12-6 上午11:19:54
- *
- *Copyright 2001 - 2006 AIT. All Rights Reserved.
- */
 package com.liang.web.util;
 
 import java.io.IOException;
@@ -12,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
@@ -19,15 +15,6 @@ import org.codehaus.jackson.map.JsonMappingException;
 
 import com.fanyl.domain.User;
 
-
-/**
- * Copyright: AIT (c) Company: AIT
- * 
- * @author kelly (wangliwei@ait.net.cn)
- * @Date 2006-12-6 上午11:19:54
- * @version 1.0
- * 
- */
 public class ObjectBindUtil {
 
 	private Logger logger = Logger.getLogger(ObjectBindUtil.class);
@@ -35,19 +22,12 @@ public class ObjectBindUtil {
 	private ObjectBindUtil() {
 		/* empty */
 	}
-	
-	/**
-	 * bind parameter data to Map object from Request Object
-	 * 
-	 * @param req
-	 * @return LinkedHashMap
-	 */
-	@SuppressWarnings("unchecked")
-	public static LinkedHashMap getRequestParamData(HttpServletRequest request) {
-		LinkedHashMap data = new LinkedHashMap() ;
-		Enumeration e = request.getParameterNames() ;
+
+	public static LinkedHashMap<String, String> getRequestParamData(HttpServletRequest request) {
+		LinkedHashMap<String, String> data = new LinkedHashMap<String, String>() ;
+		Enumeration<String> e = request.getParameterNames() ;
 		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement() ;
+			String key = e.nextElement() ;
 			data.put(key, request.getParameter(key)) ;
 		}
 		if(request.getParameter("dwz.person.personId") != null){
@@ -90,19 +70,11 @@ public class ObjectBindUtil {
 		return data;
 	}
 	
-
-	
-	/**
-	 * bind parameter data to Map object from Request Object
-	 * 
-	 * @param req
-	 * @return LinkedHashMap
-	 */
-	public static LinkedHashMap getRequestParamDataForCode(HttpServletRequest request) {
-		LinkedHashMap data = new LinkedHashMap() ;
-		Enumeration e = request.getParameterNames() ;
+	public static LinkedHashMap<String, String> getRequestParamDataForCode(HttpServletRequest request) {
+		LinkedHashMap<String, String> data = new LinkedHashMap<String, String>() ;
+		Enumeration<String> e = request.getParameterNames() ;
 		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement() ;
+			String key = e.nextElement() ;
 			data.put(key, request.getParameter(key)) ;
 		}
 		if(request.getParameter("dwz.person.personId") != null){
@@ -121,17 +93,11 @@ public class ObjectBindUtil {
 		return data;
 	}
 	
-	/**
-	 * bind parameter data to Map object from Request Object
-	 * 
-	 * @param req
-	 * @return LinkedHashMap
-	 */
-	public static LinkedHashMap getRequestParamDataNoSession(HttpServletRequest request) {
-		LinkedHashMap data = new LinkedHashMap() ;
-		Enumeration e = request.getParameterNames() ;
+	public static LinkedHashMap<String, String> getRequestParamDataNoSession(HttpServletRequest request) {
+		LinkedHashMap<String, String> data = new LinkedHashMap<String, String>() ;
+		Enumeration<String> e = request.getParameterNames() ;
 		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement() ;
+			String key = e.nextElement() ;
 			data.put(key, request.getParameter(key)) ;
 		}
 		data.put("interLanguage", "zh");
@@ -139,17 +105,11 @@ public class ObjectBindUtil {
 		return data;
 	}
 	
-	/**
-	 * bind parameter data to Map object from Request Object
-	 * 
-	 * @param req
-	 * @return LinkedHashMap
-	 */
-	public static LinkedHashMap getRequestParamDataNoSession(HttpServletRequest request,String embellish) {
-		LinkedHashMap data = new LinkedHashMap();
-		Enumeration e = request.getParameterNames();
+	public static LinkedHashMap<String, String> getRequestParamDataNoSession(HttpServletRequest request,String embellish) {
+		LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
+		Enumeration<String> e = request.getParameterNames();
 		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement();
+			String key = e.nextElement();
 
 			if(key.indexOf(embellish)>0){
 			    data.put(key.replaceAll(embellish, ""), request.getParameter(key));
@@ -165,17 +125,13 @@ public class ObjectBindUtil {
 		data.put("LANGUAGE", "zh");
 		return data;
 	}
-	/**
-	 * bind parameter data to Map object from Request Object
-	 * 
-	 * @param req
-	 * @return LinkedHashMap
-	 */
+
 	public static LinkedHashMap<String, String> getRequestParamData(HttpServletRequest request,String embellish) {
 		LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
-		Enumeration e = request.getParameterNames();
+		// https://docs.oracle.com/javaee/6/api/javax/servlet/ServletRequest.html#getParameter(java.lang.String)
+		Enumeration<String> e = request.getParameterNames();
 		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement();
+			String key = e.nextElement();
 
 			if(key.indexOf(embellish)>0){
 			    data.put(key.replaceAll(embellish, ""), request.getParameter(key));
@@ -224,12 +180,6 @@ public class ObjectBindUtil {
 		return data;
 	}
 	
-	/**
-	 * bind json string to List<Map> object 
-	 * 
-	 * @param req
-	 * @return List<LinkedHashMap<String, Object>>
-	 */
 	public static List<LinkedHashMap<String, Object>> getRequestJsonData(String jsonString, String status, LinkedHashMap<String,Object> appendMap) {
 		
 		List<LinkedHashMap<String, Object>> returnList = new ArrayList(10) ; 
@@ -286,36 +236,15 @@ public class ObjectBindUtil {
 		return returnList ;
 	}
 	
-	/**
-	 * bind json string to List<Map> object 
-	 * 
-	 * @param req
-	 * @return List<LinkedHashMap<String, Object>>
-	 */
 	public static List<LinkedHashMap<String, Object>> getRequestJsonData(String jsonString, String status) {
-		
 		return getRequestJsonData(jsonString, status, null) ;
 	}
 	
-	/**
-	 * bind json string to List<Map> object 
-	 * 
-	 * @param req
-	 * @return List<LinkedHashMap<String, Object>>
-	 */
 	public static List<LinkedHashMap<String, Object>> getRequestJsonData(String jsonString) {
-		
 		return getRequestJsonData(jsonString, null, null) ;
 	}
 	
-	/**
-	 * bind json string to List<Map> object 
-	 * 
-	 * @param req
-	 * @return List<LinkedHashMap<String, Object>>
-	 */
 	public static List<LinkedHashMap<String, Object>> getRequestJsonData(String jsonString, LinkedHashMap<String,Object> appendMap) {
-		
 		return getRequestJsonData(jsonString, null, appendMap) ;
 	}
 	

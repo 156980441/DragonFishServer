@@ -59,13 +59,14 @@ public class ServerLoginController {
 		return new ModelAndView("/login/video", modelMap);
 	}
 
+	// 这些参数是怎么来的？
 	@RequestMapping(value = "/viewUserList")
 	public ModelAndView viewUserList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
-		List<?> userList = serverDaoImpl.getInfoList(request, "sys.login.findUser");
+		List<Object> userList = serverDaoImpl.getInfoList(request, "sys.login.findUser");
 		int userTotalCount = userList.size();
 		page.setTotalCount(userTotalCount);
 		modelMap.put("page", page);
-		modelMap.put("videoList", serverDaoImpl.getInfoListByPage(request, "sys.login.findUserByPage", page));
+		modelMap.put("videoList", serverDaoImpl.getObjectListByPage(request, "sys.login.findUserByPage", page));
 		return new ModelAndView("/login/viewUserList", modelMap);
 	}
 

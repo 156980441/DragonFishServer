@@ -6,13 +6,13 @@ import com.fanyl.domain.User;
 
 public interface UserDao2 {
 	
-	public List getInfoList(Object object,String target);
+	public List<Object> getInfoList(Object object,String target);
 	
-	public List getInfoListByPage(Object object,String target);
+	public List<Object> getInfoListByPage(Object object,String target);
 	
 	public int saveInfo(Object object,String target);
 	
-	public Object getInfoObject(Object object, String target) ;
+	public Object getObject(Object param, String target) ;
 
 	public int addInfo(Object object,String target) throws Exception;
 	

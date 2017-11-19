@@ -46,24 +46,24 @@ public class ServerMainController {
 	@RequestMapping(value = "/viewMachineList")
 	public ModelAndView viewMachineList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
 		// 先获取列表
-		List mechineList = serverDaoImpl.getInfoList(request, "sys.business.viewMachineList");
+		List<Object> mechineList = serverDaoImpl.getInfoList(request, "sys.business.viewMachineList");
 		// 分页显示
 		int mechineTotalCount = mechineList.size();
 		page.setTotalCount(mechineTotalCount);
 		modelMap.put("page", page);
 		modelMap.put("viewMachineList",
-				serverDaoImpl.getInfoListByPage(request, "sys.business.viewMachineListByPage", page));
+				serverDaoImpl.getObjectListByPage(request, "sys.business.viewMachineListByPage", page));
 		return new ModelAndView("/business/viewMachineList", modelMap);
 	}
 
 	@RequestMapping(value = "/viewAdvertiseList")
 	public ModelAndView viewAdvertiseList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
-		List<?> advertiseList = serverDaoImpl.getInfoList(request, "sys.business.viewAdvertiseList");
+		List<Object> advertiseList = serverDaoImpl.getInfoList(request, "sys.business.viewAdvertiseList");
 		int avertiseTotalCount = advertiseList.size();
 		page.setTotalCount(avertiseTotalCount);
 		modelMap.put("page", page);
 		modelMap.put("viewAdvertiseList",
-				serverDaoImpl.getInfoListByPage(request, "sys.business.viewAdvertiseListByPage", page));
+				serverDaoImpl.getObjectListByPage(request, "sys.business.viewAdvertiseListByPage", page));
 		return new ModelAndView("/business/viewAdvertiseList", modelMap);
 	}
 
@@ -85,7 +85,7 @@ public class ServerMainController {
 		page.setTotalCount(startPageTotalCount);
 		modelMap.put("page", page);
 		modelMap.put("viewStartPageList",
-				serverDaoImpl.getInfoListByPage(request, "sys.business.viewStartPageListByPage", page));
+				serverDaoImpl.getObjectListByPage(request, "sys.business.viewStartPageListByPage", page));
 		return new ModelAndView("/business/viewStartPageList", modelMap);
 	}
 

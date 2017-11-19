@@ -1,8 +1,5 @@
 package com.liang.web.util.limit.dialect;
 
-import com.liang.web.util.limit.dialect.Dialect;
-
-
 public class OracleDialect implements Dialect {
 
 	@Override

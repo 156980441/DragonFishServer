@@ -15,8 +15,8 @@ import com.liang.web.util.StringUtil;
 public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 
 	@Override
-	public List getInfoList(Object object, String target) {
-		List result = null;
+	public List<Object> getInfoList(Object object, String target) {
+		List<Object> result = null;
 		try {
 			result = this.queryForList(target, object);
 		} catch (SQLException e) {
@@ -26,11 +26,10 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 	}
 	
 	@Override
-	public List getInfoListByPage(Object object, String target) {
-		List result = null;
+	public List<Object> getInfoListByPage(Object object, String target) {
+		List<Object> result = null;
 		try {
-			result = this
-					.queryForList( target, object);
+			result = this.queryForList( target, object);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -46,21 +45,18 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 		}
 		return 1;
 	}
+	
 	@Override
-	public Object getInfoObject(Object object, String target) {
-		
+	public Object getObject(Object param, String target) {
 		Object obj = null;
-		
 		try {
-			List result = this.queryForList(target, object);
-			
+			List<Object> result = this.queryForList(target, param);
 			if(result != null && result.size() > 0 ){
 				obj = result.get(0);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		return obj;
 	}
 
@@ -168,14 +164,12 @@ public class UserDaoImpl2 extends SqlMapClientSupport implements UserDao2 {
 
 	@Override
 	public int deleteInfo(Object object,String target) throws Exception {
-		Map obj=(Map)object;
-		this.delete(target, obj);
+		this.delete(target, object);
 		return 1;
 	}
 
 	@Override
-	public String deleteMachineInfo(Object object, String target)
-			throws Exception {
+	public String deleteMachineInfo(Object object, String target) throws Exception {
 		String resultStr = "OK";
 		try {
 			this.delete(target, object);

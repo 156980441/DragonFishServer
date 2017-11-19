@@ -6,12 +6,10 @@ import java.sql.SQLException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
-
-import com.liang.web.util.limit.dialect.Dialect;
 import com.ibatis.sqlmap.engine.execution.SqlExecutor;
 import com.ibatis.sqlmap.engine.mapping.statement.RowHandlerCallback;
 import com.ibatis.sqlmap.engine.scope.StatementScope;
+import com.liang.web.util.limit.dialect.Dialect;
 
 public class LimitSqlExecutor extends SqlExecutor {
 	
