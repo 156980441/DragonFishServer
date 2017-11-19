@@ -55,14 +55,14 @@ public class ServerLoginController {
 	@RequestMapping(value = "/video")
 	public ModelAndView video(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
 			throws Exception {
-		modelMap.put("videoList", serverDaoImpl.getInfoList(request, "sys.login.findUser"));
+		modelMap.put("videoList", serverDaoImpl.getObjectList(request, "sys.login.findUser"));
 		return new ModelAndView("/login/video", modelMap);
 	}
 
 	// 这些参数是怎么来的？
 	@RequestMapping(value = "/viewUserList")
 	public ModelAndView viewUserList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
-		List<Object> userList = serverDaoImpl.getInfoList(request, "sys.login.findUser");
+		List<Object> userList = serverDaoImpl.getObjectList(request, "sys.login.findUser");
 		int userTotalCount = userList.size();
 		page.setTotalCount(userTotalCount);
 		modelMap.put("page", page);
@@ -73,7 +73,7 @@ public class ServerLoginController {
 	@RequestMapping(value = "/viewAddUserInfo")
 	public ModelAndView viewAddResumeInfo(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
 			throws Exception {
-		List userInfoList = serverDaoImpl.getInfoList(request, "sys.login.findUserInfo");
+		List<Object> userInfoList = serverDaoImpl.getObjectList(request, "sys.login.findUserInfo");
 		if (userInfoList != null && userInfoList.size() > 0) {
 			modelMap.put("userInfo", userInfoList.get(0));
 		}

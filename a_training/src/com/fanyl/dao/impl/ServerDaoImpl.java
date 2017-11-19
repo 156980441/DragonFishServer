@@ -53,7 +53,7 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 
 	@Override
 	public int addInfo(HttpServletRequest request, String target) {
-		Map<String, String> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
+		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		try {
 			this.userDao2.addInfo(paramMap,target);
 		} catch (Exception e) {
@@ -89,7 +89,7 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 
 	@Override
 	public int addStartPageInfo(HttpServletRequest request, String target) {
-		Map paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
+		Map<Object,Object> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		try {
 			this.userDao2.addStartPageInfo(paramMap,target);
 		} catch (Exception e) {
@@ -101,13 +101,14 @@ public class ServerDaoImpl implements ServerDao, UniversalDao {
 
 	@Override
 	public List<Object> getInfoList(HttpServletRequest request, String target) {
-		Map<String, String> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
+		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		return userDao2.getInfoList(paramMap,target);
 	}
 
 	@Override
 	public List<Object> getObjectListByPage(HttpServletRequest request, String target, Page page) {
-		Map paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
+		// map可以装多种类型的值, 当然键不能重复. 值可以重复. https://zhidao.baidu.com/question/1371992872998963979.html
+		Map<Object, Object> paramMap = ObjectBindUtil.getRequestParamData(request,"seach_");
 		paramMap.put("startPage", page.getStartIndex());
 		paramMap.put("numPerPage", page.getNumPerPage());
 		String orderDirection = page.getOrderDirection();

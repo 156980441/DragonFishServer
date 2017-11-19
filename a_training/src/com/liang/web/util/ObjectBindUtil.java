@@ -126,8 +126,8 @@ public class ObjectBindUtil {
 		return data;
 	}
 
-	public static LinkedHashMap<String, String> getRequestParamData(HttpServletRequest request,String embellish) {
-		LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
+	public static LinkedHashMap<Object, Object> getRequestParamData(HttpServletRequest request,String embellish) {
+		LinkedHashMap<Object, Object> data = new LinkedHashMap<Object, Object>();
 		// https://docs.oracle.com/javaee/6/api/javax/servlet/ServletRequest.html#getParameter(java.lang.String)
 		Enumeration<String> e = request.getParameterNames();
 		while (e.hasMoreElements()) {

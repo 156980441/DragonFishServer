@@ -46,7 +46,7 @@ public class ServerMainController {
 	@RequestMapping(value = "/viewMachineList")
 	public ModelAndView viewMachineList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
 		// 先获取列表
-		List<Object> mechineList = serverDaoImpl.getInfoList(request, "sys.business.viewMachineList");
+		List<Object> mechineList = serverDaoImpl.getObjectList(request, "sys.business.viewMachineList");
 		// 分页显示
 		int mechineTotalCount = mechineList.size();
 		page.setTotalCount(mechineTotalCount);
@@ -58,7 +58,7 @@ public class ServerMainController {
 
 	@RequestMapping(value = "/viewAdvertiseList")
 	public ModelAndView viewAdvertiseList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
-		List<Object> advertiseList = serverDaoImpl.getInfoList(request, "sys.business.viewAdvertiseList");
+		List<Object> advertiseList = serverDaoImpl.getObjectList(request, "sys.business.viewAdvertiseList");
 		int avertiseTotalCount = advertiseList.size();
 		page.setTotalCount(avertiseTotalCount);
 		modelMap.put("page", page);
@@ -71,7 +71,7 @@ public class ServerMainController {
 	@RequestMapping(value = "/viewAddAdvertiseInfo")
 	public ModelAndView viewAddAdvertiseInfo(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
-		List advertiseList = serverDaoImpl.getInfoList(request, "sys.business.viewAdvertiseList");
+		List<Object> advertiseList = serverDaoImpl.getObjectList(request, "sys.business.viewAdvertiseList");
 		if (advertiseList != null && advertiseList.size() > 0) {
 			modelMap.put("advertiseInfo", advertiseList.get(0));
 		}
@@ -80,7 +80,7 @@ public class ServerMainController {
 
 	@RequestMapping(value = "/viewStartPageList")
 	public ModelAndView viewStartPageList(HttpServletRequest request, Page page, ModelMap modelMap) throws Exception {
-		List startPageList = serverDaoImpl.getInfoList(request, "sys.business.viewStartPageList");
+		List<Object> startPageList = serverDaoImpl.getObjectList(request, "sys.business.viewStartPageList");
 		int startPageTotalCount = startPageList.size();
 		page.setTotalCount(startPageTotalCount);
 		modelMap.put("page", page);
@@ -92,7 +92,7 @@ public class ServerMainController {
 	@RequestMapping(value = "/viewAddStartPageInfo")
 	public ModelAndView viewAddStartPageInfo(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
-		List startPageList = serverDaoImpl.getInfoList(request, "sys.business.viewStartPageList");
+		List<Object> startPageList = serverDaoImpl.getObjectList(request, "sys.business.viewStartPageList");
 		if (startPageList != null && startPageList.size() > 0) {
 			modelMap.put("startPageInfo", startPageList.get(0));
 		}
@@ -150,7 +150,7 @@ public class ServerMainController {
 	@RequestMapping(value = "/viewAddMachineInfo")
 	public ModelAndView viewAddResumeInfo(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
 			throws Exception {
-		List machineInfoList = serverDaoImpl.getInfoList(request, "sys.business.viewMachineList");
+		List<Object> machineInfoList = serverDaoImpl.getObjectList(request, "sys.business.viewMachineList");
 		if (machineInfoList != null && machineInfoList.size() > 0) {
 			modelMap.put("machineInfo", machineInfoList.get(0));
 		}
