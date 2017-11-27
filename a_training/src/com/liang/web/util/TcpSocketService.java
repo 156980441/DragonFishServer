@@ -14,10 +14,20 @@ public class TcpSocketService implements Runnable {
 
 	public Socket connectedsocket;
 	private int timeout;
+	private boolean m_run = true;
 
 	public TcpSocketService(Socket connectedsocket) {
 		this.connectedsocket = connectedsocket;
 		this.timeout = 1000 * 1 * 5;
+	}
+	
+	public void stop(boolean close) {
+		this.m_run = close;
+		try {  
+			connectedsocket.getInputStream().close();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
 	}
 
 	@Override
@@ -44,7 +54,7 @@ public class TcpSocketService implements Runnable {
 			device2Server = new DataInputStream(readStream);
 			
 			// 让线程一直读取
-			while (true) {
+			while (this.m_run) {
 
 				temp = inputStream2String(device2Server, deviceID);
 
