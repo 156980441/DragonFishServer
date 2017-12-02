@@ -27,11 +27,14 @@ public class SocketThread implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println("start socket thread...");
+		int i = 0;
 		while(true) {
 			ServerSocket server = null;
 			try {
 				server = new ServerSocket(8647);
 				server.setSoTimeout(10000);
+				System.out.println("new socket "+ ++i);
 				while (true) {
 					System.out.println("Waiting for client on port " + server.getLocalPort() + "...");
 					Socket socket = server.accept();
@@ -53,20 +56,21 @@ public class SocketThread implements Runnable {
 					String key = entry.getKey();
 					TcpSocketService value = entry.getValue();
 					value.stop(true);
-					System.out.println("key = " + key + "; value = " + value);
+					System.out.println("key = " + key + "; value = " + value + "stop");
 				}
+				
 				try {
 					server.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 			} catch (IOException e) {
 				System.out.println("new socket failed or accept failed");
 				e.printStackTrace();
 			}
 			
-		}	
+		}
 	}
 	
 	public Map<String, TcpSocketService> getSocketMap() {
