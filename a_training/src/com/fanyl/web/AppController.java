@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fanyl.dao.AppDao;
 import com.fanyl.domain.RelaySwitch;
 import com.fanyl.domain.User;
-import com.liang.web.util.SocketThread;
-import com.liang.web.util.TcpSocketService;
+import com.liang.web.util.TCPSocketThread;
+import com.liang.web.util.TCPSocketService;
 
 /*处理手机客户端发来的请求*/
 
@@ -155,8 +155,8 @@ public class AppController {
 		if ("OK".equals(msg)) {
 			model.addAttribute("statusCode", "200");
 			// delete device and release thread source
-			if (SocketThread.socketMap.containsKey(MACHINE_ID)) {
-				TcpSocketService service = SocketThread.socketMap.get(MACHINE_ID);
+			if (TCPSocketThread.socketMap.containsKey(MACHINE_ID)) {
+				TCPSocketService service = TCPSocketThread.socketMap.get(MACHINE_ID);
 				Socket socket = service.connectedsocket;
 				try {
 					socket.shutdownInput(); // 这里关掉之后并没有释放线程资源
@@ -184,10 +184,10 @@ public class AppController {
 		relaySwitch.setCode("300");
 
 		// 针对当前设备有没有开启连接服务
-		if (SocketThread.socketMap.containsKey(MACHINE_ID)) {
+		if (TCPSocketThread.socketMap.containsKey(MACHINE_ID)) {
 			Socket socket = null;
 			DataOutputStream dos = null;
-			TcpSocketService service = SocketThread.socketMap.get(MACHINE_ID);
+			TCPSocketService service = TCPSocketThread.socketMap.get(MACHINE_ID);
 			socket = service.connectedsocket;
 			try {
 				dos = new DataOutputStream(socket.getOutputStream());

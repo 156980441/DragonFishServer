@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-public class UserAuthenFilter implements Filter {
+public class UserAuthenFilter2 implements Filter {
 	
 	private FilterConfig filterConfig;// 保留参数
 

@@ -10,19 +10,19 @@ import java.sql.SQLException;
 
 import com.fanyl.c3p0.ConnectionPool;
 
-public class TcpSocketService implements Runnable {
+public class TCPSocketService implements Runnable {
 
 	public Socket connectedsocket;
 	private int timeout;
-	private boolean m_run = true;
+	private boolean m_stop = false;
 
-	public TcpSocketService(Socket connectedsocket) {
+	public TCPSocketService(Socket connectedsocket) {
 		this.connectedsocket = connectedsocket;
 		this.timeout = 1000 * 1 * 5;
 	}
 	
 	public void stop(boolean close) {
-		this.m_run = close;
+		this.m_stop = close;
 		try {  
 			connectedsocket.getInputStream().close();  
         } catch (IOException e) {  
@@ -33,7 +33,7 @@ public class TcpSocketService implements Runnable {
 	@Override
 	public void run() {
 
-		System.out.println("start receive thread: " + Thread.currentThread().getName());
+		System.out.println("4.Socket " + Thread.currentThread().getName()+ " start receive");
 		InputStream readStream = null;
 		DataInputStream device2Server = null;
 		ConnectionPool pool = null;
@@ -54,7 +54,7 @@ public class TcpSocketService implements Runnable {
 			device2Server = new DataInputStream(readStream);
 			
 			// 让线程一直读取
-			while (this.m_run) {
+			while (!this.m_stop) {
 
 				temp = inputStream2String(device2Server, deviceID);
 
@@ -86,8 +86,8 @@ public class TcpSocketService implements Runnable {
 				if (deviceID == null) {
 					deviceID = temp;
 					// device id as key
-					if (!SocketThread.socketMap.containsKey(deviceID)) {
-						SocketThread.socketMap.put(deviceID, this);
+					if (!TCPSocketThread.socketMap.containsKey(deviceID)) {
+						TCPSocketThread.socketMap.put(deviceID, this);
 					}
 				} else {
 					String[] comm = temp.split(",");
@@ -130,9 +130,9 @@ public class TcpSocketService implements Runnable {
 				System.out.println("thead clear SQLException");
 				e.printStackTrace();
 			} finally {
-				if (SocketThread.socketMap.containsKey(deviceID))
-					SocketThread.socketMap.remove(deviceID);
-				SocketThread.connectDeviceNum = SocketThread.connectDeviceNum - 1;
+				if (TCPSocketThread.socketMap.containsKey(deviceID))
+					TCPSocketThread.socketMap.remove(deviceID);
+				TCPSocketThread.connectDeviceNum = TCPSocketThread.connectDeviceNum - 1;
 				System.out.println("end receive thread " + Thread.currentThread().getName());
 			}
 		}
@@ -146,10 +146,10 @@ public class TcpSocketService implements Runnable {
 
 		for (int n; (n = device2Server.read(b)) != -1;) {
 
-			System.out.println("read " + n + " byte into string buffer");
+			System.out.println(Thread.currentThread().getName() + " read " + n + " byte into string buffer");
 			out.append(new String(b, 0, n));
 			inputStr = out.toString();
-			System.out.println("origin string is " + inputStr);
+			System.out.println(Thread.currentThread().getName() + " origin string is " + inputStr);
 
 			// 去除网络爬虫
 			if (inputStr.indexOf("HTTP") != -1) {

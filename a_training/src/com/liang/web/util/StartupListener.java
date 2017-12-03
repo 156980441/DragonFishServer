@@ -20,7 +20,7 @@ public class StartupListener implements ApplicationContextAware, ServletContextA
     protected Logger logger = Logger.getLogger(StartupListener.class);
     
 	@Autowired
-    private SocketThread myThread; 
+    private TCPSocketThread myThread; 
 	
     @Override
 	public void setApplicationContext(ApplicationContext ctx) throws BeansException {
