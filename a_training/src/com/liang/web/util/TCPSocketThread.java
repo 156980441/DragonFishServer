@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 /*
@@ -25,29 +26,31 @@ public class TCPSocketThread implements Runnable {
 
 	public static int connectDeviceNum = 0;
 	public static Map<String, TCPSocketService> socketMap = new HashMap<String, TCPSocketService>();
+	Logger logger = Logger.getLogger(TCPSocketThread.class);
 
 	@Override
 	public void run() {
-		
-		Thread current = Thread.currentThread();
-		System.out.println("1.Socket start thread: " + current.getName());
+		ServerSocket serverSocket = null;
+		Socket clientSocket = null;
+		Thread current = null;
+		current = Thread.currentThread();
+		logger.debug("Socket 线程启动 " + current.getName());
 		
 		int i = 0;
-		while (true) {
-			ServerSocket serverSocket = null;
-			Socket clientSocket = null;
+		
+			
 			try {
 				serverSocket = new ServerSocket(8647);
-				serverSocket.setSoTimeout(10000);
-				System.out.println("2.Socket create times is " + ++i);
+//				serverSocket.setSoTimeout(10000);
+				logger.debug("2.Socket create times is " + ++i);
 
 				while (true) {
-					System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");
+					logger.debug("Waiting for client on port " + serverSocket.getLocalPort());
 
 					clientSocket = serverSocket.accept();
 
 					TCPSocketThread.connectDeviceNum = TCPSocketThread.connectDeviceNum + 1;
-					System.out.println("3.Socket " + clientSocket.getRemoteSocketAddress().toString()
+					logger.debug("3.Socket " + clientSocket.getRemoteSocketAddress().toString()
 							+ " connect to server, total num is " + TCPSocketThread.connectDeviceNum);
 
 					// 一旦有连接进入，在开启一个线程负责处理数据
@@ -55,24 +58,21 @@ public class TCPSocketThread implements Runnable {
 					Thread thread = new Thread(tcpSocketService, clientSocket.getRemoteSocketAddress().toString());
 					thread.start();
 				}
-			} catch (SocketTimeoutException s) {
-				System.out.println("Socket timed out!");
-				s.printStackTrace();
+			} catch (SocketTimeoutException e) {
+				logger.debug("Socket timed out! " + e.getLocalizedMessage());
 				Iterator<Entry<String, TCPSocketService>> it = socketMap.entrySet().iterator();
 				while (it.hasNext()) {
 					Map.Entry<String, TCPSocketService> entry = it.next();
 					String key = entry.getKey();
 					TCPSocketService value = entry.getValue();
 					value.stop(true);
-					System.out
-							.println("\nThread " + current.getName() + " key = " + key + "; value = " + value + " stop " + s.getLocalizedMessage());
+					logger.debug("\nThread " + current.getName() + " key = " + key + "; value = " + value
+							+ " stop " + e.getLocalizedMessage());
 				}
 			} catch (SocketException e) {
-				System.out.println("error may be set time out exception");
-				e.printStackTrace();
+				logger.debug(e.getLocalizedMessage());
 			} catch (IOException e) {
-				System.out.println("error may be new socket exception");
-				e.printStackTrace();
+				logger.debug(e.getLocalizedMessage());
 			} finally {
 				try {
 					if (serverSocket != null) {
@@ -82,11 +82,10 @@ public class TCPSocketThread implements Runnable {
 						clientSocket.close();
 					}
 				} catch (IOException e) {
-					System.out.println("Socket close exception!");
-					e.printStackTrace();
+					logger.debug(e.getLocalizedMessage());
 				}
 			}
-		}
+		
 	}
 
 	public Map<String, TCPSocketService> getSocketMap() {

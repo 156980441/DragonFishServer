@@ -180,6 +180,8 @@ public class AppController {
 	@RequestMapping(value = "/setRelaySwitch/{MACHINE_ID}/{status}", method = RequestMethod.GET)
 	public @ResponseBody Object setRelaySwitch(@PathVariable String MACHINE_ID, @PathVariable String status) {
 		
+		logger.debug("APP 设备开关设置 "+ MACHINE_ID + " 将要 " + status);
+		
 		RelaySwitch relaySwitch = new RelaySwitch();
 		relaySwitch.setCode("300");
 
@@ -191,6 +193,7 @@ public class AppController {
 			socket = service.connectedsocket;
 			try {
 				dos = new DataOutputStream(socket.getOutputStream());
+				
 				if (status.equals("0")) {
 					String str = "&R,0!";
 					dos.write(str.getBytes());
@@ -202,18 +205,17 @@ public class AppController {
 				Map<String, String> paramMap = new LinkedHashMap<String, String>();
 				paramMap.put("STATE", status);
 				paramMap.put("ID", MACHINE_ID);
-				int result = appDaoImp.updateInfo(paramMap, "sys.business.appUpdateMachineStateById");
-				System.out.println("APP setRelaySwitch succ" + status + result);
+				appDaoImp.updateInfo(paramMap, "sys.business.appUpdateMachineStateById");
 				relaySwitch.setCode("200");
+				
+				logger.debug("APP 设备开关设置 "+ MACHINE_ID + " 成功 ");
+				
 			} catch (IOException e) {
-				System.out.println("setRelaySwitch getOutputStream or write exception");
+				logger.debug("APP 设备开关设置 "+ MACHINE_ID + " 失败 " + e.getLocalizedMessage());
 				e.printStackTrace();
-			} finally {
-				/*
-				 * try { socket.shutdownOutput();// will close socket, why? }
-				 * catch (IOException e) { e.printStackTrace(); }
-				 */
 			}
+		} else {
+			logger.debug("APP 设备开关设置 "+ MACHINE_ID + " 将要 " + status + " 失败，该设备没有连接服务器。");
 		}
 
 		return relaySwitch;

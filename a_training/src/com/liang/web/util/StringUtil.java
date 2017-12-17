@@ -9,35 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-
-/**
- * <p>
- * Title: String utility
- * </p>
- * 
- * <p>
- * Description: do some string operation
- * </p>
- * 
- * <p>
- * Copyright: Copyright (c) 2004
- * </p>
- * 
- * <p>
- * Company: AIT
- * </p>
- * 
- * @author
- * @version 1.0
- */
-
 public class StringUtil {
 
 	protected StringUtil() {
 	}
 
-	@SuppressWarnings("unchecked")
-	public static String changeLanguage(Object param, Map mMap) {
+	public static String changeLanguage(Object param, Map<String, String> mMap) {
 		if (param == null)
 			return "";
 //		param = param.toString();
@@ -58,9 +35,8 @@ public class StringUtil {
 		return returnparam;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static List getSplitParams(String str, String split) {
-		List temp = new ArrayList();
+	public static List<String> getSplitParams(String str, String split) {
+		List<String> temp = new ArrayList<String>();
 		String[] params = str.split(split);
 		for (String param : params) {
 			temp.add(param);
@@ -68,9 +44,8 @@ public class StringUtil {
 		return temp;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static Map getAliasSplitParams(String[] str, String split) {
-		Map temp = new HashMap();
+	public static Map<String, String> getAliasSplitParams(String[] str, String split) {
+		Map<String, String> temp = new HashMap<String, String>();
 		if (str == null)
 			return null;
 		for (String param : str) {
@@ -94,7 +69,6 @@ public class StringUtil {
 	}
 
 	public static Object checknvl(Object s, int defaultValue) {
-		// TODO Auto-generated method stub
 		if (s == null) {
 			return defaultValue;
 		} else {

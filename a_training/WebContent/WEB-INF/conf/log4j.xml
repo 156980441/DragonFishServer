@@ -1,48 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- 浏览器呈现模式配置， DOCTYPE 声明指出阅读程序应该用什么规则集来解释文档中的标记。 -->
-<!-- DOCTYPE 根元素 SYSTEM "文档类型定义位置" -->
-<!-- DTD实际上可以看作XML文件的模板，这些XML文件中的元素等，都必须符合DTD中的定义。 -->
-<!-- DTD可以是一个完全独立的文件，也可以在XML文件中直接设定。所以，DTD分为外部DTD（在XML文件中调用另外已经编辑好的DTD）和内部DTD（在XML文件中直接设定DTD）两种 -->
-
-<!DOCTYPE log4j:configuration SYSTEM "/WEB-INF/lib/log4j.dtd">
-
-<!-- XML 命名空间提供避免元素命名冲突的方法。 -->
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
 
-	<!--
-		配置日志信息输出目的地 Appender
-		1.org.apache.log4j.ConsoleAppender （控制台），
-　　        	2.org.apache.log4j.FileAppender （文件），
-　　        	3.org.apache.log4j.DailyRollingFileAppender （每天产生一个日志文件），
-　　        	4.org.apache.log4j.RollingFileAppender （文件大小到达指定尺寸的时候产生一个    新的文件）
-　　        	5.org.apache.log4j.WriterAppender （将日志信息以流格式发送到任意指定的地方）
-  	-->
-  	
+	<!-- 浏览器呈现模式配置， DOCTYPE 声明指出阅读程序应该用什么规则集来解释文档中的标记。 -->
+	<!-- DOCTYPE 根元素 SYSTEM "文档类型定义位置" -->
+	<!-- DTD实际上可以看作XML文件的模板，这些XML文件中的元素等，都必须符合DTD中的定义。 -->
+	<!-- DTD可以是一个完全独立的文件，也可以在XML文件中直接设定。所以，DTD分为外部DTD（在XML文件中调用另外已经编辑好的DTD）和内部DTD（在XML文件中直接设定DTD）两种 -->
+	<!-- XML 命名空间提供避免元素命名冲突的方法。 -->
+
+	<!-- 配置日志信息输出目的地 Appender 1.org.apache.log4j.ConsoleAppender （控制台）， 2.org.apache.log4j.FileAppender 
+		（文件）， 3.org.apache.log4j.DailyRollingFileAppender （每天产生一个日志文件）， 4.org.apache.log4j.RollingFileAppender 
+		（文件大小到达指定尺寸的时候产生一个 新的文件） 5.org.apache.log4j.WriterAppender （将日志信息以流格式发送到任意指定的地方） -->
+
 	<!-- console appender -->
 	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<param name="encoding" value="UTF-8" />
-		<!-- 
-			配置日志信息的格式（布局）
-			1.org.apache.log4j.HTMLLayout （以 HTML 表格形式布局），
-　　       		2.org.apache.log4j.PatternLayout （可以灵活地指定布局模式），
-　　       		3.org.apache.log4j.SimpleLayout （包含日志信息的级别和信息字符串），
-　　        		4.org.apache.log4j.TTCCLayout （包含日志产生的时间、线程、类别等等信息）
-		 -->
+		<!-- 配置日志信息的格式（布局） 1.org.apache.log4j.HTMLLayout （以 HTML 表格形式布局）， 2.org.apache.log4j.PatternLayout 
+			（可以灵活地指定布局模式）， 3.org.apache.log4j.SimpleLayout （包含日志信息的级别和信息字符串）， 4.org.apache.log4j.TTCCLayout 
+			（包含日志产生的时间、线程、类别等等信息） -->
 		<layout class="org.apache.log4j.PatternLayout">
-			<!-- 
-			%m 输出代码中指定的消息
-			%p 输出优先级，即 DEBUG ， INFO ， WARN ， ERROR ， FATAL 
-			%r 输出自应用启动到输出该  log 信息耗费的毫秒数 
-			%c 输出所属的类目，通常就是所在类的全名 
-			%t 输出产生该日志事件的线程名 
-			%n 输出一个回车换行符， Windows 平台为 “rn” ， Unix 平台为 “n” 
-			%d 输出日志时间点的日期或时间，默认格式为 ISO8601 ，也可以在其后指定格式，比如： %d{yyy MMM dd HH:mm:ss,SSS} ，输出类似： 2002 年 10 月 18 日 22 ： 10 ： 28 ， 921 
-			%l 输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例： Testlog4.main(TestLog4.java:10)
-			%x 输出和当前线程相关联的 NDC( 嵌套诊断环境 ), 尤其用到像 java servlets 这样的多客户多线程的应用中。
-			
-			 -->
+			<!-- %m 输出代码中指定的消息 %p 输出优先级，即 DEBUG ， INFO ， WARN ， ERROR ， FATAL %r 输出自应用启动到输出该 
+				log 信息耗费的毫秒数 %c 输出所属的类目，通常就是所在类的全名 %t 输出产生该日志事件的线程名 %n 输出一个回车换行符， Windows 
+				平台为 “rn” ， Unix 平台为 “n” %d 输出日志时间点的日期或时间，默认格式为 ISO8601 ，也可以在其后指定格式，比如： %d{yyy 
+				MMM dd HH:mm:ss,SSS} ，输出类似： 2002 年 10 月 18 日 22 ： 10 ： 28 ， 921 %l 输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例： 
+				Testlog4.main(TestLog4.java:10) %x 输出和当前线程相关联的 NDC( 嵌套诊断环境 ), 尤其用到像 java 
+				servlets 这样的多客户多线程的应用中。 -->
 			<param name="ConversionPattern" value="%p [%C{1}:%M(%L)] %m%n" />
 		</layout>
 	</appender>
@@ -51,27 +34,29 @@
 	<appender name="FileDebug" class="org.apache.log4j.RollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
 		<!-- 日志文件路径 -->
-		<param name="File" value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/debug.log" />
+		<param name="File"
+			value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/debug.log" />
 		<param name="MaxFileSize" value="10240KB" />
 		<param name="MaxBackupIndex" value="50" />
 		<layout class="org.apache.log4j.PatternLayout">
-		<!-- 时间 ，类名，信息，优先级，信息，换行 -->
+			<!-- 时间 ，类名，信息，优先级，信息，换行 -->
 			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%C:%M()] %p [%m]%n" />
 		</layout>
-		
+
 		<filter class="org.apache.log4j.varia.LevelMatchFilter">
 			<param name="LevelToMatch" value="DEBUG" />
 			<param name="AcceptOnMatch" value="TRUE" />
 		</filter>
-		
+
 		<filter class="org.apache.log4j.varia.DenyAllFilter" />
-		
+
 	</appender>
 
 	<!-- file appender for info level -->
 	<appender name="FileInfo" class="org.apache.log4j.RollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
-		<param name="File" value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/info.log" />
+		<param name="File"
+			value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/info.log" />
 		<param name="MaxFileSize" value="10240KB" />
 		<param name="MaxBackupIndex" value="50" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -87,7 +72,8 @@
 	<!-- file appender for info warn -->
 	<appender name="FileWarn" class="org.apache.log4j.RollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
-		<param name="File" value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/warn.log" />
+		<param name="File"
+			value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/warn.log" />
 		<param name="MaxFileSize" value="10240KB" />
 		<param name="MaxBackupIndex" value="50" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -103,7 +89,8 @@
 	<!-- file appender for error level -->
 	<appender name="FileError" class="org.apache.log4j.RollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
-		<param name="File" value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/error.log" />
+		<param name="File"
+			value="${catalina.base}/workarea/lotte_ss/log4jlogs/EHR/error.log" />
 		<param name="MaxFileSize" value="10240KB" />
 		<param name="MaxBackupIndex" value="50" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -129,8 +116,9 @@
 
 	<appender name="IBatis" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-		<!-- 耗时，时间，线程，优先级，类名，NDC，msg -->
-			<param name="ConversionPattern" value="%-4r [%d{yyyy-MM-dd HH:mm:ss}] [%t] %-5p %c %x - %m%n" />
+			<!-- 耗时，时间，线程，优先级，类名，NDC，msg -->
+			<param name="ConversionPattern"
+				value="%-4r [%d{yyyy-MM-dd HH:mm:ss}] [%t] %-5p %c %x - %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="LevelMin" value="DEBUG" />
