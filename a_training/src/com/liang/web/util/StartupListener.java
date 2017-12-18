@@ -61,7 +61,6 @@ public class StartupListener implements ApplicationContextAware, ServletContextA
 
 		logger.info("4.1 => MyApplicationListener.onApplicationEvent");
 		if (evt.getApplicationContext().getParent() == null) {
-//			logger.info("4.2 => MyApplicationListener.onApplicationEvent");
 		}
 	}
 

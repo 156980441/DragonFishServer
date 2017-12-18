@@ -7,7 +7,7 @@
 	<!-- 指定Log4j的配置文件所在目录。默认配置在WEB-INF目录下 -->
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
-		<param-value>/WEB-INF/conf/log4j.xml</param-value>
+		<param-value>/WEB-INF/conf/log4j.property</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
