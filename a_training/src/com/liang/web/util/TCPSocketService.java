@@ -88,7 +88,7 @@ public class TCPSocketService implements Runnable {
 				}
 
 				if (temp.equalsIgnoreCase("Internet worm")) {
-					logger.debug("Socket " + Thread.currentThread().getName()+ " Internet worm. Exit!");
+					logger.debug("Socket " + Thread.currentThread().getName()+ " 网络爬虫。 开始退出线程!");
 					temp = null;
 					break;
 				}
@@ -143,7 +143,7 @@ public class TCPSocketService implements Runnable {
 				if (TCPSocketThread.socketMap.containsKey(deviceID))
 					TCPSocketThread.socketMap.remove(deviceID);
 				TCPSocketThread.connectDeviceNum = TCPSocketThread.connectDeviceNum - 1;
-				logger.debug("Socket " + Thread.currentThread().getName()+ " exit");
+				logger.debug("设备连接线程 Socket " + Thread.currentThread().getName()+ " 退出！剩余 ：" + Thread.activeCount());
 			}
 		}
 	}
@@ -157,14 +157,14 @@ public class TCPSocketService implements Runnable {
 		for (int n; (n = device2Server.read(b)) != -1;) {
 			out.append(new String(b, 0, n));
 			inputStr = out.toString();
-			logger.debug("线程 " + Thread.currentThread().getName()+ " origin string is " + inputStr);
+			logger.debug("线程 " + Thread.currentThread().getName()+ " 原始字符串 " + inputStr);
 
 			// 去除网络爬虫
 			if (inputStr.indexOf("HTTP") != -1) {
 				out = null;
 				b = null;
 				inputStr = null;
-				logger.debug("线程 " + Thread.currentThread().getName()+ "Internet worm");
+				logger.debug("线程 " + Thread.currentThread().getName()+ " 发现网络爬虫");
 				return "Internet worm";
 			}
 
@@ -210,7 +210,7 @@ public class TCPSocketService implements Runnable {
 						logger.debug("线程 " + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
 						return inputStr.substring(lastStartIndex + 1, lastEndIndex);
 					} else {
-						logger.debug("线程 " + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", can't process");
+						logger.debug("线程 " + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", 无法处理");
 						out = null;
 						b = null;
 						return null;
