@@ -157,7 +157,7 @@ public class AppController {
 			// delete device and release thread source
 			if (TCPSocketThread.socketMap.containsKey(MACHINE_ID)) {
 				TCPSocketService service = TCPSocketThread.socketMap.get(MACHINE_ID);
-				Socket socket = service.connectedsocket;
+				Socket socket = service.m_connectedsocket;
 				try {
 					socket.shutdownInput(); // 这里关掉之后并没有释放线程资源
 					socket.shutdownOutput();// 这里关掉之后释放线程资源
@@ -180,7 +180,7 @@ public class AppController {
 	@RequestMapping(value = "/setRelaySwitch/{MACHINE_ID}/{status}", method = RequestMethod.GET)
 	public @ResponseBody Object setRelaySwitch(@PathVariable String MACHINE_ID, @PathVariable String status) {
 		
-		logger.debug("APP 设备开关设置 "+ MACHINE_ID + " 将要 " + status);
+		logger.debug("APP 设备 " + MACHINE_ID + " 开关设置 " + status);
 		
 		RelaySwitch relaySwitch = new RelaySwitch();
 		relaySwitch.setCode("300");
@@ -190,7 +190,7 @@ public class AppController {
 			Socket socket = null;
 			DataOutputStream dos = null;
 			TCPSocketService service = TCPSocketThread.socketMap.get(MACHINE_ID);
-			socket = service.connectedsocket;
+			socket = service.m_connectedsocket;
 			try {
 				dos = new DataOutputStream(socket.getOutputStream());
 				
@@ -215,7 +215,7 @@ public class AppController {
 				e.printStackTrace();
 			}
 		} else {
-			logger.debug("APP 设备开关设置 "+ MACHINE_ID + " 将要 " + status + " 失败，该设备没有连接服务器。");
+			logger.debug("APP 设备 "+ MACHINE_ID + " 开关设置 " + status + " 失败，该设备没有连接服务器。");
 		}
 
 		return relaySwitch;

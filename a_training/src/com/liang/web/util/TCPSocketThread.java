@@ -30,6 +30,7 @@ public class TCPSocketThread implements Runnable {
 
 	@Override
 	public void run() {
+		
 		ServerSocket serverSocket = null;
 		Socket clientSocket = null;
 		Thread current = null;

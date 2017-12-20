@@ -14,35 +14,24 @@ import com.fanyl.c3p0.ConnectionPool;
 
 public class TCPSocketService implements Runnable {
 
-	public Socket connectedsocket;
-	private int timeout;
+	public Socket m_connectedsocket;
 	private boolean m_stop = false;
 
 	Logger logger = Logger.getLogger(TCPSocketService.class);
 
 	public TCPSocketService(Socket connectedsocket) {
-		this.connectedsocket = connectedsocket;
-		this.timeout = 1000 * 1 * 5;
+		this.m_connectedsocket = connectedsocket;
 	}
 
 	public void stop(boolean stop) {
-		
-		logger.debug("开始关闭线程 " + Thread.currentThread().getName());
-		
+		logger.debug("线程： " + Thread.currentThread().getName() + " 线程是否要被关闭  " + stop);
 		this.m_stop = stop;
-		try {  
-			connectedsocket.getInputStream().close();  
-			logger.debug("开始关闭线程结束 " + Thread.currentThread().getName());
-		} catch (IOException e) {
-			logger.debug("开始关闭线程异常 " + Thread.currentThread().getName() + e.getLocalizedMessage());
-			e.printStackTrace();  
-		}  
 	}
 
 	@Override
 	public void run() {
 
-		logger.debug("线程 " + Thread.currentThread().getName()+ " 开始接受数据");
+		logger.debug("线程： " + Thread.currentThread().getName() + " 开始接受数据");
 
 		InputStream readStream = null;
 		DataInputStream device2Server = null;
@@ -51,16 +40,15 @@ public class TCPSocketService implements Runnable {
 		String deviceID = null;
 		String temp = null;
 		PreparedStatement ps = null;
-		int waitingTime = 0;
 
 		try {
 			pool = ConnectionPool.getInstance();
 			conn = pool.getConnection();
 			if (conn == null) {
-				logger.debug("线程 " + Thread.currentThread().getName()+ " 获取数据库连接失败. Exit!");
+				logger.debug("线程： " + Thread.currentThread().getName() + " 获取数据库连接失败。");
 				return;
 			}
-			readStream = connectedsocket.getInputStream();
+			readStream = m_connectedsocket.getInputStream();
 			device2Server = new DataInputStream(readStream);
 
 			// 让线程一直读取
@@ -68,27 +56,8 @@ public class TCPSocketService implements Runnable {
 
 				temp = inputStream2String(device2Server, deviceID);
 
-				// handle error data
-				if (temp == null) {
-					try {
-						logger.debug("线程 " + Thread.currentThread().getName()+ " error data, sleep 1000 ms");
-						Thread.sleep(1000);
-						waitingTime = waitingTime + 1000;
-						if (waitingTime == this.timeout) {
-							break;
-						} else {
-							continue;
-						}
-					} catch (InterruptedException e) {
-						logger.debug("线程 " + Thread.currentThread().getName()+ " thead sleep exception");
-						e.printStackTrace();
-						break;
-					}
-
-				}
-
 				if (temp.equalsIgnoreCase("Internet worm")) {
-					logger.debug("Socket " + Thread.currentThread().getName()+ " 网络爬虫。 开始退出线程!");
+					logger.debug("线程： " + Thread.currentThread().getName() + "网络爬虫。 开始退出线程!");
 					temp = null;
 					break;
 				}
@@ -98,7 +67,7 @@ public class TCPSocketService implements Runnable {
 					// device id as key
 					if (!TCPSocketThread.socketMap.containsKey(deviceID)) {
 						TCPSocketThread.socketMap.put(deviceID, this);
-						logger.debug("put " + deviceID + " into map");
+						logger.debug("线程： " + Thread.currentThread().getName() + "将设备ID: " + deviceID + " 存储到 Map");
 					}
 				} else {
 					String[] comm = temp.split(",");
@@ -114,36 +83,38 @@ public class TCPSocketService implements Runnable {
 						ps.setString(5, deviceID);
 						ps.executeUpdate();
 					} catch (SQLException e) {
-						logger.debug("Socket " + Thread.currentThread().getName()+ " SQLException. Exit!");
+						logger.debug("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
 						break;
 					}
 				}
 			}
-
 		} catch (IOException e) {
-			logger.debug("Socket " + Thread.currentThread().getName()+ " " + e.getLocalizedMessage());
-			
-			e.printStackTrace();
-
+			logger.debug("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
 		} finally {
+
+			logger.debug("线程：" + Thread.currentThread().getName() + " 开始释放线程资源 ");
+
 			try {
-				if (readStream != null) {
-					this.connectedsocket.shutdownInput();
+				if (device2Server != null) {
+					device2Server.close();
+					logger.debug("线程：" + Thread.currentThread().getName() + " 关闭 device2Server ");
 				}
 				if (conn != null) {
 					conn.close();
+					logger.debug("线程：" + Thread.currentThread().getName() + " 关闭 conn ");
 				}
 			} catch (IOException e) {
-				logger.debug("Socket " + Thread.currentThread().getName()+ " " + e.getLocalizedMessage());
-				e.printStackTrace();
+				logger.debug("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
 			} catch (SQLException e) {
-				logger.debug("Socket " + Thread.currentThread().getName()+ " " + e.getLocalizedMessage());
-				e.printStackTrace();
+				logger.debug("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
 			} finally {
 				if (TCPSocketThread.socketMap.containsKey(deviceID))
+				{
 					TCPSocketThread.socketMap.remove(deviceID);
+					logger.debug("线程：" + Thread.currentThread().getName() + "删除设备ID: " + deviceID);
+				}
 				TCPSocketThread.connectDeviceNum = TCPSocketThread.connectDeviceNum - 1;
-				logger.debug("设备连接线程 Socket " + Thread.currentThread().getName()+ " 退出！剩余 ：" + Thread.activeCount());
+				logger.debug("完成释放线程资源 " + Thread.currentThread().getName() + " 剩余线程个数 ：" + Thread.activeCount());
 			}
 		}
 	}
@@ -157,14 +128,14 @@ public class TCPSocketService implements Runnable {
 		for (int n; (n = device2Server.read(b)) != -1;) {
 			out.append(new String(b, 0, n));
 			inputStr = out.toString();
-			logger.debug("线程 " + Thread.currentThread().getName()+ " 原始字符串 " + inputStr);
+			logger.debug("线程：" + Thread.currentThread().getName() + " 原始字符串 " + inputStr);
 
 			// 去除网络爬虫
 			if (inputStr.indexOf("HTTP") != -1) {
 				out = null;
 				b = null;
 				inputStr = null;
-				logger.debug("线程 " + Thread.currentThread().getName()+ " 发现网络爬虫");
+				logger.debug("线程：" + Thread.currentThread().getName() + " 发现网络爬虫");
 				return "Internet worm";
 			}
 
@@ -173,16 +144,16 @@ public class TCPSocketService implements Runnable {
 				// 防止网络不好传过来的数据多余 ID，还带有数据
 				int idIndex = inputStr.indexOf("#");
 				if (idIndex > 0) {
-					
+
 					out = null;
 					b = null;
-					logger.debug("线程 " + Thread.currentThread().getName() +" " + inputStr.substring(0, idIndex) + " connect server but has #.");
+					logger.debug("线程：" + Thread.currentThread().getName() +" " + inputStr.substring(0, idIndex) + " connect server but has #.");
 					return inputStr.substring(0, idIndex);
 				} else {
 					// device id at first time
 					out = null;
 					b = null;
-					logger.debug("线程 " + Thread.currentThread().getName() + " " + inputStr + " connect server.");
+					logger.debug("线程：" + Thread.currentThread().getName() + " " + inputStr + " connect server.");
 					return inputStr;
 				}
 			} else {
@@ -193,10 +164,10 @@ public class TCPSocketService implements Runnable {
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
 						out = null;
 						b = null;
-						logger.debug("线程 " + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
+						logger.debug("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
 						return inputStr.substring(lastStartIndex + 1, lastEndIndex);
 					} else {
-						logger.debug("线程 " + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", can't process");
+						logger.debug("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", can't process");
 						out = null;
 						b = null;
 						return null;
@@ -207,10 +178,10 @@ public class TCPSocketService implements Runnable {
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
 						out = null;
 						b = null;
-						logger.debug("线程 " + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
+						logger.debug("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
 						return inputStr.substring(lastStartIndex + 1, lastEndIndex);
 					} else {
-						logger.debug("线程 " + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", 无法处理");
+						logger.debug("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", 无法处理");
 						out = null;
 						b = null;
 						return null;
