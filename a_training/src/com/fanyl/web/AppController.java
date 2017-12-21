@@ -180,7 +180,7 @@ public class AppController {
 	@RequestMapping(value = "/setRelaySwitch/{MACHINE_ID}/{status}", method = RequestMethod.GET)
 	public @ResponseBody Object setRelaySwitch(@PathVariable String MACHINE_ID, @PathVariable String status) {
 		
-		logger.debug("APP 设备 " + MACHINE_ID + " 开关设置 " + status);
+		logger.info("APP 设备 " + MACHINE_ID + " 开关设置 " + status);
 		
 		RelaySwitch relaySwitch = new RelaySwitch();
 		relaySwitch.setCode("300");
@@ -208,14 +208,13 @@ public class AppController {
 				appDaoImp.updateInfo(paramMap, "sys.business.appUpdateMachineStateById");
 				relaySwitch.setCode("200");
 				
-				logger.debug("APP 设备开关设置 "+ MACHINE_ID + " 成功 ");
+				logger.info("APP 设备开关设置 "+ MACHINE_ID + " 成功 ");
 				
 			} catch (IOException e) {
-				logger.debug("APP 设备开关设置 "+ MACHINE_ID + " 失败 " + e.getLocalizedMessage());
-				e.printStackTrace();
+				logger.error("APP 设备开关设置 "+ MACHINE_ID + " 失败 " + e.getLocalizedMessage());
 			}
 		} else {
-			logger.debug("APP 设备 "+ MACHINE_ID + " 开关设置 " + status + " 失败，该设备没有连接服务器。");
+			logger.info("APP 设备 "+ MACHINE_ID + " 开关设置 " + status + " 失败，该设备没有连接服务器。");
 		}
 
 		return relaySwitch;
