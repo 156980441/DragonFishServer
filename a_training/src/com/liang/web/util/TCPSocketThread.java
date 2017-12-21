@@ -37,18 +37,18 @@ public class TCPSocketThread implements Runnable {
 
 		int i = 0;
 		current = Thread.currentThread();
-		logger.debug("1.Socket 线程启动 " + current.getName());
+		logger.info("1.Socket 线程启动 " + current.getName());
 		try {
 			serverSocket = new ServerSocket(8647);
-			logger.debug("2.Socket 创建 " + ++i + " 次");
+			logger.info("2.Socket 创建 " + ++i + " 次");
 
 			while (true) {
-				logger.debug("等待客户端连接端口： " + serverSocket.getLocalPort());
+				logger.info("等待客户端连接端口： " + serverSocket.getLocalPort());
 
 				clientSocket = serverSocket.accept();
 
 				TCPSocketThread.connectDeviceNum = TCPSocketThread.connectDeviceNum + 1;
-				logger.debug("3.客户端 Socket " + clientSocket.getRemoteSocketAddress().toString()
+				logger.info("3.客户端 Socket " + clientSocket.getRemoteSocketAddress().toString()
 						+ " 连接 server, 当前连接服务端设备个数 " + TCPSocketThread.connectDeviceNum);
 
 				// 一旦有连接进入，在开启一个线程负责处理数据
@@ -64,13 +64,13 @@ public class TCPSocketThread implements Runnable {
 				String key = entry.getKey();
 				TCPSocketService value = entry.getValue();
 				value.stop(true);
-				logger.debug("\nThread " + current.getName() + " key = " + key + "; value = " + value
+				logger.info("线程：" + current.getName() + " key = " + key + "; value = " + value
 						+ " stop " + e.getLocalizedMessage());
 			}
 		} catch (SocketException e) {
-			logger.debug(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage());
 		} catch (IOException e) {
-			logger.debug(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage());
 		} finally {
 			try {
 				if (serverSocket != null) {
@@ -80,7 +80,7 @@ public class TCPSocketThread implements Runnable {
 					clientSocket.close();
 				}
 			} catch (IOException e) {
-				logger.debug(e.getLocalizedMessage());
+				logger.error(e.getLocalizedMessage());
 			}
 		}
 

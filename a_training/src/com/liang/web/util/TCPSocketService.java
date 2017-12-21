@@ -24,14 +24,14 @@ public class TCPSocketService implements Runnable {
 	}
 
 	public void stop(boolean stop) {
-		logger.debug("线程： " + Thread.currentThread().getName() + " 线程是否要被关闭  " + stop);
+		logger.info("线程： " + Thread.currentThread().getName() + " 线程是否要被关闭  " + stop);
 		this.m_stop = stop;
 	}
 
 	@Override
 	public void run() {
 
-		logger.debug("线程： " + Thread.currentThread().getName() + " 开始接受数据");
+		logger.info("线程： " + Thread.currentThread().getName() + " 开始接受数据");
 
 		InputStream readStream = null;
 		DataInputStream device2Server = null;
@@ -45,7 +45,7 @@ public class TCPSocketService implements Runnable {
 			pool = ConnectionPool.getInstance();
 			conn = pool.getConnection();
 			if (conn == null) {
-				logger.debug("线程： " + Thread.currentThread().getName() + " 获取数据库连接失败。");
+				logger.info("线程： " + Thread.currentThread().getName() + " 获取数据库连接失败。");
 				return;
 			}
 			readStream = m_connectedsocket.getInputStream();
@@ -57,7 +57,7 @@ public class TCPSocketService implements Runnable {
 				temp = inputStream2String(device2Server, deviceID);
 
 				if (temp.equalsIgnoreCase("Internet worm")) {
-					logger.debug("线程： " + Thread.currentThread().getName() + "网络爬虫。 开始退出线程!");
+					logger.info("线程： " + Thread.currentThread().getName() + "网络爬虫。 开始退出线程!");
 					temp = null;
 					break;
 				}
@@ -67,7 +67,7 @@ public class TCPSocketService implements Runnable {
 					// device id as key
 					if (!TCPSocketThread.socketMap.containsKey(deviceID)) {
 						TCPSocketThread.socketMap.put(deviceID, this);
-						logger.debug("线程： " + Thread.currentThread().getName() + "将设备ID: " + deviceID + " 存储到 Map");
+						logger.info("线程： " + Thread.currentThread().getName() + "将设备ID: " + deviceID + " 存储到 Map");
 					}
 				} else {
 					String[] comm = temp.split(",");
@@ -83,38 +83,38 @@ public class TCPSocketService implements Runnable {
 						ps.setString(5, deviceID);
 						ps.executeUpdate();
 					} catch (SQLException e) {
-						logger.debug("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
+						logger.error("线程：" + Thread.currentThread().getName() + " " + deviceID + " " + e.getLocalizedMessage());
 						break;
 					}
 				}
 			}
 		} catch (IOException e) {
-			logger.debug("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
+			logger.error("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
 		} finally {
 
-			logger.debug("线程：" + Thread.currentThread().getName() + " 开始释放线程资源 ");
+			logger.info("线程：" + Thread.currentThread().getName() + " 开始释放线程资源 ");
 
 			try {
 				if (device2Server != null) {
 					device2Server.close();
-					logger.debug("线程：" + Thread.currentThread().getName() + " 关闭 device2Server ");
+					logger.info("线程：" + Thread.currentThread().getName() + " 关闭 device2Server ");
 				}
 				if (conn != null) {
 					conn.close();
-					logger.debug("线程：" + Thread.currentThread().getName() + " 关闭 conn ");
+					logger.info("线程：" + Thread.currentThread().getName() + " 关闭 conn ");
 				}
 			} catch (IOException e) {
-				logger.debug("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
+				logger.error("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
 			} catch (SQLException e) {
-				logger.debug("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
+				logger.error("线程：" + Thread.currentThread().getName() + " " + e.getLocalizedMessage());
 			} finally {
 				if (TCPSocketThread.socketMap.containsKey(deviceID))
 				{
 					TCPSocketThread.socketMap.remove(deviceID);
-					logger.debug("线程：" + Thread.currentThread().getName() + "删除设备ID: " + deviceID);
+					logger.info("线程：" + Thread.currentThread().getName() + "删除设备ID: " + deviceID);
 				}
 				TCPSocketThread.connectDeviceNum = TCPSocketThread.connectDeviceNum - 1;
-				logger.debug("完成释放线程资源 " + Thread.currentThread().getName() + " 剩余线程个数 ：" + Thread.activeCount());
+				logger.info("完成释放线程资源 " + Thread.currentThread().getName() + " 剩余线程个数 ：" + Thread.activeCount());
 			}
 		}
 	}
@@ -128,14 +128,14 @@ public class TCPSocketService implements Runnable {
 		for (int n; (n = device2Server.read(b)) != -1;) {
 			out.append(new String(b, 0, n));
 			inputStr = out.toString();
-			logger.debug("线程：" + Thread.currentThread().getName() + " 原始字符串 " + inputStr);
+			logger.info("线程：" + Thread.currentThread().getName() + " " + deviceID + " 原始字符串 " + inputStr);
 
 			// 去除网络爬虫
 			if (inputStr.indexOf("HTTP") != -1) {
 				out = null;
 				b = null;
 				inputStr = null;
-				logger.debug("线程：" + Thread.currentThread().getName() + " 发现网络爬虫");
+				logger.info("线程：" + Thread.currentThread().getName() + " " + deviceID + " 发现网络爬虫");
 				return "Internet worm";
 			}
 
@@ -147,13 +147,13 @@ public class TCPSocketService implements Runnable {
 
 					out = null;
 					b = null;
-					logger.debug("线程：" + Thread.currentThread().getName() +" " + inputStr.substring(0, idIndex) + " connect server but has #.");
+					logger.info("线程：" + Thread.currentThread().getName() + " " + inputStr.substring(0, idIndex) + " connect server but has #.");
 					return inputStr.substring(0, idIndex);
 				} else {
 					// device id at first time
 					out = null;
 					b = null;
-					logger.debug("线程：" + Thread.currentThread().getName() + " " + inputStr + " connect server.");
+					logger.info("线程：" + Thread.currentThread().getName() + " " + inputStr + " connect server.");
 					return inputStr;
 				}
 			} else {
@@ -164,10 +164,10 @@ public class TCPSocketService implements Runnable {
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
 						out = null;
 						b = null;
-						logger.debug("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
+						logger.info("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
 						return inputStr.substring(lastStartIndex + 1, lastEndIndex);
 					} else {
-						logger.debug("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", can't process");
+						logger.info("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", can't process");
 						out = null;
 						b = null;
 						return null;
@@ -178,10 +178,10 @@ public class TCPSocketService implements Runnable {
 					if (lastEndIndex > -1 && lastStartIndex > -1) {
 						out = null;
 						b = null;
-						logger.debug("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
+						logger.info("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr.substring(lastStartIndex + 1, lastEndIndex));
 						return inputStr.substring(lastStartIndex + 1, lastEndIndex);
 					} else {
-						logger.debug("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", 无法处理");
+						logger.info("线程：" + Thread.currentThread().getName() + " " + deviceID + " send " + inputStr + ", 无法处理");
 						out = null;
 						b = null;
 						return null;
