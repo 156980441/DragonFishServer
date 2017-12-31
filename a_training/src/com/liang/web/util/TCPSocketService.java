@@ -68,6 +68,13 @@ public class TCPSocketService implements Runnable {
 					if (!TCPSocketThread.socketMap.containsKey(deviceID)) {
 						TCPSocketThread.socketMap.put(deviceID, this);
 						logger.info("线程： " + Thread.currentThread().getName() + "将设备ID: " + deviceID + " 存储到 Map");
+					} else {
+						TCPSocketService existService = TCPSocketThread.socketMap.get(deviceID);
+						existService.stop(true);
+						TCPSocketThread.socketMap.remove(deviceID);
+						logger.info("线程： " + Thread.currentThread().getName() + "删除设备ID: " + deviceID);
+						TCPSocketThread.socketMap.put(deviceID, this);
+						logger.info("线程： " + Thread.currentThread().getName() + "又一次将设备ID: " + deviceID + " 存储到 Map");
 					}
 				} else {
 					String[] comm = temp.split(",");
