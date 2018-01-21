@@ -56,6 +56,8 @@ public class TCPSocketService implements Runnable {
 
 				temp = inputStream2String(device2Server, deviceID);
 
+				if(temp==null){continue;}
+				
 				if (temp.equalsIgnoreCase("Internet worm")) {
 					logger.info("线程： " + Thread.currentThread().getName() + "网络爬虫。 开始退出线程!");
 					temp = null;

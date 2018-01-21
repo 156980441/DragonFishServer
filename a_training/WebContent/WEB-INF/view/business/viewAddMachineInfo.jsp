@@ -32,8 +32,8 @@
 			</p>
 			<p>
 				<label>STATE：</label>
-				<c:if test="${machineInfo.STATE eq true}">开</c:if>
-				<c:if test="${machineInfo.STATE eq false}">关</c:if>
+				<c:if test="${machineInfo.STATE eq 1}">开</c:if>
+				<c:if test="${machineInfo.STATE eq 0}">关</c:if>
 			</p>
 			<p>
 				<label>状态：</label>
